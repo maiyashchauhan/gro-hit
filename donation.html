@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mutual Aid & Help | Gro-Hit</title>
+  <meta name="theme-color" content="#1b5e20" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="i18n.js"></script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <a href="index.html" class="brand">
+        <img src="logo.png" alt="GROHIT Logo" class="brand-logo" width="48" height="48" />
+        <div class="brand-text">
+          <h1>GROHIT</h1>
+          <div class="tagline" data-i18n="header.tagline">Village Support & Mutual Aid (परस्पर सहयोग कोष)</div>
+        </div>
+      </a>
+
+      <div class="header-actions">
+        <div class="user-id-box">
+          <span>ID:</span>
+          <span id="showId">...</span>
+        </div>
+        <div id="langSwitcherContainer"></div>
+        <button id="openLoginBtn" class="header-btn" data-i18n="header.switchrole">Switch Role</button>
+        <a href="sos.html" class="header-btn sos-quick-btn" data-i18n="header.sos">🚨 SOS Emergency</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation -->
+  <nav class="nav-bar" aria-label="Main Navigation">
+    <div class="nav-grid">
+      <a class="nav-btn" href="index.html"><span class="nav-icon">🏠</span><div>Home</div><span class="nav-hindi">मुख्य</span></a>
+      <a class="nav-btn" href="schemes.html"><span class="nav-icon">📜</span><div>Schemes</div><span class="nav-hindi">योजनाएं</span></a>
+      <a class="nav-btn" href="gramconnect.html"><span class="nav-icon">🏛️</span><div>GramConnect</div><span class="nav-hindi">ग्राम कनेक्ट</span></a>
+      <a class="nav-btn" href="pardesh-setu.html"><span class="nav-icon">🤝</span><div>Pardesh Setu</div><span class="nav-hindi">परदेस सेतु</span></a>
+      <a class="nav-btn" href="report.html"><span class="nav-icon">📍</span><div>Report</div><span class="nav-hindi">शिकायत</span></a>
+      <a class="nav-btn" href="announcements.html"><span class="nav-icon">📣</span><div>Updates</div><span class="nav-hindi">सूचनाएं</span></a>
+      <a class="nav-btn" href="crop.html"><span class="nav-icon">🌾</span><div>Crop</div><span class="nav-hindi">फसल</span></a>
+      <a class="nav-btn" href="mandi.html"><span class="nav-icon">🧾</span><div>Mandi</div><span class="nav-hindi">मंडी भाव</span></a>
+      <a class="nav-btn" href="jobs.html"><span class="nav-icon">💼</span><div>Jobs</div><span class="nav-hindi">रोजगार</span></a>
+      <a class="nav-btn" href="radio.html"><span class="nav-icon">📻</span><div>Radio</div><span class="nav-hindi">रेडियो</span></a>
+      <a class="nav-btn active" href="donation.html"><span class="nav-icon">🤝</span><div>Donate</div><span class="nav-hindi">मदद</span></a>
+      <a class="nav-btn" href="suggestion.html"><span class="nav-icon">💡</span><div>Suggestions</div><span class="nav-hindi">सुझाव</span></a>
+      <a class="nav-btn admin-only" href="admin.html"><span class="nav-icon">🛠️</span><div>Admin</div><span class="nav-hindi">प्रशासन</span></a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="container">
+    <div class="page-header">
+      <div class="page-title">
+        <div class="title-icon">🤝</div>
+        <div>
+          <h2>Village Mutual Aid & Micro-Donations (परस्पर सहयोग कोष)</h2>
+          <p>Direct peer support for medical emergencies, student fees, and accidental farmer losses</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Active Crowdfunding Causes -->
+    <section class="panel">
+      <div class="card-header">
+        <h3>❤️ Open Village Mutual Aid Causes</h3>
+      </div>
+
+      <ul id="aidCausesList" class="list">
+        <!-- Injected by JS -->
+      </ul>
+    </section>
+
+    <!-- Request Help Form -->
+    <section class="panel">
+      <div class="card-header">
+        <h3>✍️ Submit a Help Request (मदद की अपील)</h3>
+      </div>
+
+      <form id="needHelpForm" class="form">
+        <div class="row" style="margin-top:0;">
+          <div class="form-group" style="flex:1; min-width:200px;">
+            <label>Beneficiary / Family Name *</label>
+            <input type="text" id="reqName" placeholder="e.g. Munna Ram (Elderly Weaver)" required />
+          </div>
+          <div class="form-group" style="flex:1; min-width:160px;">
+            <label>Emergency Category</label>
+            <select id="reqCategory">
+              <option value="medical">🩺 Medical Treatment / Hospital Bill</option>
+              <option value="education">🎓 Child Education / College Fee</option>
+              <option value="crop_loss">🌾 Crop Loss / Cattle Medical Care</option>
+              <option value="housing">🏠 House Repair after Storm</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Cause Title *</label>
+          <input type="text" id="reqTitle" placeholder="e.g. Eye Surgery Assistance for Grandfather" required />
+        </div>
+
+        <div class="form-group">
+          <label>Situation Details *</label>
+          <textarea id="reqDesc" rows="3" placeholder="Explain the situation clearly so village community can contribute..." required></textarea>
+        </div>
+
+        <div class="row" style="margin-top:0;">
+          <div class="form-group" style="flex:1; min-width:160px;">
+            <label>Target Amount (₹) *</label>
+            <input type="number" id="reqAmount" min="500" step="500" placeholder="15000" required />
+          </div>
+          <div class="form-group" style="flex:1; min-width:180px;">
+            <label>UPI ID or Phone for Direct Support</label>
+            <input type="text" id="reqUpi" placeholder="9876543210@upi" />
+          </div>
+        </div>
+
+        <button type="submit" class="btn primary">📢 Publish Help Request</button>
+      </form>
+    </section>
+
+    <!-- Recent Contributions Log -->
+    <section class="panel">
+      <div class="card-header">
+        <h3>📜 Recent Village Community Donations</h3>
+      </div>
+      <ul id="donationLogList" class="list"></ul>
+    </section>
+  </main>
+
+  <!-- Modal for Simulating Donation -->
+  <dialog id="donateModal">
+    <form method="dialog" id="donateForm" class="form" style="display:grid; gap:12px;">
+      <h3 style="color:#1b5e20;">Contribute to Cause ❤️</h3>
+      <p id="donateCauseTitle" style="color:#4a5c4d; font-weight:bold;"></p>
+      
+      <div class="form-group">
+        <label>Your Name</label>
+        <input type="text" id="donorName" placeholder="e.g. Ramesh Kumar (or leave blank for Anonymous)" />
+      </div>
+
+      <div class="form-group">
+        <label>Contribution Amount (₹) *</label>
+        <input type="number" id="donorAmount" min="50" step="50" value="500" required />
+      </div>
+
+      <div style="background:#e8f5e9; border:1px solid #81c784; border-radius:8px; padding:10px; font-size:0.88rem; color:#1b5e20;">
+        💡 100% of donation goes directly to the verified beneficiary family without any platform commission.
+      </div>
+
+      <div class="row" style="justify-content:flex-end;">
+        <button type="button" id="cancelDonateBtn" class="btn secondary">Cancel</button>
+        <button type="submit" class="btn primary">Confirm Support (₹)</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <p>Gro-Hit Rural Support System &bull; Gram Panchayat & Health Network</p>
+    <p style="margin-top: 4px; font-size: 0.8rem; opacity: 0.85;">Community mutual aid powered by transparency and village solidarity.</p>
+  </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const aidCausesList = document.getElementById("aidCausesList");
+      const needHelpForm = document.getElementById("needHelpForm");
+      const donationLogList = document.getElementById("donationLogList");
+      const donateModal = document.getElementById("donateModal");
+      const donateForm = document.getElementById("donateForm");
+      const donateCauseTitle = document.getElementById("donateCauseTitle");
+      const donorName = document.getElementById("donorName");
+      const donorAmount = document.getElementById("donorAmount");
+      const cancelDonateBtn = document.getElementById("cancelDonateBtn");
+
+      let selectedCauseId = null;
+
+      const defaultCauses = [
+        {
+          id: 101,
+          name: "Sohan Lal (Marginal Farmer)",
+          category: "🩺 Medical",
+          title: "Urgent Hip Fracture Surgery for Elder Farmer",
+          description: "Sohan Lal slipped near irrigation tubewell. Surgery scheduled at District Hospital.",
+          target: 25000,
+          raised: 18500,
+          upi: "9876500001@upi"
+        },
+        {
+          id: 102,
+          name: "Kamla Devi's Daughter",
+          category: "🎓 Education",
+          title: "College Admission & Books for Village Topper",
+          description: "Anita scored 94% in Class 12 Science. Need assistance for BSc Nursing admission.",
+          target: 18000,
+          raised: 12000,
+          upi: "9876500002@upi"
+        }
+      ];
+
+      function getCauses() {
+        try {
+          return JSON.parse(localStorage.getItem("grohit_aidCauses") || JSON.stringify(defaultCauses));
+        } catch {
+          return defaultCauses;
+        }
+      }
+
+      function getDonationLogs() {
+        try {
+          return JSON.parse(localStorage.getItem("grohit_donations") || "[]");
+        } catch {
+          return [];
+        }
+      }
+
+      function renderCauses() {
+        const causes = getCauses();
+        aidCausesList.innerHTML = "";
+
+        causes.forEach(cause => {
+          const li = document.createElement("li");
+          li.className = "item-card";
+
+          const percent = Math.min(100, Math.round((cause.raised / cause.target) * 100));
+
+          li.innerHTML = `
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:10px;">
+              <div>
+                <h4 style="color:#1b5e20; font-size:1.2rem; margin:0 0 2px;">${cause.title}</h4>
+                <span class="status-badge" style="background:#fef3c7; color:#92400e;">${cause.category}</span>
+                <span style="font-size:0.85rem; color:#4a5c4d; margin-left:6px;">Beneficiary: <strong>${cause.name}</strong></span>
+              </div>
+              <button class="btn primary btn-sm btn-donate-now">❤️ Contribute ₹</button>
+            </div>
+
+            <p style="margin:8px 0 12px; font-size:0.95rem; color:#2c3e2e;">${cause.description}</p>
+
+            <!-- Progress Bar -->
+            <div style="background:#e5e7eb; border-radius:999px; height:12px; overflow:hidden; margin-bottom:6px;">
+              <div style="background:#16a34a; width:${percent}%; height:100%; border-radius:999px; transition:width 0.4s ease;"></div>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; font-size:0.88rem; color:#1b5e20; font-weight:bold;">
+              <span>Raised: ₹${cause.raised.toLocaleString()} (${percent}%)</span>
+              <span>Target: ₹${cause.target.toLocaleString()}</span>
+            </div>
+          `;
+
+          li.querySelector(".btn-donate-now").addEventListener("click", () => {
+            selectedCauseId = cause.id;
+            donateCauseTitle.textContent = `${cause.title} (Target: ₹${cause.target})`;
+            donorName.value = GroHit.state.userName || "";
+            donateModal.showModal();
+          });
+
+          aidCausesList.appendChild(li);
+        });
+
+        renderLogs();
+      }
+
+      function renderLogs() {
+        const logs = getDonationLogs();
+        donationLogList.innerHTML = "";
+        if (logs.length === 0) {
+          donationLogList.innerHTML = `<li style="text-align:center; padding:16px; color:#4a5c4d;">No contributions yet. Be the first to help!</li>`;
+          return;
+        }
+        logs.forEach(log => {
+          const li = document.createElement("li");
+          li.className = "item-card";
+          li.innerHTML = `
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <strong>${log.donor}</strong> contributed <strong>₹${log.amount}</strong> to <em>${log.cause}</em>
+              </div>
+              <span style="font-size:0.8rem; color:#6b7280;">${log.time || 'Recently'}</span>
+            </div>
+          `;
+          donationLogList.appendChild(li);
+        });
+      }
+
+      // New Help Request
+      needHelpForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const causes = getCauses();
+        const newCause = {
+          id: Date.now(),
+          name: document.getElementById("reqName").value.trim(),
+          category: document.getElementById("reqCategory").options[document.getElementById("reqCategory").selectedIndex].text,
+          title: document.getElementById("reqTitle").value.trim(),
+          description: document.getElementById("reqDesc").value.trim(),
+          target: parseInt(document.getElementById("reqAmount").value),
+          raised: 0,
+          upi: document.getElementById("reqUpi").value.trim()
+        };
+        causes.unshift(newCause);
+        localStorage.setItem("grohit_aidCauses", JSON.stringify(causes));
+        GroHit.showToast("Help request submitted to village portal!");
+        needHelpForm.reset();
+        renderCauses();
+      });
+
+      // Donate Form Submit
+      cancelDonateBtn.addEventListener("click", () => donateModal.close());
+
+      donateForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const amt = parseInt(donorAmount.value);
+        const name = donorName.value.trim() || "Anonymous Villager";
+
+        const causes = getCauses();
+        const idx = causes.findIndex(c => c.id === selectedCauseId);
+        if (idx !== -1) {
+          causes[idx].raised += amt;
+          localStorage.setItem("grohit_aidCauses", JSON.stringify(causes));
+
+          // Log
+          const logs = getDonationLogs();
+          logs.unshift({
+            id: Date.now(),
+            donor: name,
+            amount: amt,
+            cause: causes[idx].title,
+            time: new Date().toLocaleDateString("en-IN", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })
+          });
+          localStorage.setItem("grohit_donations", JSON.stringify(logs));
+
+          GroHit.showToast(`Thank you! ₹${amt} contributed.`);
+          donateModal.close();
+          renderCauses();
+        }
+      });
+
+      renderCauses();
+    });
+  </script>
+  <script src="ai-assistant.js"></script>
+</body>
+</html>
+
+

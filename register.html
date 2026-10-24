@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registration Successful | Gro-Hit</title>
+  <meta name="theme-color" content="#1b5e20" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="i18n.js"></script>
+  <style>
+    .success-wrapper {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+    }
+    .id-card {
+      background: #ffffff;
+      border: 3px solid #1b5e20;
+      border-radius: var(--radius-lg);
+      padding: 32px 28px;
+      max-width: 440px;
+      width: 100%;
+      box-shadow: var(--shadow-lg);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="success-wrapper">
+    <div class="id-card">
+      <span style="font-size: 3rem;">🎉</span>
+      <h2 style="color:#1b5e20; font-size:1.6rem; margin-top:6px;">Registration Successful!</h2>
+      <p style="color:#4a5c4d; font-size:0.95rem; margin-bottom:18px;">Your Official Village Digital ID Card is ready (ग्राम डिजिटल पहचान पत्र):</p>
+
+      <div style="background:#e8f5e9; border:2px dashed #81c784; border-radius:12px; padding:20px; margin-bottom:20px;">
+        <div style="font-size:0.85rem; color:#2e4d32; font-weight:bold;">GRO-HIT DIGITAL VILLAGE ID</div>
+        <div id="uniqueId" style="font-size:2.2rem; font-weight:900; color:#d32f2f; letter-spacing:2px; margin:10px 0;">VID-7842</div>
+        <div id="cardCitizenName" style="font-size:1.1rem; font-weight:bold; color:#1b5e20;">Ramesh Kumar</div>
+        <div id="cardRoleBadge" style="margin-top:6px;">
+          <span class="role-badge role-villager">🟢 Villager</span>
+        </div>
+      </div>
+
+      <div class="row" style="justify-content:center;">
+        <a href="index.html" class="btn primary" style="flex:1;">🏠 Enter Gro-Hit Home</a>
+        <a href="report.html" class="btn secondary" style="flex:1;">📍 Report Issue</a>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const id = urlParams.get("id") || localStorage.getItem("userUniqueID") || "VID-7842";
+      const name = urlParams.get("name") || localStorage.getItem("userName") || "Village Citizen";
+      const role = urlParams.get("role") || localStorage.getItem("role") || "villager";
+
+      document.getElementById("uniqueId").textContent = id;
+      document.getElementById("cardCitizenName").textContent = name;
+      
+      const badgeContainer = document.getElementById("cardRoleBadge");
+      if (role === "admin") {
+        badgeContainer.innerHTML = `<span class="role-badge role-admin">🔴 Panchayat Admin</span>`;
+      } else if (role === "health") {
+        badgeContainer.innerHTML = `<span class="role-badge role-health">🔵 Health Worker</span>`;
+      } else {
+        badgeContainer.innerHTML = `<span class="role-badge role-villager">🟢 Villager</span>`;
+      }
+    });
+  </script>
+  <script src="ai-assistant.js"></script>
+</body>
+</html>

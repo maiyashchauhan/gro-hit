@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login | Gro-Hit Rural Portal</title>
+  <meta name="theme-color" content="#1b5e20" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="i18n.js"></script>
+  <style>
+    .auth-wrapper {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+    }
+    .auth-box {
+      background: #ffffff;
+      border: 2px solid var(--border-strong);
+      border-radius: var(--radius-lg);
+      padding: 32px 28px;
+      max-width: 440px;
+      width: 100%;
+      box-shadow: var(--shadow-lg);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-wrapper">
+    <div class="auth-box">
+      <img src="logo.png" alt="GROHIT Logo" style="width:64px; height:64px; margin-bottom:10px;" />
+      <h2 style="color:#1b5e20; font-size:1.6rem; margin-bottom:4px;">Gro-Hit Login</h2>
+      <p style="color:#4a5c4d; font-size:0.92rem; margin-bottom:20px;">Village Support & Panchayat Portal (लॉग इन)</p>
+
+      <form id="loginForm" class="form" style="text-align:left;">
+        <div class="form-group">
+          <label>Select Role (अपनी भूमिका चुनें) *</label>
+          <select id="loginRole" name="role" required>
+            <option value="villager">🟢 Villager / नागरिक (Report issues, view updates)</option>
+            <option value="health">🔵 Health Worker / स्वास्थ्य कर्मी (Post health notices)</option>
+            <option value="admin">🔴 Panchayat Admin / पंचायत (Resolve issues & manage)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Full Name / पूरा नाम *</label>
+          <input type="text" id="loginName" placeholder="e.g. Ramesh Kumar" required />
+        </div>
+
+        <div class="form-group">
+          <label>Mobile Number or Village ID *</label>
+          <input type="text" id="loginId" placeholder="e.g. 9876543210 or VID-7842" required />
+        </div>
+
+        <button type="submit" class="btn primary" style="width:100%; margin-top:8px;">✅ Log In & Enter Portal</button>
+      </form>
+
+      <div style="margin-top:20px; padding-top:16px; border-top:1.5px solid var(--border); font-size:0.92rem;">
+        <span style="color:#4a5c4d;">New to Gro-Hit?</span>
+        <a href="create.html" style="font-weight:bold; color:#1b5e20; margin-left:6px;">Create Village ID &rarr;</a>
+      </div>
+
+      <div style="margin-top:12px;">
+        <a href="index.html" style="color:#6b7280; font-size:0.85rem;">Continue as Guest &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const loginForm = document.getElementById("loginForm");
+      const loginRole = document.getElementById("loginRole");
+      const loginName = document.getElementById("loginName");
+      const loginId = document.getElementById("loginId");
+
+      loginForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const role = loginRole.value;
+        const name = loginName.value.trim();
+        const id = loginId.value.trim();
+
+        // Save user to registry
+        let users = JSON.parse(localStorage.getItem("users") || "[]");
+        const existingIdx = users.findIndex(u => u.phone === id || u.id === id);
+
+        if (existingIdx !== -1) {
+          users[existingIdx].name = name;
+          users[existingIdx].role = role;
+          users[existingIdx].time = new Date().toLocaleString("en-IN");
+        } else {
+          users.push({
+            name: name,
+            phone: id,
+            id: id.startsWith("VID-") ? id : "VID-" + Math.floor(1000 + Math.random()*9000),
+            role: role,
+            time: new Date().toLocaleString("en-IN")
+          });
+        }
+        localStorage.setItem("users", JSON.stringify(users));
+
+        // Set global active session
+        localStorage.setItem("role", role);
+        localStorage.setItem("userName", name);
+        localStorage.setItem("userId", id);
+        localStorage.setItem("userUniqueID", id);
+        localStorage.setItem("userPhone", id);
+
+        GroHit.state.role = role;
+        GroHit.state.userName = name;
+        GroHit.state.userId = id;
+
+        GroHit.showToast("Welcome " + name + "! Logged in as " + role.toUpperCase());
+
+        setTimeout(() => {
+          window.location.href = role === "admin" ? "admin.html" : "index.html";
+        }, 800);
+      });
+    });
+  </script>
+  <script src="ai-assistant.js"></script>
+</body>
+</html>

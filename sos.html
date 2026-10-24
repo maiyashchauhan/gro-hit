@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Emergency SOS | Gro-Hit</title>
+  <meta name="theme-color" content="#dc2626" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="i18n.js"></script>
+</head>
+<body style="background: #fff5f5;">
+  <!-- Header -->
+  <header class="app-header" style="background: linear-gradient(135deg, #b71c1c 0%, #7f1d1d 100%);">
+    <div class="header-container">
+      <a href="index.html" class="brand">
+        <img src="logo.png" alt="GROHIT Logo" class="brand-logo" width="48" height="48" />
+        <div class="brand-text">
+          <h1>GROHIT SOS</h1>
+          <div class="tagline">Village Emergency Redressal & Hotline (आपातकालीन सेवा)</div>
+        </div>
+      </a>
+
+      <div class="header-actions">
+        <div id="langSwitcherContainer"></div>
+        <a href="index.html" class="header-btn">🏠 Home</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation -->
+  <nav class="nav-bar" aria-label="Main Navigation">
+    <div class="nav-grid">
+      <a class="nav-btn" href="index.html"><span class="nav-icon">🏠</span><div>Home</div><span class="nav-hindi">मुख्य</span></a>
+      <a class="nav-btn" href="report.html"><span class="nav-icon">📍</span><div>Report</div><span class="nav-hindi">शिकायत</span></a>
+      <a class="nav-btn" href="gramconnect.html"><span class="nav-icon">🏛️</span><div>GramConnect</div><span class="nav-hindi">ग्राम कनेक्ट</span></a>
+      <a class="nav-btn" href="pardesh-setu.html"><span class="nav-icon">🤝</span><div>Pardesh Setu</div><span class="nav-hindi">परदेस सेतु</span></a>
+      <a class="nav-btn active" href="sos.html" style="background:#dc2626; color:#fff; border-color:#dc2626;"><span class="nav-icon">🚨</span><div>SOS</div><span class="nav-hindi" style="color:#fee2e2;">आपातकाल</span></a>
+      <a class="nav-btn" href="suggestion.html"><span class="nav-icon">💡</span><div>Suggestions</div><span class="nav-hindi">सुझाव</span></a>
+      <a class="nav-btn" href="admin.html"><span class="nav-icon">🛠️</span><div>Admin</div><span class="nav-hindi">प्रशासन</span></a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="container">
+    <div class="page-header" style="border-color:#fca5a5;">
+      <div class="page-title">
+        <div class="title-icon" style="background:#fee2e2; color:#dc2626; border-color:#f87171;">🚨</div>
+        <div>
+          <h2 style="color:#b91c1c;">One-Tap Emergency Assistance (आपातकालीन सेवा)</h2>
+          <p>Instant direct helpline dials and automated GPS distress dispatch</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- National 24x7 Helplines Direct Dial Grid -->
+    <section class="panel" style="border-color:#fca5a5;">
+      <div class="card-header" style="border-color:#fee2e2;">
+        <h3 style="color:#b91c1c;">📞 One-Tap Emergency Helplines (Toll-Free)</h3>
+      </div>
+
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:14px;">
+        <a href="tel:112" class="btn btn-danger" style="font-size:1.1rem; padding:16px;">
+          🚨 National Emergency (112)
+        </a>
+        <a href="tel:108" class="btn" style="background:#0284c7; color:#fff; font-size:1.1rem; padding:16px;">
+          🚑 Ambulance Emergency (108)
+        </a>
+        <a href="tel:100" class="btn" style="background:#1e3a8a; color:#fff; font-size:1.1rem; padding:16px;">
+          👮 Police Station (100)
+        </a>
+        <a href="tel:1091" class="btn" style="background:#9333ea; color:#fff; font-size:1.1rem; padding:16px;">
+          👩 Women Safety Helpline (1091)
+        </a>
+        <a href="tel:1098" class="btn" style="background:#ea580c; color:#fff; font-size:1.1rem; padding:16px;">
+          👶 Child Helpline (1098)
+        </a>
+        <a href="tel:18001801551" class="btn" style="background:#16a34a; color:#fff; font-size:1.1rem; padding:16px;">
+          🌾 Kisan Call Center (1800-180-1551)
+        </a>
+      </div>
+    </section>
+
+    <!-- Custom Family / Sarpanch SOS Dispatch -->
+    <section class="panel" style="border-color:#fca5a5;">
+      <div class="card-header">
+        <h3 style="color:#b91c1c;">📍 GPS Distress Message Dispatch</h3>
+      </div>
+      <p style="color:#4a5c4d; font-size:0.95rem; margin-bottom:16px;">
+        Automatically grabs your exact GPS coordinates and creates a direct emergency SMS for your trusted village contacts or family.
+      </p>
+
+      <div class="form-group">
+        <label>Emergency Contacts (Comma separated phone numbers) *</label>
+        <input type="text" id="sosContacts" placeholder="e.g. 9876543210, 9898989898" value="9876543210" />
+      </div>
+
+      <div class="row">
+        <button id="sosTriggerBtn" class="btn btn-danger" style="font-size:1.1rem; padding:14px 24px;">
+          🚨 Generate & Dispatch Emergency SOS
+        </button>
+      </div>
+
+      <div id="sosOutput" class="card" style="display:none; margin-top:20px; background:#fff1f2; border-color:#fca5a5;"></div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="app-footer" style="background:#7f1d1d;">
+    <p>Gro-Hit Rural Support System &bull; Gram Panchayat Emergency Network</p>
+    <p style="margin-top: 4px; font-size: 0.8rem; opacity: 0.85;">24x7 Emergency Services are free and available across India.</p>
+  </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const sosTriggerBtn = document.getElementById("sosTriggerBtn");
+      const sosContacts = document.getElementById("sosContacts");
+      const sosOutput = document.getElementById("sosOutput");
+
+      sosTriggerBtn.addEventListener("click", () => {
+        const contacts = sosContacts.value.trim();
+        if (!contacts) {
+          GroHit.showToast("Please enter at least one emergency contact number.");
+          return;
+        }
+
+        sosOutput.style.display = "block";
+        sosOutput.innerHTML = `<strong>⌛ Acquiring GPS location...</strong>`;
+
+        function formatAndShowSos(lat = null, lng = null) {
+          const locationLink = (lat && lng) 
+            ? `https://maps.google.com/?q=${lat},${lng}` 
+            : `Village Ward Location`;
+
+          const sosText = `🚨 EMERGENCY ALERT from ${GroHit.state.userName || 'Villager'} (ID: ${GroHit.state.userId || 'VID-7842'}): I need immediate emergency assistance! Location: ${locationLink}`;
+
+          sosOutput.innerHTML = `
+            <div style="color:#991b1b;">
+              <strong style="font-size:1.1rem; display:block; margin-bottom:6px;">🚨 Prepared Emergency SOS Dispatch:</strong>
+              <p style="background:#fff; border:1.5px solid #f87171; border-radius:8px; padding:12px; font-size:0.95rem; line-height:1.5; color:#1f2937;">
+                "${sosText}"
+              </p>
+              <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+                <a href="sms:${contacts}?body=${encodeURIComponent(sosText)}" class="btn btn-danger">📲 Send SMS to ${contacts}</a>
+                <button type="button" id="copySosBtn" class="btn secondary">📋 Copy Alert Message</button>
+              </div>
+            </div>
+          `;
+
+          document.getElementById("copySosBtn")?.addEventListener("click", () => {
+            navigator.clipboard.writeText(sosText);
+            GroHit.showToast("Emergency alert copied to clipboard!");
+          });
+
+          GroHit.showToast("Emergency alert prepared with GPS!");
+        }
+
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            (pos) => {
+              formatAndShowSos(pos.coords.latitude.toFixed(5), pos.coords.longitude.toFixed(5));
+            },
+            () => {
+              formatAndShowSos();
+            },
+            { timeout: 6000 }
+          );
+        } else {
+          formatAndShowSos();
+        }
+      });
+    });
+  </script>
+  <script src="ai-assistant.js"></script>
+</body>
+</html>
+
+

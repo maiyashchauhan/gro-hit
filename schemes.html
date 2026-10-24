@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Government Schemes & AI Matcher | Gro-Hit</title>
+  <meta name="theme-color" content="#1b5e20" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="i18n.js"></script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <a href="index.html" class="brand">
+        <img src="logo.png" alt="GROHIT Logo" class="brand-logo" width="48" height="48" />
+        <div class="brand-text">
+          <h1>GROHIT</h1>
+          <div class="tagline" data-i18n="header.tagline">Village Support & Welfare Schemes (सरकारी योजनाएं)</div>
+        </div>
+      </a>
+
+      <div class="header-actions">
+        <div class="user-id-box">
+          <span>ID:</span>
+          <span id="showId">...</span>
+        </div>
+        <div id="langSwitcherContainer"></div>
+        <button id="openLoginBtn" class="header-btn" data-i18n="header.switchrole">Switch Role</button>
+        <a href="sos.html" class="header-btn sos-quick-btn" data-i18n="header.sos">🚨 SOS Emergency</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation -->
+  <nav class="nav-bar" aria-label="Main Navigation">
+    <div class="nav-grid">
+      <a class="nav-btn" href="index.html"><span class="nav-icon">🏠</span><div>Home</div><span class="nav-hindi">मुख्य</span></a>
+      <a class="nav-btn active" href="schemes.html"><span class="nav-icon">📜</span><div>Schemes</div><span class="nav-hindi">योजनाएं</span></a>
+      <a class="nav-btn" href="gramconnect.html"><span class="nav-icon">🏛️</span><div>GramConnect</div><span class="nav-hindi">ग्राम कनेक्ट</span></a>
+      <a class="nav-btn" href="pardesh-setu.html"><span class="nav-icon">🤝</span><div>Pardesh Setu</div><span class="nav-hindi">परदेस सेतु</span></a>
+      <a class="nav-btn" href="report.html"><span class="nav-icon">📍</span><div>Report</div><span class="nav-hindi">शिकायत</span></a>
+      <a class="nav-btn" href="announcements.html"><span class="nav-icon">📣</span><div>Updates</div><span class="nav-hindi">सूचनाएं</span></a>
+      <a class="nav-btn" href="crop.html"><span class="nav-icon">🌾</span><div>Crop</div><span class="nav-hindi">फसल</span></a>
+      <a class="nav-btn" href="mandi.html"><span class="nav-icon">🧾</span><div>Mandi</div><span class="nav-hindi">मंडी भाव</span></a>
+      <a class="nav-btn" href="jobs.html"><span class="nav-icon">💼</span><div>Jobs</div><span class="nav-hindi">रोजगार</span></a>
+      <a class="nav-btn" href="radio.html"><span class="nav-icon">📻</span><div>Radio</div><span class="nav-hindi">रेडियो</span></a>
+      <a class="nav-btn" href="donation.html"><span class="nav-icon">🤝</span><div>Donate</div><span class="nav-hindi">मदद</span></a>
+      <a class="nav-btn" href="suggestion.html"><span class="nav-icon">💡</span><div>Suggestions</div><span class="nav-hindi">सुझाव</span></a>
+      <a class="nav-btn admin-only" href="admin.html"><span class="nav-icon">🛠️</span><div>Admin</div><span class="nav-hindi">प्रशासन</span></a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="container">
+    <div class="page-header">
+      <div class="page-title">
+        <div class="title-icon">📜</div>
+        <div>
+          <h2>Government Welfare Schemes & AI Matcher (सरकारी योजनाएं)</h2>
+          <p>Discover personalized welfare subsidies, financial grants, and farming support tailored for your family</p>
+        </div>
+      </div>
+      <a href="#aiMatcherSection" class="btn primary btn-sm">🤖 Jump to AI Matcher</a>
+    </div>
+
+    <!-- DBT TRAFFIC LIGHT CHECKER -->
+    <div class="dbt-checker" id="dbtCheckerSection">
+      <h3>🚦 DBT "Traffic Light" Checker — क्या आपको सरकारी पैसा मिल रहा है?</h3>
+      <p>Check if your Aadhaar is properly linked and DBT (Direct Benefit Transfer) is active. Without this, you CANNOT receive PM-Kisan, MGNREGA wages, or any government benefit in your bank account.</p>
+
+      <!-- Traffic Lights Visual -->
+      <div class="dbt-traffic-lights">
+        <div class="dbt-light">
+          <div class="dbt-bulb red" id="dbtRed">🔴</div>
+          <div class="dbt-bulb-label">Not Linked<br>जुड़ा नहीं</div>
+        </div>
+        <div class="dbt-light">
+          <div class="dbt-bulb yellow" id="dbtYellow">🟡</div>
+          <div class="dbt-bulb-label">Aadhaar Linked<br>No DBT</div>
+        </div>
+        <div class="dbt-light">
+          <div class="dbt-bulb green" id="dbtGreen">🟢</div>
+          <div class="dbt-bulb-label">DBT Active ✅<br>पैसा मिलेगा!</div>
+        </div>
+      </div>
+
+      <button class="dbt-check-btn" id="dbtCheckBtn" onclick="checkDBTStatus()">
+        🔍 Check My DBT Status (अपनी DBT स्थिति जांचें)
+      </button>
+
+      <div class="dbt-result" id="dbtResult" style="display:none;">
+        <div class="dbt-result-status">
+          <div class="dbt-status-dot" id="dbtStatusDot"></div>
+          <strong id="dbtStatusLabel">Checking...</strong>
+        </div>
+        <div class="dbt-result-msg" id="dbtResultMsg"></div>
+        <div class="dbt-steps" id="dbtSteps"></div>
+      </div>
+    </div>
+
+    <!-- AI SCHEME MATCHER SECTION -->
+    <section id="aiMatcherSection" class="panel" style="background:#f0f9ff; border:2px solid #38bdf8;">
+      <div class="card-header" style="border-color:#bae6fd;">
+        <h3 style="color:#0369a1;">🤖 AI Government Scheme Matcher (योजना देवदूत)</h3>
+        <span class="status-badge" style="background:#e0f2fe; color:#0369a1; font-weight:bold;">⚡ Instant AI Matching</span>
+      </div>
+      <p style="color:#0c4a6e; font-size:0.95rem; margin-bottom:16px;">
+        Fill in simple family details below. The AI will instantly analyze 15+ central & state welfare schemes and show exactly which subsidies you qualify for!
+      </p>
+
+      <form id="aiSchemeForm" class="form">
+        <div class="row" style="margin-top:0;">
+          <div class="form-group" style="flex:1; min-width:140px;">
+            <label>Age / आयु *</label>
+            <input type="number" id="aiAge" min="1" max="100" placeholder="e.g. 35" value="35" required />
+          </div>
+
+          <div class="form-group" style="flex:1; min-width:140px;">
+            <label>Gender / लिंग *</label>
+            <select id="aiGender">
+              <option value="any">Any / All Family (परिवार)</option>
+              <option value="female">Female / महिला</option>
+              <option value="male">Male / पुरुष</option>
+            </select>
+          </div>
+
+          <div class="form-group" style="flex:1; min-width:140px;">
+            <label>Social Category / जाति वर्ग</label>
+            <select id="aiCaste">
+              <option value="GEN">General</option>
+              <option value="OBC">OBC</option>
+              <option value="SC">SC</option>
+              <option value="ST">ST</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top:0;">
+          <div class="form-group" style="flex:1; min-width:180px;">
+            <label>Annual Family Income (वार्षिक आय ₹) *</label>
+            <input type="number" id="aiIncome" min="0" step="5000" placeholder="e.g. 75000" value="75000" required />
+          </div>
+
+          <div class="form-group" style="flex:1.5; min-width:220px;">
+            <label>Occupation / Landholding (व्यवसाय / भूमि) *</label>
+            <select id="aiOccupation">
+              <option value="marginal_farmer">🌾 Marginal Farmer (&lt; 2 Acres Land)</option>
+              <option value="small_farmer">🚜 Small Farmer (2 to 5 Acres Land)</option>
+              <option value="large_farmer">🌻 Large Farmer (&gt; 5 Acres Land)</option>
+              <option value="landless_labor">⚒️ Landless Farm Labor / श्रमिक</option>
+              <option value="rural_woman">👩 Rural Woman / Homemaker</option>
+              <option value="artisan">🧵 Rural Artisan / Weaver / Carpenter</option>
+              <option value="student">🎓 Youth Student (16 - 25 Yrs)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row">
+          <button type="submit" class="btn btn-health" style="font-size:1.05rem; padding:12px 24px;">
+            🎯 Find My Eligible Welfare Schemes (पात्र योजनाएं खोजें)
+          </button>
+          <button type="button" id="resetAiBtn" class="btn secondary">Reset Form</button>
+        </div>
+      </form>
+
+      <!-- AI Results Output -->
+      <div id="aiSchemeResults" class="card" style="display:none; margin-top:24px; background:#ffffff; border:2px solid #0284c7;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+          <h4 style="color:#0369a1; font-size:1.3rem; margin:0;" id="aiMatchHeading">🎯 Top Eligible Schemes Matched:</h4>
+          <button type="button" id="speakAiResultsBtn" class="btn secondary btn-sm">🔊 Listen Matches</button>
+        </div>
+
+        <div id="aiMatchList" style="display:grid; gap:14px;">
+          <!-- Injected by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPLETE SCHEMES DIRECTORY -->
+    <section class="panel">
+      <div class="card-header">
+        <h3>📜 All Government Schemes Directory</h3>
+        <input type="text" id="schemeSearch" placeholder="🔍 Search scheme name or benefit..." style="max-width: 300px;" />
+      </div>
+
+      <div class="filter-tabs">
+        <button class="filter-tab active" data-cat="all">All Schemes (सभी)</button>
+        <button class="filter-tab" data-cat="Farming">🌾 Farming & Agriculture</button>
+        <button class="filter-tab" data-cat="Health">🩺 Health & Hospital</button>
+        <button class="filter-tab" data-cat="Housing">🏠 Housing & Shelter</button>
+        <button class="filter-tab" data-cat="Energy">⚡ Clean Fuel & Solar</button>
+        <button class="filter-tab" data-cat="Credit">💳 Credit & Loan Subsidies</button>
+      </div>
+
+      <ul id="schemeList" class="list">
+        <!-- Injected by JS -->
+      </ul>
+
+      <!-- Add New Scheme (Admin Only) -->
+      <details id="adminAddSchemePanel" class="panel admin-only" style="margin-top: 24px; background: #fafafa;">
+        <summary style="font-weight:bold; color:#1b5e20; cursor:pointer;">➕ Add New Scheme (Panchayat Admin Only)</summary>
+        <form id="schemeForm" class="form" style="margin-top: 14px;">
+          <div class="row" style="margin-top:0;">
+            <div class="form-group" style="flex:1; min-width:200px;">
+              <label>Scheme Title (English) *</label>
+              <input name="title" type="text" placeholder="e.g. PM Matsya Sampada Yojana" required />
+            </div>
+            <div class="form-group" style="flex:1; min-width:200px;">
+              <label>Hindi Title</label>
+              <input name="hindiTitle" type="text" placeholder="e.g. पीएम मत्स्य संपदा योजना" />
+            </div>
+          </div>
+          <div class="row" style="margin-top:0;">
+            <div class="form-group" style="flex:1; min-width:160px;">
+              <label>Category</label>
+              <select name="category">
+                <option value="Farming">Farming & Fisheries</option>
+                <option value="Health">Health</option>
+                <option value="Housing">Housing</option>
+                <option value="Energy">Energy</option>
+                <option value="Credit">Credit</option>
+              </select>
+            </div>
+            <div class="form-group" style="flex:1; min-width:200px;">
+              <label>Benefit Summary *</label>
+              <input name="benefit" type="text" placeholder="e.g. Up to 60% subsidy for fish pond setup" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Eligibility & Details *</label>
+            <textarea name="description" rows="2" placeholder="Explain who qualifies..." required></textarea>
+          </div>
+          <div class="form-group">
+            <label>Official Portal Link (gov.in) *</label>
+            <input name="link" type="url" placeholder="https://..." required />
+          </div>
+          <button class="btn primary" type="submit">Publish Government Scheme</button>
+        </form>
+      </details>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <p>Gro-Hit Rural Support System &bull; Gram Panchayat & Health Network</p>
+    <p style="margin-top: 4px; font-size: 0.8rem; opacity: 0.85;">
+      All scheme links direct to verified Government of India portals (gov.in / nic.in)
+    </p>
+  </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="ai-assistant.js"></script>
+  <script src="app.js"></script>
+  <script>
+    // DBT Status Checker
+    async function checkDBTStatus() {
+      const btn = document.getElementById('dbtCheckBtn');
+      btn.disabled = true;
+      btn.textContent = '⏳ Checking...';
+
+      const userId = localStorage.getItem('userId') || localStorage.getItem('userUniqueID') || 'VID-7842';
+
+      try {
+        const res = await fetch(`http://localhost:5000/api/dbt/status?userId=${userId}`);
+        const data = await res.json();
+        renderDBTResult(data);
+      } catch (e) {
+        // Offline simulation
+        const r = Math.random();
+        const mock = {
+          trafficLight: r > 0.6 ? 'GREEN' : r > 0.3 ? 'YELLOW' : 'RED',
+          color: r > 0.6 ? '#22c55e' : r > 0.3 ? '#f59e0b' : '#ef4444',
+          message: r > 0.6 ? '🎉 DBT Active! You will receive all government payments directly.' : r > 0.3 ? 'Aadhaar linked but DBT not enabled on bank account.' : 'Aadhaar is NOT linked to bank account.',
+          steps: r > 0.6 ? ['✅ Aadhaar linked', '✅ DBT enabled', '✅ Ready to receive funds'] : r > 0.3 ? ['Visit bank for DBT activation', 'Link mobile to Aadhaar', 'Activate NPCI mapper'] : ['Visit bank with Aadhaar', 'Fill seeding form', 'Confirm via SMS'],
+          aadhaarLinked: r > 0.3,
+          dbtEnabled: r > 0.6
+        };
+        renderDBTResult(mock);
+      }
+
+      btn.disabled = false;
+      btn.textContent = '🔍 Check My DBT Status (अपनी DBT स्थिति जांचें)';
+    }
+
+    function renderDBTResult(data) {
+      // Reset all bulbs
+      ['dbtRed', 'dbtYellow', 'dbtGreen'].forEach(id => {
+        document.getElementById(id).classList.remove('active');
+      });
+
+      // Activate correct bulb
+      if (data.trafficLight === 'GREEN') document.getElementById('dbtGreen').classList.add('active');
+      else if (data.trafficLight === 'YELLOW') document.getElementById('dbtYellow').classList.add('active');
+      else document.getElementById('dbtRed').classList.add('active');
+
+      // Show result
+      const result = document.getElementById('dbtResult');
+      result.style.display = 'block';
+      document.getElementById('dbtStatusDot').style.background = data.color;
+      document.getElementById('dbtStatusLabel').textContent = `Status: ${data.trafficLight}`;
+      document.getElementById('dbtResultMsg').textContent = data.message;
+
+      const stepsEl = document.getElementById('dbtSteps');
+      if (data.steps && data.steps.length) {
+        stepsEl.innerHTML = `<h4>${data.trafficLight === 'GREEN' ? '✅ Your Status' : '📋 Steps to Fix'}</h4>` +
+          data.steps.map((s, i) => `<div class="dbt-step"><span class="dbt-step-num">${i+1}</span><span>${s}</span></div>`).join('');
+      }
+
+      result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const schemeList = document.getElementById("schemeList");
+      const schemeSearch = document.getElementById("schemeSearch");
+      const schemeForm = document.getElementById("schemeForm");
+
+      // AI Matcher Elements
+      const aiSchemeForm = document.getElementById("aiSchemeForm");
+      const aiSchemeResults = document.getElementById("aiSchemeResults");
+      const aiMatchList = document.getElementById("aiMatchList");
+      const aiMatchHeading = document.getElementById("aiMatchHeading");
+      const speakAiResultsBtn = document.getElementById("speakAiResultsBtn");
+      const resetAiBtn = document.getElementById("resetAiBtn");
+
+      let currentAiMatchesSpeech = "";
+      let currentCategory = "all";
+
+      function getSchemes() {
+        try {
+          return JSON.parse(localStorage.getItem("grohit_schemes") || "[]");
+        } catch {
+          return [];
+        }
+      }
+
+      // --- Render Complete Schemes Directory ---
+      function renderSchemes() {
+        const schemes = getSchemes();
+        const search = schemeSearch.value.toLowerCase();
+
+        const filtered = schemes.filter(s => {
+          const matchCat = currentCategory === "all" || s.category === currentCategory;
+          const matchSearch = 
+            s.title.toLowerCase().includes(search) || 
+            (s.hindiTitle && s.hindiTitle.toLowerCase().includes(search)) ||
+            s.description.toLowerCase().includes(search) ||
+            (s.benefit && s.benefit.toLowerCase().includes(search));
+          return matchCat && matchSearch;
+        });
+
+        schemeList.innerHTML = "";
+
+        if (filtered.length === 0) {
+          schemeList.innerHTML = `<li style="text-align:center; padding:24px; color:#4a5c4d;">No schemes matched your search keyword.</li>`;
+          return;
+        }
+
+        filtered.forEach(s => {
+          const li = document.createElement("li");
+          li.className = "item-card";
+          li.innerHTML = `
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:10px;">
+              <div>
+                <h4 style="color:#1b5e20; font-size:1.2rem; margin:0 0 2px;">${s.title}</h4>
+                ${s.hindiTitle ? `<div style="font-size:0.95rem; color:#2e4d32; font-weight:600;">${s.hindiTitle}</div>` : ''}
+                <span class="status-badge" style="background:#e8f5e9; color:#1b5e20; margin-top:4px;">🏷️ ${s.category}</span>
+              </div>
+              <a href="${s.link}" target="_blank" class="btn primary btn-sm">🌐 Official Portal &rarr;</a>
+            </div>
+            
+            <div style="background:#f8faf5; border:1px solid #d0ded0; border-radius:8px; padding:10px 14px; margin-top:10px;">
+              <strong style="color:#166534;">🎁 Scheme Benefit (लाभ):</strong>
+              <p style="margin:2px 0 6px; color:#1f2937; font-size:0.95rem; font-weight:600;">${s.benefit}</p>
+              <p style="margin:0; color:#4a5c4d; font-size:0.9rem;">${s.description}</p>
+            </div>
+          `;
+          schemeList.appendChild(li);
+        });
+      }
+
+      // Filter tabs
+      document.querySelectorAll(".filter-tab").forEach(tab => {
+        tab.addEventListener("click", () => {
+          document.querySelectorAll(".filter-tab").forEach(t => t.classList.remove("active"));
+          tab.classList.add("active");
+          currentCategory = tab.dataset.cat;
+          renderSchemes();
+        });
+      });
+
+      schemeSearch.addEventListener("input", renderSchemes);
+
+      // --- AI SCHEME MATCHER ENGINE ---
+      aiSchemeForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const age = parseInt(document.getElementById("aiAge").value) || 30;
+        const gender = document.getElementById("aiGender").value;
+        const caste = document.getElementById("aiCaste").value;
+        const income = parseInt(document.getElementById("aiIncome").value) || 50000;
+        const occ = document.getElementById("aiOccupation").value;
+
+        const matches = [];
+
+        // 1. PM-Kisan
+        if (occ === "marginal_farmer" || occ === "small_farmer" || occ === "large_farmer") {
+          matches.push({
+            name: "🌾 PM Kisan Samman Nidhi (पीएम किसान)",
+            score: "100% Match",
+            grant: "₹6,000 / Year",
+            summary: "Direct cash benefit in 3 equal installments of ₹2,000 every 4 months directly in farmer bank account.",
+            docs: "Aadhaar Card, Land Record (Khatauni), Bank Passbook linked with NPCI.",
+            link: "https://pmkisan.gov.in/"
+          });
+        }
+
+        // 2. KCC Loan
+        if (occ === "marginal_farmer" || occ === "small_farmer" || occ === "large_farmer") {
+          matches.push({
+            name: "💳 Kisan Credit Card (KCC Loan)",
+            score: "98% Match",
+            grant: "Subsidized Crop Loan up to ₹3 Lakh at 4% Interest",
+            summary: "Short-term credit for seeds, fertilizers, tractor fuel, and dairy cattle maintenance.",
+            docs: "Khasra-Khatauni, Aadhaar, Passport photo at village bank branch.",
+            link: "https://www.myscheme.gov.in/schemes/kcc"
+          });
+        }
+
+        // 3. PM Fasal Bima
+        if (occ === "marginal_farmer" || occ === "small_farmer" || occ === "large_farmer") {
+          matches.push({
+            name: "🛡️ PM Fasal Bima Yojana (फसल बीमा)",
+            score: "95% Match",
+            grant: "Complete Crop Loss Coverage at only 1.5% - 2% Premium",
+            summary: "Comprehensive insurance against drought, flood, hailstorm, unseasonal rain, and pest attacks.",
+            docs: "Sowing Certificate / Patwari Land Record, Bank Account.",
+            link: "https://pmfby.gov.in/"
+          });
+        }
+
+        // 4. Ayushman Bharat
+        if (income <= 250000) {
+          matches.push({
+            name: "🩺 Ayushman Bharat (PM-JAY Health Card)",
+            score: "100% Match",
+            grant: "Free Hospital Treatment up to ₹5,00,000 / Family / Year",
+            summary: "Cashless secondary and tertiary hospital surgeries at all empaneled government and private hospitals.",
+            docs: "Ration Card (SECC / NFSA), Aadhaar Card. Get card made at CSC / PHC.",
+            link: "https://pmjay.gov.in/"
+          });
+        }
+
+        // 5. PM Awas Yojana
+        if (income <= 180000 && (occ === "landless_labor" || occ === "marginal_farmer" || occ === "artisan")) {
+          matches.push({
+            name: "🏠 PM Awas Yojana - Gramin (ग्रामीण आवास)",
+            score: "92% Match",
+            grant: "₹1,20,000 Grant for Pucca House + 90 Days MGNREGA Wages",
+            summary: "Financial assistance for construction of permanent home with toilet and LPG connection.",
+            docs: "Job Card, Aadhaar, Non-pucca house verification by Gram Sevak.",
+            link: "https://pmayg.nic.in/"
+          });
+        }
+
+        // 6. PM Ujjwala 2.0 (Women / Poor)
+        if (gender === "female" || occ === "rural_woman" || income <= 150000) {
+          matches.push({
+            name: "🔥 PM Ujjwala Yojana 2.0 (मुफ्त गैस कनेक्शन)",
+            score: "96% Match",
+            grant: "Free LPG Connection + 1st Cylinder & Gas Stove",
+            summary: "Clean cooking gas cylinder for rural adult women from economically vulnerable households.",
+            docs: "Woman's Aadhaar, BPL / Ration Card, Bank Account.",
+            link: "https://www.pmuy.gov.in/"
+          });
+        }
+
+        // 7. MGNREGA Job Card
+        if (occ === "landless_labor" || occ === "artisan" || occ === "marginal_farmer") {
+          matches.push({
+            name: "⚒️ MGNREGA 100-Day Guaranteed Wage Work",
+            score: "95% Match",
+            grant: "Guaranteed 100 Days Rural Employment at Daily Wage ₹240-₹350",
+            summary: "Legal right to wage work in village pond desilting, link road construction, and canal repair.",
+            docs: "Aadhaar Card, Village residence proof at Panchayat Rozgar Sahayak.",
+            link: "https://nrega.nic.in/"
+          });
+        }
+
+        // 8. Solar Pump (PM-KUSUM / PM Surya Ghar)
+        if (occ.includes("farmer") || age >= 21) {
+          matches.push({
+            name: "⚡ PM Surya Ghar & PM-KUSUM Solar Pump",
+            score: "88% Match",
+            grant: "60% Government Subsidy on Solar Tubewell Pump",
+            summary: "Zero electricity bill irrigation pump installation with daylight irrigation freedom.",
+            docs: "Electricity connection bill, Land ownership proof, Bank details.",
+            link: "https://pmkusum.mnre.gov.in/"
+          });
+        }
+
+        // 9. Atal Pension Yojana (Elderly / Unorganized)
+        if (age >= 18 && age <= 40) {
+          matches.push({
+            name: "💰 Atal Pension Yojana (APY - मासिक पेंशन)",
+            score: "85% Match",
+            grant: "Guaranteed Monthly Pension of ₹1,000 to ₹5,000 after Age 60",
+            summary: "Government-backed retirement pension for unorganized rural workers with low monthly contribution.",
+            docs: "Savings Bank Account, Aadhaar.",
+            link: "https://www.npscra.nsdl.co.in/scheme-details.php"
+          });
+        }
+
+        // Render AI Results
+        aiSchemeResults.style.display = "block";
+        aiMatchHeading.textContent = `🎯 ${matches.length} Schemes Matched for Your Profile:`;
+        aiMatchList.innerHTML = "";
+
+        let speechText = `We found ${matches.length} government schemes for you. `;
+
+        matches.forEach(m => {
+          speechText += `${m.name}. Benefit: ${m.grant}. `;
+          const div = document.createElement("div");
+          div.style.background = "#f8fafc";
+          div.style.border = "1.5px solid #7dd3fc";
+          div.style.borderRadius = "10px";
+          div.style.padding = "16px";
+
+          div.innerHTML = `
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:10px;">
+              <div>
+                <strong style="color:#0369a1; font-size:1.15rem;">${m.name}</strong>
+                <span class="status-badge" style="background:#dcfce7; color:#15803d; margin-left:6px; font-weight:bold;">${m.score}</span>
+              </div>
+              <a href="${m.link}" target="_blank" class="btn btn-health btn-sm">🌐 Apply / View Portal &rarr;</a>
+            </div>
+
+            <div style="margin:10px 0; background:#f0fdf4; border:1px solid #86efac; border-radius:8px; padding:10px 14px;">
+              <strong style="color:#166534; font-size:0.95rem;">🎁 Benefit Amount: ${m.grant}</strong>
+              <p style="margin:4px 0 0; color:#1f2937; font-size:0.9rem;">${m.summary}</p>
+            </div>
+
+            <div style="font-size:0.85rem; color:#475569;">
+              <strong>📋 Documents Required:</strong> ${m.docs}
+            </div>
+          `;
+          aiMatchList.appendChild(div);
+        });
+
+        currentAiMatchesSpeech = speechText;
+        aiSchemeResults.scrollIntoView({ behavior: "smooth" });
+        GroHit.showToast(`🎯 AI matched ${matches.length} schemes!`);
+      });
+
+      // Voice read out AI results
+      speakAiResultsBtn.addEventListener("click", () => {
+        if (currentAiMatchesSpeech) {
+          GroHit.speakText(currentAiMatchesSpeech);
+        }
+      });
+
+      resetAiBtn.addEventListener("click", () => {
+        aiSchemeForm.reset();
+        aiSchemeResults.style.display = "none";
+      });
+
+      // Admin Add Scheme form
+      schemeForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const schemes = getSchemes();
+        const newS = {
+          id: Date.now(),
+          title: schemeForm.title.value.trim(),
+          hindiTitle: schemeForm.hindiTitle.value.trim(),
+          category: schemeForm.category.value,
+          benefit: schemeForm.benefit.value.trim(),
+          description: schemeForm.description.value.trim(),
+          link: schemeForm.link.value.trim()
+        };
+        schemes.unshift(newS);
+        localStorage.setItem("grohit_schemes", JSON.stringify(schemes));
+        GroHit.showToast("Government scheme added successfully!");
+        schemeForm.reset();
+        renderSchemes();
+      });
+
+      renderSchemes();
+    });
+  </script>
+  <script src="ai-assistant.js"></script>
+</body>
+</html>
+
+

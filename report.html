@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Report Village Problem | Gro-Hit</title>
+  <meta name="theme-color" content="#1b5e20" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="i18n.js"></script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <a href="index.html" class="brand">
+        <img src="logo.png" alt="GROHIT Logo" class="brand-logo" width="48" height="48" />
+        <div class="brand-text">
+          <h1>GROHIT</h1>
+          <div class="tagline" data-i18n="header.tagline">Village Support & Panchayat Portal (ग्राम सेवा)</div>
+        </div>
+      </a>
+
+      <div class="header-actions">
+        <div class="user-id-box">
+          <span>ID:</span>
+          <span id="showId">...</span>
+        </div>
+        <div id="langSwitcherContainer"></div>
+        <button id="openLoginBtn" class="header-btn" data-i18n="header.switchrole">Switch Role</button>
+        <a href="sos.html" class="header-btn sos-quick-btn" data-i18n="header.sos">🚨 SOS Emergency</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation -->
+  <nav class="nav-bar" aria-label="Main Navigation">
+    <div class="nav-grid">
+      <a class="nav-btn" href="index.html"><span class="nav-icon">🏠</span><div>Home</div><span class="nav-hindi">मुख्य</span></a>
+      <a class="nav-btn" href="schemes.html"><span class="nav-icon">📜</span><div>Schemes</div><span class="nav-hindi">योजनाएं</span></a>
+      <a class="nav-btn" href="gramconnect.html"><span class="nav-icon">🏛️</span><div>GramConnect</div><span class="nav-hindi">ग्राम कनेक्ट</span></a>
+      <a class="nav-btn" href="pardesh-setu.html"><span class="nav-icon">🤝</span><div>Pardesh Setu</div><span class="nav-hindi">परदेस सेतु</span></a>
+      <a class="nav-btn active" href="report.html"><span class="nav-icon">📍</span><div>Report</div><span class="nav-hindi">शिकायत</span></a>
+      <a class="nav-btn" href="announcements.html"><span class="nav-icon">📣</span><div>Updates</div><span class="nav-hindi">सूचनाएं</span></a>
+      <a class="nav-btn" href="crop.html"><span class="nav-icon">🌾</span><div>Crop</div><span class="nav-hindi">फसल</span></a>
+      <a class="nav-btn" href="mandi.html"><span class="nav-icon">🧾</span><div>Mandi</div><span class="nav-hindi">मंडी भाव</span></a>
+      <a class="nav-btn" href="jobs.html"><span class="nav-icon">💼</span><div>Jobs</div><span class="nav-hindi">रोजगार</span></a>
+      <a class="nav-btn" href="radio.html"><span class="nav-icon">📻</span><div>Radio</div><span class="nav-hindi">रेडियो</span></a>
+      <a class="nav-btn" href="donation.html"><span class="nav-icon">🤝</span><div>Donate</div><span class="nav-hindi">मदद</span></a>
+      <a class="nav-btn" href="suggestion.html"><span class="nav-icon">💡</span><div>Suggestions</div><span class="nav-hindi">सुझाव</span></a>
+      <a class="nav-btn" href="admin.html"><span class="nav-icon">🛠️</span><div>Admin</div><span class="nav-hindi">प्रशासन</span></a>
+    </div>
+  </nav>
+
+  <!-- Main Container -->
+  <main class="container">
+    <div class="page-header">
+      <div class="page-title">
+        <div class="title-icon">📍</div>
+        <div>
+          <h2>Report a Village Problem (समस्या रिपोर्ट)</h2>
+          <p>Directly notifies Panchayat Administration. Track live status until resolved.</p>
+        </div>
+      </div>
+      <a href="admin.html" class="btn secondary btn-sm">🛠️ Admin Review View</a>
+    </div>
+
+    <!-- Quick Help Notice -->
+    <div class="notice">
+      <span style="font-size: 1.6rem;">💡</span>
+      <div>
+        <strong>Easy Rural Reporting:</strong> Fill out the simple form below, take a photo of the problem, and submit. The Panchayat Admin will review your report, assign a team, and update the status here.
+      </div>
+    </div>
+
+    <!-- Report Submission Form -->
+    <section class="panel">
+      <div class="card-header">
+        <h3>📝 Submit New Issue / नई शिकायत दर्ज करें</h3>
+      </div>
+
+      <form id="issueForm" class="form">
+        <!-- Category Selector -->
+        <div class="form-group">
+          <label>Problem Category / समस्या की श्रेणी *</label>
+          <select id="issueCategory" name="category" required>
+            <option value="water">💧 Water Supply / पेयजल एवं हैंडपंप</option>
+            <option value="electricity">⚡ Electricity / बिजली एवं ट्रांसफार्मर</option>
+            <option value="road">🛣️ Roads & Bridges / सड़क एवं नाली</option>
+            <option value="sanitation">🧹 Sanitation & Garbage / सफाई एवं कचरा</option>
+            <option value="health">🩺 Health & Hospital / स्वास्थ्य एवं औषधालय</option>
+            <option value="agriculture">🌾 Agriculture & Canal / कृषि एवं नहर</option>
+            <option value="school">🏫 School & Anganwadi / स्कूल एवं आंगनवाड़ी</option>
+            <option value="other">📦 Other Community Issue / अन्य समस्या</option>
+          </select>
+        </div>
+
+        <!-- Issue Title -->
+        <div class="form-group">
+          <label>Issue Title / समस्या का नाम *
+            <span class="hint">(e.g. Broken Handpump, Dark Street Light)</span>
+          </label>
+          <input type="text" id="issueTitle" name="title" placeholder="Briefly describe the problem..." required />
+        </div>
+
+        <!-- Description with Voice Typing -->
+        <div class="form-group">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <label style="margin:0;">Detailed Description / समस्या का पूरा विवरण *</label>
+            <button type="button" id="voiceTypeBtn" class="btn secondary btn-sm" style="padding: 4px 10px; min-height: 32px;">🎤 Speak to Type</button>
+          </div>
+          <textarea id="issueDescription" name="description" rows="3" placeholder="Where is it? How many families are affected? How long has it been broken?" required></textarea>
+        </div>
+
+        <!-- Location -->
+        <div class="form-group">
+          <label>Location / Landmark (स्थान या मोहल्ला) *</label>
+          <div class="row" style="margin-top:0; margin-bottom:6px;">
+            <input type="text" id="issueLocation" name="location" placeholder="e.g. Ward 4, Near Shiva Temple / Canal Bridge" required style="flex:1;" />
+            <button type="button" id="getGpsBtn" class="btn secondary" style="white-space:nowrap;">📍 Auto-Detect GPS</button>
+          </div>
+          <span id="gpsStatus" style="font-size: 0.85rem; color: #16a34a; font-weight: 600;"></span>
+        </div>
+
+        <!-- Photo Upload with Preview -->
+        <div class="form-group">
+          <label>Attach Photo of Problem / फोटो खींचें या चुनें <span class="hint">(Optional)</span></label>
+          <input type="file" id="issuePhoto" name="photo" accept="image/*;capture=camera" />
+          <div id="photoPreviewContainer" style="margin-top: 10px; display: none;">
+            <img id="photoPreview" src="" alt="Problem Preview" style="max-width: 200px; max-height: 150px; border-radius: 8px; border: 2px solid #81c784;" />
+          </div>
+        </div>
+
+        <!-- Your Contact Info -->
+        <div class="row" style="margin-top:0;">
+          <div class="form-group" style="flex:1; min-width:200px;">
+            <label>Your Name / आपका नाम</label>
+            <input type="text" id="issueReporterName" name="reporterName" />
+          </div>
+          <div class="form-group" style="flex:1; min-width:200px;">
+            <label>Phone Number / मोबाइल नंबर</label>
+            <input type="tel" id="issueReporterPhone" name="reporterPhone" />
+          </div>
+        </div>
+
+        <!-- Submit Buttons -->
+        <div class="row">
+          <button type="submit" class="btn primary">✅ Submit Problem to Panchayat</button>
+          <button type="reset" class="btn secondary">Clear Form</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- My Submitted Issues Tracking -->
+    <section class="panel">
+      <div class="card-header">
+        <h3>📋 My Reported Issues (मेरी शिकायतें)</h3>
+        <span class="status-badge status-pending" id="myCountBadge">0 Total</span>
+      </div>
+      <p style="color: #4a5c4d; font-size: 0.92rem; margin-bottom: 16px;">
+        Track the progress of your submitted complaints in real time.
+      </p>
+
+      <ul id="myIssuesList" class="list">
+        <!-- Injected by JS -->
+      </ul>
+    </section>
+
+    <!-- Community Issues List -->
+    <section class="panel">
+      <div class="card-header">
+        <h3>🏘️ All Village Community Issues (गांव की समस्याएं)</h3>
+        <div class="filter-tabs" style="margin: 0;">
+          <button class="filter-tab active" data-filter="all">All</button>
+          <button class="filter-tab" data-filter="pending">Pending</button>
+          <button class="filter-tab" data-filter="in_progress">In Progress</button>
+          <button class="filter-tab" data-filter="resolved">Resolved</button>
+        </div>
+      </div>
+
+      <ul id="communityIssuesList" class="list">
+        <!-- Injected by JS -->
+      </ul>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <p>Gro-Hit Rural Support System &bull; Gram Panchayat & Health Network</p>
+    <p style="margin-top: 4px; font-size: 0.8rem; opacity: 0.85;">Need urgent help? Call toll-free <strong>112</strong> or <strong>108</strong></p>
+  </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const issueForm = document.getElementById("issueForm");
+      const issueCategory = document.getElementById("issueCategory");
+      const issueTitle = document.getElementById("issueTitle");
+      const issueDescription = document.getElementById("issueDescription");
+      const issueLocation = document.getElementById("issueLocation");
+      const issuePhoto = document.getElementById("issuePhoto");
+      const photoPreviewContainer = document.getElementById("photoPreviewContainer");
+      const photoPreview = document.getElementById("photoPreview");
+      const issueReporterName = document.getElementById("issueReporterName");
+      const issueReporterPhone = document.getElementById("issueReporterPhone");
+      const getGpsBtn = document.getElementById("getGpsBtn");
+      const gpsStatus = document.getElementById("gpsStatus");
+      const voiceTypeBtn = document.getElementById("voiceTypeBtn");
+      const myIssuesList = document.getElementById("myIssuesList");
+      const communityIssuesList = document.getElementById("communityIssuesList");
+      const myCountBadge = document.getElementById("myCountBadge");
+
+      // Auto-fill user details from state
+      issueReporterName.value = GroHit.state.userName || "Village Citizen";
+      issueReporterPhone.value = GroHit.state.userPhone || "9876543210";
+
+      // Photo preview
+      let photoDataUrl = "";
+      issuePhoto.addEventListener("change", () => {
+        const file = issuePhoto.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            photoDataUrl = e.target.result;
+            photoPreview.src = photoDataUrl;
+            photoPreviewContainer.style.display = "block";
+          };
+          reader.readAsDataURL(file);
+        } else {
+          photoDataUrl = "";
+          photoPreviewContainer.style.display = "none";
+        }
+      });
+
+      // GPS Auto-detect
+      getGpsBtn.addEventListener("click", () => {
+        if ("geolocation" in navigator) {
+          gpsStatus.textContent = "⌛ Detecting GPS coordinates...";
+          navigator.geolocation.getCurrentPosition(
+            (pos) => {
+              const { latitude, longitude } = pos.coords;
+              const coords = `Lat: ${latitude.toFixed(5)}, Lng: ${longitude.toFixed(5)}`;
+              if (!issueLocation.value) {
+                issueLocation.value = `GPS (${coords})`;
+              } else {
+                issueLocation.value += ` [${coords}]`;
+              }
+              gpsStatus.textContent = `✅ Location captured: ${coords}`;
+              GroHit.showToast("GPS location captured!");
+            },
+            (err) => {
+              gpsStatus.textContent = "⚠️ Could not get exact GPS. Please type your village landmark.";
+            },
+            { timeout: 8000 }
+          );
+        } else {
+          gpsStatus.textContent = "⚠️ GPS not supported on this device.";
+        }
+      });
+
+      // Speech Recognition Voice-to-Text
+      if ("webkitSpeechRecognition" in window || "SpeechRecognition" in window) {
+        const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const recognition = new SpeechRec();
+        recognition.lang = "hi-IN"; // Supports Hindi / Indian accent
+        recognition.continuous = false;
+        recognition.interimResults = false;
+
+        let isRecording = false;
+        voiceTypeBtn.addEventListener("click", () => {
+          if (!isRecording) {
+            try {
+              recognition.start();
+              voiceTypeBtn.textContent = "🔴 Listening... (बोलिए)";
+              voiceTypeBtn.classList.remove("secondary");
+              voiceTypeBtn.classList.add("danger");
+              isRecording = true;
+              GroHit.showToast("Listening... speak now in Hindi or English.");
+            } catch (err) {
+              isRecording = false;
+            }
+          } else {
+            recognition.stop();
+          }
+        });
+
+        recognition.onresult = (event) => {
+          const transcript = event.results[0][0].transcript;
+          issueDescription.value = (issueDescription.value + " " + transcript).trim();
+          GroHit.showToast("Captured: " + transcript);
+        };
+
+        recognition.onend = () => {
+          voiceTypeBtn.textContent = "🎤 Speak to Type";
+          voiceTypeBtn.classList.remove("danger");
+          voiceTypeBtn.classList.add("secondary");
+          isRecording = false;
+        };
+
+        recognition.onerror = () => {
+          voiceTypeBtn.textContent = "🎤 Speak to Type";
+          voiceTypeBtn.classList.remove("danger");
+          voiceTypeBtn.classList.add("secondary");
+          isRecording = false;
+        };
+      } else {
+        voiceTypeBtn.style.display = "none";
+      }
+
+      // Render Issues Function
+      function renderAllIssues(filterStatus = "all") {
+        const issues = GroHit.getIssues();
+        const currentUserId = GroHit.state.userId;
+
+        // Render My Issues
+        const myIssues = issues.filter(i => i.userId === currentUserId || !i.userId);
+        myCountBadge.textContent = `${myIssues.length} Complaints`;
+        myIssuesList.innerHTML = "";
+
+        if (myIssues.length === 0) {
+          myIssuesList.innerHTML = `
+            <li style="text-align:center; padding:24px; color:#4a5c4d;">
+              <span style="font-size:2rem;">🎉</span>
+              <p style="font-weight:600; margin-top:6px;">You have no active reported issues.</p>
+            </li>
+          `;
+        } else {
+          myIssues.forEach(issue => {
+            myIssuesList.appendChild(createIssueElement(issue, true));
+          });
+        }
+
+        // Render Community Issues
+        communityIssuesList.innerHTML = "";
+        const filteredCommunity = filterStatus === "all" 
+          ? issues 
+          : issues.filter(i => i.status === filterStatus);
+
+        if (filteredCommunity.length === 0) {
+          communityIssuesList.innerHTML = `
+            <li style="text-align:center; padding:20px; color:#4a5c4d;">
+              <p>No issues found for this category filter.</p>
+            </li>
+          `;
+        } else {
+          filteredCommunity.forEach(issue => {
+            communityIssuesList.appendChild(createIssueElement(issue, false));
+          });
+        }
+      }
+
+      // Create Issue Card HTML Node
+      function createIssueElement(issue, isMine = false) {
+        const li = document.createElement("li");
+        li.className = "item-card";
+
+        // Status badge class and text
+        let statusBadge = "";
+        let statusVoiceText = "";
+        if (issue.status === "resolved") {
+          statusBadge = `<span class="status-badge status-resolved">🟢 Resolved / समाधान हो गया</span>`;
+          statusVoiceText = "Problem is resolved.";
+        } else if (issue.status === "in_progress") {
+          statusBadge = `<span class="status-badge status-progress">🔵 In Progress / कार्य प्रगति पर</span>`;
+          statusVoiceText = "Work is currently in progress.";
+        } else {
+          statusBadge = `<span class="status-badge status-pending">🟡 Pending / विचाराधीन</span>`;
+          statusVoiceText = "Complaint is pending review by Panchayat.";
+        }
+
+        const dateStr = new Date(issue.createdAt || Date.now()).toLocaleDateString("en-IN", {
+          day: "numeric", month: "short", year: "numeric"
+        });
+
+        let photoHtml = "";
+        if (issue.photo) {
+          photoHtml = `
+            <div style="margin: 10px 0;">
+              <img src="${issue.photo}" alt="Attached issue photo" style="max-width:180px; max-height:120px; border-radius:8px; border:1px solid #ccc;" />
+            </div>
+          `;
+        }
+
+        let adminResolutionBlock = "";
+        if (issue.status === "resolved") {
+          adminResolutionBlock = `
+            <div style="background:#dcfce7; border:1.5px solid #86efac; border-radius:8px; padding:12px; margin-top:12px; color:#14532d;">
+              <strong style="display:flex; align-items:center; gap:6px;">✅ Panchayat Resolution Note:</strong>
+              <p style="margin-top:4px; font-size:0.92rem;">${issue.adminNotes || "Action completed by Panchayat Nirman Samiti."}</p>
+              ${issue.contractor ? `<div style="font-size:0.82rem; margin-top:4px; opacity:0.9;">Work by: <strong>${issue.contractor}</strong> | Cost: <strong>${issue.budget || 'N/A'}</strong></div>` : ''}
+            </div>
+          `;
+        } else if (issue.status === "in_progress") {
+          adminResolutionBlock = `
+            <div style="background:#dbeafe; border:1.5px solid #93c5fd; border-radius:8px; padding:12px; margin-top:12px; color:#1e3a8a;">
+              <strong style="display:flex; align-items:center; gap:6px;">🛠️ Progress Update:</strong>
+              <p style="margin-top:4px; font-size:0.92rem;">${issue.adminNotes || "Department assigned. Field work in progress."}</p>
+              ${issue.contractor ? `<div style="font-size:0.82rem; margin-top:4px; opacity:0.9;">Assigned: <strong>${issue.contractor}</strong> | Budget: <strong>${issue.budget || 'Approved'}</strong></div>` : ''}
+            </div>
+          `;
+        }
+
+        li.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px; flex-wrap:wrap;">
+            <div>
+              <span style="font-family:monospace; font-weight:bold; background:#e8f5e9; padding:2px 8px; border-radius:4px; color:#1b5e20;">${issue.id}</span>
+              ${statusBadge}
+              <span style="font-size:0.85rem; color:#4a5c4d; margin-left:6px;">📍 ${issue.categoryName || issue.category}</span>
+            </div>
+            <div style="display:flex; gap:6px;">
+              <button class="btn secondary btn-sm listen-issue-btn" title="Listen to status">🔊 Status</button>
+              ${isMine ? `<button class="btn-delete btn-sm delete-issue-btn" title="Delete complaint">❌</button>` : ''}
+            </div>
+          </div>
+
+          <h4 style="margin: 10px 0 4px; font-size:1.15rem; color:#1b5e20;">${issue.title}</h4>
+          <p style="color:#2c3e2e; line-height:1.5; font-size:0.95rem;">${issue.description}</p>
+          <div style="font-size:0.85rem; color:#4a5c4d; margin-top:6px;">
+            <strong>Location:</strong> ${issue.location} &bull; <strong>Reported on:</strong> ${dateStr} by ${issue.userName || "Villager"}
+          </div>
+          ${photoHtml}
+          ${adminResolutionBlock}
+        `;
+
+        // Listen Voice
+        li.querySelector(".listen-issue-btn").addEventListener("click", () => {
+          const speakMsg = `Ticket ${issue.id}. Problem: ${issue.title}. Current status: ${statusVoiceText}. ${issue.adminNotes ? 'Admin note: ' + issue.adminNotes : ''}`;
+          GroHit.speakText(speakMsg);
+        });
+
+        // Delete (if mine)
+        if (isMine) {
+          li.querySelector(".delete-issue-btn").addEventListener("click", () => {
+            if (confirm("Do you want to withdraw this issue?")) {
+              GroHit.deleteIssue(issue.id);
+              GroHit.showToast("Complaint removed.");
+              renderAllIssues();
+            }
+          });
+        }
+
+        return li;
+      }
+
+      // Handle Form Submit
+      issueForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const selectedOption = issueCategory.options[issueCategory.selectedIndex];
+        const categoryName = selectedOption.textContent;
+
+        const newIssue = {
+          id: "REP-" + Math.floor(10000 + Math.random() * 90000),
+          category: issueCategory.value,
+          categoryName: categoryName,
+          title: issueTitle.value.trim(),
+          description: issueDescription.value.trim(),
+          location: issueLocation.value.trim(),
+          photo: photoDataUrl,
+          userId: GroHit.state.userId || "VID-7842",
+          userName: issueReporterName.value.trim() || GroHit.state.userName || "Village Citizen",
+          userPhone: issueReporterPhone.value.trim() || GroHit.state.userPhone || "9876543210",
+          status: "pending",
+          createdAt: Date.now(),
+          contractor: "",
+          budget: "",
+          adminNotes: ""
+        };
+
+        GroHit.saveIssue(newIssue);
+        GroHit.showToast("✅ Problem submitted successfully! Ticket ID: " + newIssue.id);
+
+        // Reset form
+        issueForm.reset();
+        issueReporterName.value = GroHit.state.userName || "Village Citizen";
+        issueReporterPhone.value = GroHit.state.userPhone || "9876543210";
+        photoDataUrl = "";
+        photoPreviewContainer.style.display = "none";
+        gpsStatus.textContent = "";
+
+        // Re-render
+        renderAllIssues();
+      });
+
+      // Filter Tabs for Community Issues
+      document.querySelectorAll(".filter-tab").forEach(tab => {
+        tab.addEventListener("click", () => {
+          document.querySelectorAll(".filter-tab").forEach(t => t.classList.remove("active"));
+          tab.classList.add("active");
+          renderAllIssues(tab.dataset.filter);
+        });
+      });
+
+      // Listen for role changes
+      window.addEventListener("grohit-role-changed", () => {
+        renderAllIssues();
+      });
+
+      // Initial Render
+      renderAllIssues();
+    });
+  </script>
+  <script src="ai-assistant.js"></script>
+</body>
+</html>
+
+

@@ -1,0 +1,85 @@
+<svg width="1600" height="1200" viewBox="0 0 1600 1200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f7f6ef"/>
+      <stop offset="100%" stop-color="#dfecc9"/>
+    </linearGradient>
+    <linearGradient id="hillBack" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#bfdc9a"/>
+      <stop offset="100%" stop-color="#80b868"/>
+    </linearGradient>
+    <linearGradient id="hillFront" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#7bbd58"/>
+      <stop offset="100%" stop-color="#2f7d3c"/>
+    </linearGradient>
+    <linearGradient id="shirtGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2d7d3b"/>
+      <stop offset="100%" stop-color="#154f25"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1600" height="1200" fill="url(#skyGrad)"/>
+  <circle cx="1280" cy="180" r="120" fill="#f7da76" opacity="0.8"/>
+  <circle cx="1280" cy="180" r="146" fill="#f7da76" opacity="0.12"/>
+
+  <g opacity="0.2" fill="#ffffff">
+    <circle cx="220" cy="220" r="11"/>
+    <circle cx="430" cy="170" r="13"/>
+    <circle cx="660" cy="210" r="9"/>
+    <circle cx="1020" cy="160" r="12"/>
+    <circle cx="1180" cy="220" r="10"/>
+    <circle cx="1400" cy="180" r="15"/>
+  </g>
+
+  <path d="M0 760 C 170 715, 360 690, 560 720 C 710 745, 860 710, 1030 750 C 1180 785, 1360 720, 1600 760 L1600 1200 L0 1200 Z" fill="url(#hillBack)"/>
+  <path d="M0 860 C 200 820, 350 780, 570 820 C 770 858, 910 835, 1060 820 C 1230 803, 1380 832, 1600 870 L1600 1200 L0 1200 Z" fill="url(#hillFront)"/>
+
+  <g opacity="0.55" stroke="#4a7f3f" stroke-width="9" stroke-linecap="round">
+    <path d="M120 900 L140 720"/>
+    <path d="M220 900 L242 710"/>
+    <path d="M320 900 L345 700"/>
+    <path d="M430 900 L456 715"/>
+    <path d="M545 900 L568 705"/>
+    <path d="M660 900 L684 700"/>
+    <path d="M780 900 L800 715"/>
+    <path d="M905 900 L922 705"/>
+    <path d="M1030 900 L1052 710"/>
+    <path d="M1155 900 L1178 720"/>
+    <path d="M1280 900 L1305 705"/>
+    <path d="M1405 900 L1425 718"/>
+  </g>
+
+  <g transform="translate(745 255)">
+    <ellipse cx="120" cy="450" rx="260" ry="52" fill="#234924" opacity="0.18"/>
+
+    <path d="M120 210 C 98 150, 102 110, 128 70 C 150 36, 180 20, 210 30 C 245 42, 276 78, 280 125 C 285 175, 245 205, 222 220 C 192 238, 138 233, 120 210 Z" fill="#5d3a2f"/>
+    <path d="M150 180 C 187 130, 224 120, 245 116 C 265 112, 278 98, 284 84 C 250 70, 214 80, 176 108 C 158 123, 145 148, 150 180 Z" fill="#774a3a"/>
+
+    <circle cx="200" cy="118" r="74" fill="#f0c39a"/>
+    <path d="M136 122 C 160 80, 200 60, 241 64 C 270 68, 296 90, 310 126 C 282 112, 243 104, 136 122 Z" fill="#2b201c"/>
+    <path d="M148 136 C 163 154, 182 166, 204 169 C 226 171, 247 164, 267 146" stroke="#231a18" stroke-width="7" fill="none" stroke-linecap="round"/>
+    <circle cx="176" cy="120" r="7" fill="#241d1b"/>
+    <circle cx="224" cy="120" r="7" fill="#241d1b"/>
+    <path d="M182 148 Q 200 166 219 148" stroke="#a85f4d" stroke-width="6" fill="none" stroke-linecap="round"/>
+
+    <path d="M134 216 L 188 186 L 270 220 L 270 330 L 164 336 L 130 270 Z" fill="url(#shirtGrad)"/>
+    <path d="M172 220 L 130 286 L 95 287 L 85 325 L 116 325 L 142 286 L 172 286 Z" fill="#f0d395" opacity="0.95"/>
+    <path d="M214 220 L 268 286 L 305 282 L 318 325 L 272 325 L 246 286 L 214 286 Z" fill="#f0d395" opacity="0.95"/>
+
+    <path d="M132 272 L 100 370 L 70 470 L 110 470 L 135 336 L 160 470 L 203 470 L 175 356 Z" fill="#f1c599"/>
+    <path d="M270 272 L 300 370 L 332 470 L 294 470 L 268 336 L 242 470 L 196 470 L 225 356 Z" fill="#f1c599"/>
+
+    <path d="M70 470 L 110 470 L 98 590 L 46 590 Z" fill="#2b5a30"/>
+    <path d="M294 470 L 334 470 L 320 590 L 268 590 Z" fill="#2b5a30"/>
+
+    <path d="M166 336 L 138 580 L 180 580 L 206 336 Z" fill="#d9a77c"/>
+    <path d="M216 336 L 191 580 L 233 580 L 258 336 Z" fill="#d9a77c"/>
+
+    <path d="M120 580 L 148 620 L 108 662 L 90 633 Z" fill="#4d2d2d"/>
+    <path d="M270 580 L 241 620 L 282 662 L 300 633 Z" fill="#4d2d2d"/>
+  </g>
+
+  <g opacity="0.2">
+    <path d="M0 1010 C 240 975, 420 985, 640 1038 C 850 1088, 1065 1060, 1310 1010 C 1440 985, 1515 983, 1600 1015 L1600 1200 L0 1200 Z" fill="#1d5628"/>
+  </g>
+</svg>

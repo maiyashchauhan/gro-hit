@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Village Suggestion Box | Gro-Hit</title>
+  <meta name="theme-color" content="#1b5e20" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="i18n.js"></script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <a href="index.html" class="brand">
+        <img src="logo.png" alt="GROHIT Logo" class="brand-logo" width="48" height="48" />
+        <div class="brand-text">
+          <h1>GROHIT</h1>
+          <div class="tagline" data-i18n="header.tagline">Village Support & Suggestion Box (सुझाव पेटी)</div>
+        </div>
+      </a>
+
+      <div class="header-actions">
+        <div class="user-id-box">
+          <span>ID:</span>
+          <span id="showId">...</span>
+        </div>
+        <div id="langSwitcherContainer"></div>
+        <button id="openLoginBtn" class="header-btn" data-i18n="header.switchrole">Switch Role</button>
+        <a href="sos.html" class="header-btn sos-quick-btn" data-i18n="header.sos">🚨 SOS Emergency</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation -->
+  <nav class="nav-bar" aria-label="Main Navigation">
+    <div class="nav-grid">
+      <a class="nav-btn" href="index.html"><span class="nav-icon">🏠</span><div>Home</div><span class="nav-hindi">मुख्य</span></a>
+      <a class="nav-btn" href="schemes.html"><span class="nav-icon">📜</span><div>Schemes</div><span class="nav-hindi">योजनाएं</span></a>
+      <a class="nav-btn" href="gramconnect.html"><span class="nav-icon">🏛️</span><div>GramConnect</div><span class="nav-hindi">ग्राम कनेक्ट</span></a>
+      <a class="nav-btn" href="pardesh-setu.html"><span class="nav-icon">🤝</span><div>Pardesh Setu</div><span class="nav-hindi">परदेस सेतु</span></a>
+      <a class="nav-btn" href="report.html"><span class="nav-icon">📍</span><div>Report</div><span class="nav-hindi">शिकायत</span></a>
+      <a class="nav-btn" href="announcements.html"><span class="nav-icon">📣</span><div>Updates</div><span class="nav-hindi">सूचनाएं</span></a>
+      <a class="nav-btn" href="crop.html"><span class="nav-icon">🌾</span><div>Crop</div><span class="nav-hindi">फसल</span></a>
+      <a class="nav-btn" href="mandi.html"><span class="nav-icon">🧾</span><div>Mandi</div><span class="nav-hindi">मंडी भाव</span></a>
+      <a class="nav-btn" href="jobs.html"><span class="nav-icon">💼</span><div>Jobs</div><span class="nav-hindi">रोजगार</span></a>
+      <a class="nav-btn" href="radio.html"><span class="nav-icon">📻</span><div>Radio</div><span class="nav-hindi">रेडियो</span></a>
+      <a class="nav-btn" href="donation.html"><span class="nav-icon">🤝</span><div>Donate</div><span class="nav-hindi">मदद</span></a>
+      <a class="nav-btn active" href="suggestion.html"><span class="nav-icon">💡</span><div>Suggestions</div><span class="nav-hindi">सुझाव</span></a>
+      <a class="nav-btn admin-only" href="admin.html"><span class="nav-icon">🛠️</span><div>Admin</div><span class="nav-hindi">प्रशासन</span></a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="container">
+    <div class="page-header">
+      <div class="page-title">
+        <div class="title-icon">💡</div>
+        <div>
+          <h2>Panchayat Suggestion Box (सुझाव पेटी)</h2>
+          <p>Share your ideas for village development, youth sports, school facilities, and sanitation</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Suggestion Form -->
+    <section class="panel">
+      <div class="card-header">
+        <h3>💡 Submit an Idea / Development Suggestion</h3>
+      </div>
+
+      <form id="suggestionForm" class="form">
+        <div class="row" style="margin-top:0;">
+          <div class="form-group" style="flex:1; min-width:200px;">
+            <label>Your Name / नागरिक का नाम</label>
+            <input type="text" id="sugName" placeholder="e.g. Ramesh Kumar (or leave blank for Anonymous)" />
+          </div>
+          <div class="form-group" style="flex:1; min-width:160px;">
+            <label>Focus Area (क्षेत्र)</label>
+            <select id="sugCategory">
+              <option value="roads">🛣️ Roads, Drainage & Street Lights</option>
+              <option value="education">🏫 School, Anganwadi & Youth Sports</option>
+              <option value="water">💧 Drinking Water & Pond Conservation</option>
+              <option value="agriculture">🌾 Krishi Mandi & Storage Facilities</option>
+              <option value="health">🩺 Health Center & Cleanliness Drive</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Your Suggestion / आपका सुझाव *</label>
+          <textarea id="sugText" rows="3" placeholder="Describe how this idea will benefit our village..." required></textarea>
+        </div>
+
+        <button type="submit" class="btn primary">📨 Submit Suggestion to Panchayat</button>
+      </form>
+    </section>
+
+    <!-- Public Community Suggestions -->
+    <section class="panel">
+      <div class="card-header">
+        <h3>💬 Community Ideas & Suggestions (<span id="sugCount">0</span>)</h3>
+      </div>
+      <ul id="suggestionList" class="list"></ul>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <p>Gro-Hit Rural Support System &bull; Gram Panchayat & Health Network</p>
+    <p style="margin-top: 4px; font-size: 0.8rem; opacity: 0.85;">Every constructive idea helps build a stronger village community.</p>
+  </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const suggestionForm = document.getElementById("suggestionForm");
+      const suggestionList = document.getElementById("suggestionList");
+      const sugCount = document.getElementById("sugCount");
+      const sugName = document.getElementById("sugName");
+
+      sugName.value = GroHit.state.userName || "";
+
+      const defaultSuggestions = [
+        {
+          id: 1,
+          name: "Virender Singh (Youth Club)",
+          category: "🏫 School & Youth Sports",
+          text: "We should level the open ground behind the Panchayat Bhavan for volleyball and running practice for village youth preparing for army recruitment.",
+          date: "16 Aug 2026"
+        },
+        {
+          id: 2,
+          name: "Sunita Sharma",
+          category: "💧 Drinking Water & Pond",
+          text: "Installing tree guards around the village water pond will protect the newly planted neem and banyan saplings from grazing cattle.",
+          date: "12 Aug 2026"
+        }
+      ];
+
+      function getSuggestions() {
+        try {
+          return JSON.parse(localStorage.getItem("grohit_suggestions") || JSON.stringify(defaultSuggestions));
+        } catch {
+          return defaultSuggestions;
+        }
+      }
+
+      function renderSuggestions() {
+        const suggestions = getSuggestions();
+        sugCount.textContent = suggestions.length;
+        suggestionList.innerHTML = "";
+
+        suggestions.forEach(s => {
+          const li = document.createElement("li");
+          li.className = "item-card";
+          li.innerHTML = `
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <strong>${s.name || "Anonymous Citizen"}</strong>
+                <span class="status-badge" style="background:#e8f5e9; color:#1b5e20; margin-left:6px;">${s.category || 'General'}</span>
+              </div>
+              <button class="btn-delete btn-sm btn-del-sug">❌</button>
+            </div>
+            <p style="margin-top:8px; color:#2c3e2e; font-size:0.95rem; line-height:1.5;">${s.text}</p>
+            <div style="font-size:0.8rem; color:#6b7280; margin-top:4px;">Date: ${s.date || 'Recently'}</div>
+          `;
+
+          li.querySelector(".btn-del-sug").addEventListener("click", () => {
+            let updated = getSuggestions().filter(x => x.id !== s.id);
+            localStorage.setItem("grohit_suggestions", JSON.stringify(updated));
+            renderSuggestions();
+          });
+
+          suggestionList.appendChild(li);
+        });
+      }
+
+      suggestionForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const suggestions = getSuggestions();
+        const newSug = {
+          id: Date.now(),
+          name: sugName.value.trim() || "Anonymous Citizen",
+          category: document.getElementById("sugCategory").options[document.getElementById("sugCategory").selectedIndex].text,
+          text: document.getElementById("sugText").value.trim(),
+          date: new Date().toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })
+        };
+        suggestions.unshift(newSug);
+        localStorage.setItem("grohit_suggestions", JSON.stringify(suggestions));
+        GroHit.showToast("Suggestion submitted to Panchayat!");
+        suggestionForm.reset();
+        sugName.value = GroHit.state.userName || "";
+        renderSuggestions();
+      });
+
+      renderSuggestions();
+    });
+  </script>
+  <script src="ai-assistant.js"></script>
+</body>
+</html>
+
+

@@ -3,763 +3,244 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gro-Hit - Rural Empowerment Prototype</title>
+  <title>Gro-Hit | Rural Support & Village Portal</title>
   <meta name="theme-color" content="#1b5e20" />
   <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="styles.css" />
+  <script src="i18n.js"></script>
 </head>
 <body>
+  <!-- Header -->
   <header class="app-header">
-    <div class="brand">
-      <svg width="36" height="36" viewBox="0 0 24 24" aria-hidden="true">
-        <path fill="#fff" d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2Zm1 15h-2v-2h2Zm0-4h-2V7h2Z"/>
-      </svg>
-      <div>
-        <h1 id="appTitle" data-i18n="app_title">GROHIT</h1>
-        <div class="tagline" data-i18n="app_tagline">Grievance Reporting, Online Help, Information & Transparency</div>
+    <div class="header-container">
+      <a href="index.html" class="brand">
+        <img src="logo.png.png" alt="GROHIT Logo" class="brand-logo" width="48" height="48" />
+        <div class="brand-text">
+          <h1>GROHIT</h1>
+          <div class="tagline" data-i18n="header.tagline">Village Support & Panchayat Portal (ग्राम सेवा)</div>
+        </div>
+      </a>
+
+      <div class="header-actions">
+        <div class="user-id-box">
+          <span>ID:</span>
+          <span id="showId">...</span>
+        </div>
+        <div id="langSwitcherContainer"></div>
+        <button id="openLoginBtn" class="header-btn">Switch Role</button>
+        <a href="sos.html" class="header-btn sos-quick-btn" data-i18n="header.sos">🚨 SOS Emergency</a>
       </div>
-    </div>
-    <div class="header-actions">
-      <button id="langToggle" class="secondary" aria-label="Toggle Language">हिंदी / EN</button>
-      <button id="loginBtn" class="secondary" data-i18n="login">Login</button>
     </div>
   </header>
 
-  <nav class="nav-grid" aria-label="Main">
-    <button class="nav-btn" data-view="home">
-      <span>🏠</span>
-      <div data-i18n="home">Home</div>
-    </button>
-    <button class="nav-btn" data-view="report">
-      <span>📍</span>
-      <div data-i18n="report_issue">Report Issue</div>
-    </button>
-    <button class="nav-btn" data-view="announcements">
-      <span>📣</span>
-      <div data-i18n="announcements">Announcements</div>
-    </button>
-    <button class="nav-btn" data-view="jobs">
-      <span>💼</span>
-      <div data-i18n="jobs_training">Jobs & Training</div>
-    </button>
-    <button class="nav-btn" data-view="crop">
-      <span>🌾</span>
-      <div data-i18n="crop_scanner">Crop Scanner</div>
-    </button>
-    <button class="nav-btn" data-view="health">
-      <span>🩺</span>
-      <div data-i18n="health_assistant">Health Assistant</div>
-    </button>
-    <button class="nav-btn" data-view="mandi">
-      <span>🧾</span>
-      <div data-i18n="mandi_bulletin">Mandi</div>
-    </button>
-    <button class="nav-btn" data-view="radio">
-      <span>📻</span>
-      <div data-i18n="radio">Radio</div>
-    </button>
-    <button class="nav-btn" data-view="stories">
-      <span>🗣️</span>
-      <div data-i18n="stories">Stories</div>
-    </button>
-    <button class="nav-btn" data-view="sos">
-      <span>🚨</span>
-      <div data-i18n="one_tap_sos">One-Tap SOS</div>
-    </button>
-    <button class="nav-btn" data-view="needhelp">
-      <span>🤝</span>
-      <div data-i18n="need_help">Need Help</div>
-    </button>
-    <button class="nav-btn" data-view="donation">
-      <span>💰</span>
-      <div data-i18n="donation">Donation</div>
-    </button>
-    <button class="nav-btn" data-view="suggestion">
-      <span>💡</span>
-      <div data-i18n="suggestion_box">Suggestion Box</div>
-    </button>
-    <button class="nav-btn" data-view="schemes">
-      <span>📜</span>
-      <div data-i18n="govt_schemes">Govt Schemes</div>
-    </button>
-    <button class="nav-btn" data-view="admin">
-      <span>🛠️</span>
-      <div data-i18n="admin_panel">Admin</div>
-    </button>
+  <!-- Global Navigation -->
+  <nav class="nav-bar" aria-label="Main Navigation">
+    <div class="nav-grid">
+      <a class="nav-btn active" href="index.html"><span class="nav-icon">🏠</span><div data-i18n="nav.home">Home</div></a>
+      <a class="nav-btn" href="schemes.html"><span class="nav-icon">📜</span><div data-i18n="nav.schemes">Schemes</div></a>
+      <a class="nav-btn" href="gramconnect.html"><span class="nav-icon">🏛️</span><div data-i18n="nav.gramconnect">GramConnect</div></a>
+      <a class="nav-btn" href="pardesh-setu.html"><span class="nav-icon">🤝</span><div data-i18n="nav.setu">Pardesh Setu</div></a>
+      <a class="nav-btn" href="report.html"><span class="nav-icon">📍</span><div data-i18n="nav.report">Report</div></a>
+      <a class="nav-btn" href="announcements.html"><span class="nav-icon">📣</span><div data-i18n="nav.updates">Updates</div></a>
+      <a class="nav-btn" href="crop.html"><span class="nav-icon">🌾</span><div data-i18n="nav.crop">Crop</div></a>
+      <a class="nav-btn" href="mandi.html"><span class="nav-icon">🧾</span><div data-i18n="nav.mandi">Mandi</div></a>
+      <a class="nav-btn" href="jobs.html"><span class="nav-icon">💼</span><div data-i18n="nav.jobs">Jobs</div></a>
+      <a class="nav-btn" href="radio.html"><span class="nav-icon">📻</span><div data-i18n="nav.radio">Radio</div></a>
+      <a class="nav-btn" href="donation.html"><span class="nav-icon">🤝</span><div data-i18n="nav.donate">Donate</div></a>
+      <a class="nav-btn" href="suggestion.html"><span class="nav-icon">💡</span><div data-i18n="nav.suggestion">Suggestions</div></a>
+      <a class="nav-btn" href="admin.html"><span class="nav-icon">🛠️</span><div data-i18n="nav.admin">Admin</div></a>
+
+    </div>
   </nav>
 
-  <section id="statusBar" class="status-bar" role="status" aria-live="polite">
-    <span id="connStatus">Offline-ready</span>
-    <span>•</span>
-    <span id="userInfo" data-i18n="role_guest">Guest</span>
-  </section>
-
-  <main>
-    <!-- Home -->
-    <section id="view-home" class="view active">
-      <h2 data-i18n="welcome_header">Welcome to Gro-Hit</h2>
-      <p data-i18n="welcome_sub">Simple tools for villagers to report issues, find jobs and training, get health help, and receive Panchayat updates.</p>
-      <div class="cards">
-        <div class="card">
-          <h3>📍 <span data-i18n="geo_issue">Geo-Tagged Issue Reporting</span></h3>
-          <p data-i18n="geo_issue_desc">Report problems with photo, auto location, and track status.</p>
-        </div>
-        <div class="card">
-          <h3>📣 <span data-i18n="panchayat_updates">Panchayat Announcements</span></h3>
-          <p data-i18n="panchayat_updates_desc">Admins post text/audio/video. Villagers get alerts.</p>
-        </div>
-        <div class="card">
-          <h3>💼 <span data-i18n="jobs_training_card">Skill Training & Job Board</span></h3>
-          <p data-i18n="jobs_training_desc">Filter by age, gender, skill. Apply or bookmark.</p>
-        </div>
-        <div class="card">
-          <h3>🌾 <span data-i18n="crop_scanner_card">Crop Disease Scanner</span></h3>
-          <p data-i18n="crop_scanner_desc">Offline image queue. AI-like diagnosis.</p>
-        </div>
-        <div class="card">
-          <h3>🩺 <span data-i18n="health_ai_card">AI Health Assistant</span></h3>
-          <p data-i18n="health_ai_desc">Voice symptom checker with clinic suggestions.</p>
-        </div>
-        <div class="card">
-          <h3>🚨 <span data-i18n="sos_card">One-Tap SOS</span></h3>
-          <p data-i18n="sos_desc">Send SMS with location to saved contacts.</p>
-        </div>
-        <div class="card">
-          <h3>🤝 <span data-i18n="need_help">Need Help</span></h3>
-          <p data-i18n="need_help_desc">Request money or aid by describing your need.</p>
-        </div>
-        <div class="card">
-          <h3>💰 <span data-i18n="donation">Donation</span></h3>
-          <p data-i18n="donation_desc">Donate to those who need help in your community.</p>
-        </div>
-        <div class="card">
-          <h3>💡 <span data-i18n="suggestion_box">Suggestion Box</span></h3>
-          <p data-i18n="suggestion_box_desc">Share your ideas and suggestions to improve the community.</p>
-        </div>
-        <div class="card">
-          <h3>📜 <span data-i18n="govt_schemes">Government Schemes</span></h3>
-          <p data-i18n="govt_schemes_desc">View and learn about government welfare schemes available.</p>
-        </div>
-        <div class="card">
-          <h3>🧾 <span data-i18n="mandi_bulletin">Digital Mandi Bulletin</span></h3>
-          <p data-i18n="mandi_desc">Daily local crop price updates.</p>
-        </div>
-        <div class="card">
-          <h3>📻 <span data-i18n="radio">Community Radio</span></h3>
-          <p data-i18n="radio_desc">Stream local news and content.</p>
-        </div>
-        <div class="card">
-          <h3>🗣️ <span data-i18n="stories">Village Storytelling Archive</span></h3>
-          <p data-i18n="stories_desc">Record and share oral histories.</p>
-        </div>
-      </div>
-      <div class="demo">
-        <button id="runDemo" class="primary">▶ Demo Scenario</button>
-      </div>
-    </section>
-
-    <!-- Report Issue -->
-    <section id="view-report" class="view">
-      <h2>📍 <span data-i18n="report_issue">Report Issue</span></h2>
-      <form id="issueForm" class="form">
-        <label>
-          <span data-i18n="category">Category</span>
-          <select name="category" required>
-            <option value="water" data-i18n="cat_water">Water Supply</option>
-            <option value="road" data-i18n="cat_road">Road/Transport</option>
-            <option value="electricity" data-i18n="cat_electricity">Electricity</option>
-            <option value="health" data-i18n="cat_health">Health</option>
-            <option value="sanitation" data-i18n="cat_sanitation">Sanitation</option>
-            <option value="other" data-i18n="cat_other">Other</option>
-          </select>
-        </label>
-        <label>
-          <span data-i18n="title">Title</span>
-          <input type="text" name="title" placeholder="e.g., Broken water pump" required />
-        </label>
-        <label>
-          <span data-i18n="description">Description</span>
-          <textarea name="description" rows="3" placeholder="Write details..." required></textarea>
-        </label>
-        <label>
-          <span data-i18n="photo">Photo</span>
-          <input type="file" name="photo" accept="image/*;capture=camera" />
-        </label>
-        <div class="row">
-          <button type="button" id="getLocationBtn" class="secondary" data-i18n="get_location">Get Location</button>
-          <span id="locationDisplay" class="muted"></span>
-        </div>
-        <div class="row">
-          <button class="primary" type="submit" data-i18n="submit">Submit</button>
-          <button class="secondary" type="reset" data-i18n="reset">Reset</button>
-        </div>
-      </form>
-      <h3 data-i18n="my_issues">My Issues</h3>
-      <ul id="myIssues" class="list"></ul>
-      <h3 data-i18n="community_issues">Community Issues</h3>
-      <ul id="communityIssues" class="list"></ul>
-    </section>
-
-    <!-- Announcements -->
-    <section id="view-announcements" class="view">
-      <h2>📣 <span data-i18n="announcements">Announcements</span></h2>
-      <ul id="annList" class="list"></ul>
-    </section>
-
-    <!-- Jobs & Training -->
-    <section id="view-jobs" class="view">
-      <h2>💼 <span data-i18n="jobs_training">Jobs & Training</span></h2>
-      <form id="jobFilters" class="filters">
-        <label>
-          <span data-i18n="age">Age</span>
-          <input type="number" min="14" max="80" name="age" placeholder="e.g., 25" />
-        </label>
-        <label>
-          <span data-i18n="gender">Gender</span>
-          <select name="gender">
-            <option value="any" data-i18n="any">Any</option>
-            <option value="F" data-i18n="female">Female</option>
-            <option value="M" data-i18n="male">Male</option>
-            <option value="O" data-i18n="other">Other</option>
-          </select>
-        </label>
-        <label>
-          <span data-i18n="skill">Skill</span>
-          <input type="text" name="skill" placeholder="e.g., sewing, tractor" />
-        </label>
-        <button class="secondary" type="submit" data-i18n="apply_filters">Apply Filters</button>
-      </form>
-      <ul id="jobList" class="cards"></ul>
-
-      <details class="panel">
-        <summary>📝 <span data-i18n="seasonal_suggestion">Seasonal Suggestion Box</span></summary>
-        <form id="suggestForm" class="form">
-          <label>
-            <span data-i18n="your_name">Your Name</span>
-            <input type="text" name="name" />
-          </label>
-          <label>
-            <span data-i18n="season">Season</span>
-            <select name="season">
-              <option value="rabi">Rabi</option>
-              <option value="kharif">Kharif</option>
-              <option value="summer">Summer</option>
-            </select>
-          </label>
-          <label>
-            <span data-i18n="suggestion">Suggestion / Need</span>
-            <textarea name="text" rows="3"></textarea>
-          </label>
-          <button class="primary" type="submit" data-i18n="submit">Submit</button>
-        </form>
-        <ul id="suggestList" class="list"></ul>
-      </details>
-
-      <details class="panel">
-        <summary>🤖 <span data-i18n="ai_suggestion_angel">AI Suggestion Angel</span></summary>
-        <form id="angelForm" class="form">
-          <label>
-            <span data-i18n="age">Age</span>
-            <input type="number" name="age" min="1" max="100" />
-          </label>
-          <label>
-            <span data-i18n="caste">Caste</span>
-            <select name="caste">
-              <option value="GEN">GEN</option>
-              <option value="OBC">OBC</option>
-              <option value="SC">SC</option>
-              <option value="ST">ST</option>
-            </select>
-          </label>
-          <label>
-            <span data-i18n="income">Annual Income (₹)</span>
-            <input type="number" name="income" min="0" step="1000" />
-          </label>
-          <label>
-            <span data-i18n="location">Location</span>
-            <input type="text" name="location" placeholder="Village / Block" />
-          </label>
-          <button class="primary" type="submit" data-i18n="get_schemes">Get Schemes</button>
-        </form>
-        <div id="angelOutput" class="card"></div>
-      </details>
-    </section>
-
-    <!-- Mandi Bulletin -->
-    <section id="view-mandi" class="view">
-      <h2>🧾 <span data-i18n="mandi_bulletin">Digital Mandi Bulletin</span></h2>
-      <ul id="mandiList" class="list"></ul>
-      <details class="panel">
-        <summary>🛠️ <span data-i18n="manage_mandi">Manage Mandi Prices</span></summary>
-        <form id="mandiForm" class="form">
-          <label>
-            <span data-i18n="commodity">Commodity</span>
-            <input type="text" name="commodity" />
-          </label>
-          <label>
-            <span data-i18n="unit">Unit</span>
-            <input type="text" name="unit" placeholder="quintal / kg" />
-          </label>
-          <label>
-            <span data-i18n="price">Price (₹)</span>
-            <input type="number" name="price" min="0" step="1" />
-          </label>
-          <button class="primary" type="submit" data-i18n="add">Add</button>
-        </form>
-      </details>
-    </section>
-
-    <!-- Crop Scanner -->
-    <section id="view-crop" class="view">
-      <h2>🌾 <span data-i18n="crop_scanner">Crop Disease Scanner</span></h2>
-      <form id="cropForm" class="form">
-        <label>
-          <span data-i18n="plant_photo">Plant Photo</span>
-          <input type="file" name="photo" accept="image/*;capture=camera" />
-        </label>
-        <div class="row">
-          <button type="button" id="analyzeCropBtn" class="primary" data-i18n="analyze">Analyze</button>
-          <button type="button" id="queueCropBtn" class="secondary" data-i18n="queue_offline">Queue Offline</button>
-        </div>
-      </form>
-      <div id="cropResult" class="card"></div>
-      <h3 data-i18n="queued_scans">Queued Scans</h3>
-      <ul id="cropQueue" class="list"></ul>
-    </section>
-
-    <!-- Health Assistant -->
-    <section id="view-health" class="view">
-      <h2>🩺 <span data-i18n="health_assistant">Health Assistant</span></h2>
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Hero Box -->
+    <section class="hero-box">
+      <h2 data-i18n="home.welcome">Welcome to GroHit &bull; सशक्त गांव, समृद्ध भारत</h2>
+      <p data-i18n="home.subtitle">
+        Your all-in-one digital portal for village services — report issues directly to the Panchayat, view official health announcements, check real-time Mandi crop prices, scan crop diseases, and discover government welfare schemes.
+      </p>
       <div class="row">
-        <button id="startVoiceBtn" class="primary">🎤 <span data-i18n="start_voice">Start Voice</span></button>
-        <button id="stopVoiceBtn" class="secondary" disabled>■ <span data-i18n="stop">Stop</span></button>
+        <a href="report.html" class="btn primary" data-i18n="home.report_btn">📍 Report Village Problem (शिकायत करें)</a>
+        <a href="announcements.html" class="btn secondary" data-i18n="home.updates_btn">📣 View Updates (सूचनाएं देखें)</a>
+        <button id="voiceAssistBtn" class="btn secondary" data-i18n="home.voice_btn">🎤 Voice Help (आवाज़ में सुनें)</button>
       </div>
-      <label>
-        <span data-i18n="symptoms">Symptoms</span>
-        <textarea id="symptomText" rows="3" placeholder="e.g., fever, cough..."></textarea>
-      </label>
-      <div class="row">
-        <button id="checkSymptomsBtn" class="primary" data-i18n="check">Check</button>
+    </section>
+
+
+    <!-- Latest Announcements Ticker / Preview -->
+    <section class="panel" style="background:#fffcf2; border-color:#fcd34d;">
+      <div class="card-header" style="border-color:#fef3c7;">
+        <h3 style="color:#92400e;">📣 Latest Official Village Updates</h3>
+        <a href="announcements.html" style="font-size:0.9rem; color:#b45309;">View All &rarr;</a>
       </div>
-      <div id="healthAdvice" class="card"></div>
-      <h3 data-i18n="nearby_clinics">Nearby Clinics</h3>
-      <ul id="clinicList" class="list"></ul>
-
-      <details class="panel">
-        <summary>🏥 <span data-i18n="manage_clinics">Manage Clinics</span></summary>
-        <form id="clinicForm" class="form">
-          <label><span data-i18n="name">Name</span><input name="name" type="text"></label>
-          <label><span data-i18n="phone">Phone</span><input name="phone" type="text"></label>
-          <label><span data-i18n="address">Address</span><input name="address" type="text"></label>
-          <label><span data-i18n="timings">Timings</span><input name="timings" type="text" placeholder="9am-5pm"></label>
-          <label><span data-i18n="type">Type</span>
-            <select name="ctype"><option value="gov">Government</option><option value="private">Private</option></select>
-          </label>
-          <label><span data-i18n="affordability">Affordability (₹)</span><input name="cost" type="number" min="0"></label>
-          <button class="primary" type="submit" data-i18n="add">Add</button>
-        </form>
-      </details>
-
-      <details class="panel">
-        <summary>📞 <span data-i18n="telemedicine">Telemedicine</span></summary>
-        <form id="teleForm" class="form">
-          <label><span data-i18n="doctor_name">Doctor Name</span><input name="doc" type="text"></label>
-          <label><span data-i18n="phone">Phone</span><input name="phone" type="text"></label>
-          <label><span data-i18n="notes">Notes</span><textarea name="notes" rows="2"></textarea></label>
-          <button id="callDoctorBtn" class="primary" type="button" data-i18n="call_now">Call now</button>
-        </form>
-      </details>
-
-      <details class="panel">
-        <summary>📨 <span data-i18n="health_alerts">Health SMS Alerts</span></summary>
-        <form id="healthAlertForm" class="form">
-          <label><span data-i18n="message">Message</span><input name="message" type="text"></label>
-          <label><span data-i18n="contacts">Contacts (comma separated phone numbers)</span><input name="numbers" type="text"></label>
-          <button class="secondary" type="submit" data-i18n="prepare_sms">Prepare SMS</button>
-        </form>
-        <div id="healthAlertOutput" class="card"></div>
-      </details>
-    </section>
-
-    <!-- Radio -->
-    <section id="view-radio" class="view">
-      <h2>📻 <span data-i18n="radio">Community Radio</span></h2>
-      <audio id="radioPlayer" controls style="width:100%"></audio>
-      <details class="panel">
-        <summary>🛠️ <span data-i18n="manage_radio">Manage Radio Stream</span></summary>
-        <form id="radioForm" class="form">
-          <label><span data-i18n="stream_url">Stream URL</span><input name="url" type="text" placeholder="https://...mp3"></label>
-          <button class="primary" type="submit" data-i18n="save">Save</button>
-        </form>
-      </details>
-    </section>
-
-    <!-- Stories -->
-    <section id="view-stories" class="view">
-      <h2>🗣️ <span data-i18n="stories">Village Storytelling Archive</span></h2>
-      <form id="storyForm" class="form">
-        <label><span data-i18n="title">Title</span><input name="title" type="text" required></label>
-        <label><span data-i18n="your_name">Your Name</span><input name="name" type="text"></label>
-        <div class="row">
-          <button id="startRecBtn" class="primary" type="button">⏺️ <span data-i18n="start_recording">Start Recording</span></button>
-          <button id="stopRecBtn" class="secondary" type="button" disabled>⏹️ <span data-i18n="stop">Stop</span></button>
-          <button id="saveStoryBtn" class="secondary" type="button" disabled>💾 <span data-i18n="save">Save</span></button>
-        </div>
-        <audio id="storyPreview" controls style="width:100%"></audio>
-      </form>
-      <ul id="storyList" class="list"></ul>
-    </section>
-
-    <!-- SOS -->
-    <section id="view-sos" class="view">
-      <h2>🚨 <span data-i18n="one_tap_sos">One-Tap SOS</span></h2>
-      <p class="muted" data-i18n="sos_info">This will prepare an SMS with your location to your saved contacts.</p>
-      <label>
-        <span data-i18n="contacts">Contacts (comma separated phone numbers)</span>
-        <input type="text" id="sosContacts" placeholder="e.g., 9876543210, 9898989898" />
-      </label>
-      <div class="row">
-        <button id="sosBtn" class="danger">🚨 <span data-i18n="send_sos">Send SOS</span></button>
+      <div id="homeAnnPreview" style="display:grid; gap:10px;">
+        <!-- Injected by JS -->
       </div>
-      <div id="sosOutput" class="card"></div>
     </section>
 
-    <!-- Admin -->
-    <section id="view-admin" class="view">
-      <h2>🛠️ <span data-i18n="admin_panel">Admin Panel</span></h2>
-      <div class="notice" data-i18n="admin_note">Admin can post announcements and update issue status.</div>
+    <!-- Popular Services Grid -->
+    <section>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <h3 style="color:#1b5e20; font-size:1.4rem;">🌟 Village Essential Services</h3>
+        <span style="font-size:0.88rem; color:#4a5c4d;">Tap any service below</span>
+      </div>
 
-      <details class="panel">
-        <summary>📣 <span data-i18n="post_announcement">Post Announcement</span></summary>
-        <form id="annForm" class="form">
-          <label>
-            <span data-i18n="type">Type</span>
-            <select name="type">
-              <option value="text" data-i18n="text">Text</option>
-              <option value="audio" data-i18n="audio">Audio</option>
-              <option value="video" data-i18n="video">Video</option>
-            </select>
-          </label>
-          <label>
-            <span data-i18n="message">Message / URL</span>
-            <input type="text" name="message" placeholder="Text or media URL" />
-          </label>
-          <label>
-            <span data-i18n="upload_media">Upload Media (optional)</span>
-            <input type="file" name="media" accept="audio/*,video/*" />
-          </label>
-          <button class="primary" type="submit" data-i18n="publish">Publish</button>
-        </form>
-      </details>
+      <div class="services-grid">
+        <a class="service-card" href="report.html">
+          <div class="service-icon">📍</div>
+          <div>
+            <h4>Report Problem</h4>
+            <p>Report water, electricity, or road issues to Panchayat with photo & live tracking.</p>
+          </div>
+        </a>
 
-      <details class="panel">
-        <summary>📍 <span data-i18n="manage_issues">Manage Issues</span></summary>
-        <ul id="allIssues" class="list"></ul>
-      </details>
+        <a class="service-card" href="announcements.html">
+          <div class="service-icon">📣</div>
+          <div>
+            <h4>Village Notices</h4>
+            <p>Official announcements published by Panchayat Admin & Health Workers.</p>
+          </div>
+        </a>
 
-      <details class="panel">
-        <summary>💼 <span data-i18n="manage_jobs">Manage Jobs & Training</span></summary>
-        <form id="jobForm" class="form">
-          <label>
-            <span data-i18n="title">Title</span>
-            <input type="text" name="title" required />
-          </label>
-          <label>
-            <span data-i18n="kind">Kind</span>
-            <select name="kind">
-              <option value="job" data-i18n="job">Job</option>
-              <option value="training" data-i18n="training">Training</option>
-            </select>
-          </label>
-          <label>
-            <span data-i18n="location">Location</span>
-            <input type="text" name="location" />
-          </label>
-          <label>
-            <span data-i18n="age_range">Age Range</span>
-            <div class="row">
-              <input type="number" name="ageMin" min="14" max="80" placeholder="Min" />
-              <input type="number" name="ageMax" min="14" max="80" placeholder="Max" />
+        <a class="service-card" href="gramconnect.html" style="border: 2px solid #0284c7; background: #f0f9ff;">
+          <div class="service-icon" style="background:#e0f2fe; color:#0369a1;">🏛️</div>
+          <div>
+            <div style="display:flex; align-items:center; gap:6px;">
+              <h4 style="color:#0369a1;">GramConnect (Public Funds)</h4>
+              <span class="status-badge" style="background:#16a34a; color:#fff; font-size:0.7rem; padding:1px 6px;">NEW</span>
             </div>
-          </label>
-          <label>
-            <span data-i18n="genders">Genders</span>
-            <select name="genders" multiple>
-              <option value="F" data-i18n="female">Female</option>
-              <option value="M" data-i18n="male">Male</option>
-              <option value="O" data-i18n="other">Other</option>
-            </select>
-          </label>
-          <label>
-            <span data-i18n="skills">Skills (comma separated)</span>
-            <input type="text" name="skills" />
-          </label>
-          <label>
-            <span data-i18n="description">Description</span>
-            <textarea name="description" rows="3"></textarea>
-          </label>
-          <button class="primary" type="submit" data-i18n="add">Add</button>
-        </form>
-      </details>
+            <p>Real-time tracking of village project budgets, expenditure, before/after photos & citizen audits.</p>
+          </div>
+        </a>
 
-      <details class="panel">
-        <summary>🚨 <span data-i18n="emergency_alerts">Emergency Alert System</span></summary>
-        <form id="alertForm" class="form">
-          <label><span data-i18n="message">Message</span><input name="message" type="text" required></label>
-          <label><span data-i18n="contacts">Contacts (comma separated)</span><input name="numbers" type="text"></label>
-          <button class="secondary" type="submit" data-i18n="prepare_sms">Prepare SMS</button>
-        </form>
-        <div id="alertOutput" class="card"></div>
-      </details>
+        <a class="service-card" href="pardesh-setu.html" style="border: 2px solid #ea580c; background: #fff7ed;">
+          <div class="service-icon" style="background:#ffedd5; color:#c2410c;">🤝</div>
+          <div>
+            <div style="display:flex; align-items:center; gap:6px;">
+              <h4 style="color:#c2410c;">Pardesh Setu (Family Bridge)</h4>
+              <span class="status-badge" style="background:#ea580c; color:#fff; font-size:0.7rem; padding:1px 6px;">FAMILY</span>
+            </div>
+            <p>Connect migrant children with village parents. Manage healthcare, pensions, utility bills & video calls.</p>
+          </div>
+        </a>
+
+        <a class="service-card" href="crop.html">
+          <div class="service-icon">🌾</div>
+          <div>
+            <h4>Crop Scanner</h4>
+            <p>Diagnose plant diseases from leaf photos and get organic treatment advice.</p>
+          </div>
+        </a>
+
+        <a class="service-card" href="mandi.html">
+          <div class="service-icon">🧾</div>
+          <div>
+            <h4>Digital Mandi</h4>
+            <p>Live daily market rates for wheat, mustard, vegetables, milk, and pulses.</p>
+          </div>
+        </a>
+
+        <a class="service-card" href="schemes.html">
+          <div class="service-icon">📜</div>
+          <div>
+            <h4>Government Schemes</h4>
+            <p>PM-Kisan, Ayushman Bharat, PMAY Housing, PMFBY crop insurance, and KCC loans.</p>
+          </div>
+        </a>
+
+        <a class="service-card" href="jobs.html">
+          <div class="service-icon">💼</div>
+          <div>
+            <h4>Jobs & Training</h4>
+            <p>Local tractor, solar, dairy, and seasonal agricultural job opportunities.</p>
+          </div>
+        </a>
+
+        <a class="service-card" href="radio.html">
+          <div class="service-icon">📻</div>
+          <div>
+            <h4>Community Radio</h4>
+            <p>Listen to Krishi Vani broadcasts and record rural community stories.</p>
+          </div>
+        </a>
+
+        <a class="service-card" href="donation.html">
+          <div class="service-icon">🤝</div>
+          <div>
+            <h4>Mutual Aid & Donate</h4>
+            <p>Support fellow villagers in medical emergencies and community welfare.</p>
+          </div>
+        </a>
+
+        <a class="service-card" href="sos.html" style="border-color:#fca5a5; background:#fffbfb;">
+          <div class="service-icon" style="background:#fee2e2; color:#dc2626;">🚨</div>
+          <div>
+            <h4 style="color:#b91c1c;">One-Tap SOS</h4>
+            <p>Instant emergency GPS dispatch to 112, 108 Ambulance, Police, and family.</p>
+          </div>
+        </a>
+
+        <a class="service-card" href="suggestion.html">
+          <div class="service-icon">💡</div>
+          <div>
+            <h4>Suggestion Box</h4>
+            <p>Share improvement ideas directly with village leaders and development committee.</p>
+          </div>
+        </a>
+
+        <a class="service-card" href="admin.html" style="border-color:#81c784; background:#fafffa;">
+          <div class="service-icon" style="background:#e8f5e9; color:#1b5e20;">🛠️</div>
+          <div>
+            <h4>Admin Console</h4>
+            <p>Resolve citizen complaints, assign contractors, and post official updates.</p>
+          </div>
+        </a>
+      </div>
     </section>
-    <!-- Need Help -->
-<section id="view-needhelp" class="view">
-  <h2>🤝 <span data-i18n="need_help">Need Help</span></h2>
-  <form id="needHelpForm" class="form">
-    <label>
-      <span data-i18n="title">Title</span>
-      <input type="text" name="title" required />
-    </label>
-    <label>
-      <span data-i18n="description">Description</span>
-      <textarea name="description" rows="3" required></textarea>
-    </label>
-    <label>
-      <span data-i18n="amount">Amount Needed (₹)</span>
-      <input type="number" name="amount" min="1" required />
-    </label>
-    <button class="primary" type="submit" data-i18n="submit">Submit</button>
-  </form>
-  <h3 data-i18n="my_requests">My Requests</h3>
-  <ul id="myHelpRequests" class="list"></ul>
-</section>
-
-<!-- Donation -->
-<section id="view-donation" class="view">
-  <h2>💰 <span data-i18n="donation">Donation</span></h2>
-  <form id="donationForm" class="form">
-    <label>
-      <span data-i18n="select_request">Select Request</span>
-      <select name="requestId" required>
-        <option value="" disabled selected data-i18n="choose_request">Choose a request</option>
-      </select>
-    </label>
-    <label>
-      <span data-i18n="donation_amount">Donation Amount (₹)</span>
-      <input type="number" name="donationAmount" min="1" required />
-    </label>
-    <button class="primary" type="submit" data-i18n="donate">Donate</button>
-  </form>
-  <h3 data-i18n="donations_made">Donations Made</h3>
-  <ul id="donationList" class="list"></ul>
-</section>
-
-<!-- Suggestion Box -->
-<section id="view-suggestion" class="view">
-  <h2>💡 <span data-i18n="suggestion_box">Suggestion Box</span></h2>
-  <form id="suggestionForm" class="form">
-    <label>
-      <span data-i18n="your_name">Your Name</span>
-      <input type="text" name="name"/>
-    </label>
-    <label>
-      <span data-i18n="suggestion">Suggestion</span>
-      <textarea name="text" rows="3" required></textarea>
-    </label>
-    <button class="primary" type="submit" data-i18n="submit">Submit</button>
-  </form>
-  <h3 data-i18n="all_suggestions">All Suggestions</h3>
-  <ul id="suggestionList" class="list"></ul>
-</section>
-
-<!-- Government Schemes -->
-<section id="view-schemes" class="view">
-  <h2>📜 <span data-i18n="govt_schemes">Government Schemes</span></h2>
-  <details class="panel" id="schemeAdminPanel" style="display:none;">
-    <summary>🛠️ <span data-i18n="manage_schemes">Manage Schemes</span></summary>
-    <form id="schemeForm" class="form">
-      <label>
-        <span data-i18n="title">Title</span>
-        <input type="text" name="title" required />
-      </label>
-      <label>
-        <span data-i18n="description">Description</span>
-        <textarea name="description" rows="3"></textarea>
-      </label>
-      <label>
-        <span data-i18n="link">Link / URL</span>
-        <input type="url" name="link" />
-      </label>
-      <button class="primary" type="submit" data-i18n="add">Add</button>
-    </form>
-  </details>
-  <ul id="schemeList" class="list"></ul>
-</section>
-
-<!-- Other existing views (Report Issue, Announcements, Jobs, etc.) remain unchanged -->
-
   </main>
 
-  <!-- Login Modal -->
-  <dialog id="loginModal">
-    <form method="dialog" id="loginForm" class="form">
-      <h3 data-i18n="login">Login</h3>
-      <label>
-        <span data-i18n="role">Role</span>
-        <select name="role">
-          <option value="villager" data-i18n="villager">Villager</option>
-          <option value="admin" data-i18n="admin">Panchayat Admin</option>
-          <option value="health" data-i18n="health_worker">Health Worker</option>
-        </select>
-      </label>
-      <label>
-        <span data-i18n="phone_email">Phone or Email</span>
-        <input type="text" name="id" required />
-      </label>
-      <div class="row">
-        <button id="mockFingerprint" class="secondary" type="button">👍 <span data-i18n="thumbprint">Thumbprint</span></button>
-        <span class="muted" data-i18n="thumbprint_mock">(Mocked)</span>
-      </div>
-      <details class="panel">
-        <summary>🆔 <span data-i18n="village_id">Village ID</span></summary>
-        <div class="row">
-          <button id="genIdBtn" class="secondary" type="button" data-i18n="generate_id">Generate Secure ID</button>
-          <button id="showQrBtn" class="secondary" type="button" data-i18n="show_qr">Show QR</button>
-        </div>
-        <canvas id="idQrCanvas" width="200" height="200" style="display:none;border-radius:8px;background:#fff"></canvas>
-        <div id="idText" class="muted" style="word-break:break-all"></div>
-      </details>
-      <div class="row">
-        <button value="cancel" class="secondary" data-i18n="cancel">Cancel</button>
-        <button value="login" class="primary" data-i18n="login">Login</button>
-      </div>
-    </form>
-  </dialog>
+  <!-- Footer -->
+  <footer class="app-footer">
+    <p>Gro-Hit Rural Support Platform &bull; Made for Indian Villages (आत्मनिर्भर ग्राम)</p>
+    <p style="margin-top: 4px; font-size: 0.8rem; opacity: 0.85;">
+      Offline-Ready PWA &bull; Voice-Assisted &bull; Accessible
+    </p>
+  </footer>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-  <script defer src="app.js"></script>
+  <script src="app.js"></script>
+  <script src="ai-assistant.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Load top 2 announcements on homepage
+      const homeAnnPreview = document.getElementById("homeAnnPreview");
+      const announcements = GroHit.getAnnouncements();
+
+      if (announcements.length === 0) {
+        homeAnnPreview.innerHTML = `<p style="color:#78350f;">No active notices today.</p>`;
+      } else {
+        homeAnnPreview.innerHTML = "";
+        announcements.slice(0, 2).forEach(a => {
+          const item = document.createElement("div");
+          item.style.padding = "10px 14px";
+          item.style.background = "#fff";
+          item.style.borderRadius = "8px";
+          item.style.border = "1px solid #fde68a";
+          item.innerHTML = `
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <strong style="color:#1b5e20;">${a.title}</strong>
+              <span style="font-size:0.8rem; color:#92400e;">${a.date || "Today"}</span>
+            </div>
+            <p style="font-size:0.9rem; color:#4a5c4d; margin-top:2px;">${a.details.substring(0, 110)}...</p>
+          `;
+          homeAnnPreview.appendChild(item);
+        });
+      }
+    });
+  </script>
 </body>
 </html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gro-Hit - Rural Empowerment Prototype</title>
-  <meta name="theme-color" content="#1b5e20" />
-  <link rel="manifest" href="manifest.json" />
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
-  <!-- ...header and nav unchanged... -->
 
-  <main>
-    <!-- Suggestion Box -->
-    <section id="view-suggestion" class="view">
-      <h2>💡 Suggestion Box</h2>
-      <form id="suggestionForm" class="form">
-        <label>
-          <span>Your Name</span>
-          <input type="text" name="name"/>
-        </label>
-        <label>
-          <span>Suggestion</span>
-          <textarea name="text" rows="3" required></textarea>
-        </label>
-        <button class="primary" type="submit">Submit</button>
-      </form>
-      <h3>All Suggestions</h3>
-      <ul id="suggestionList" class="list"></ul>
-    </section>
-
-    <!-- Need Help -->
-    <section id="view-needhelp" class="view">
-      <h2>🤝 Need Help</h2>
-      <form id="needHelpForm" class="form">
-        <label>
-          <span>Title</span>
-          <input type="text" name="title" required />
-        </label>
-        <label>
-          <span>Description</span>
-          <textarea name="description" rows="3" required></textarea>
-        </label>
-        <label>
-          <span>Amount Needed (₹)</span>
-          <input type="number" name="amount" min="1" required />
-        </label>
-        <button class="primary" type="submit">Submit</button>
-      </form>
-      <h3>My Requests</h3>
-      <ul id="myHelpRequests" class="list"></ul>
-    </section>
-
-    <!-- Donation -->
-    <section id="view-donation" class="view">
-      <h2>💰 Donation</h2>
-      <form id="donationForm" class="form">
-        <label>
-          <span>Select Request</span>
-          <select name="requestId" required>
-            <option value="" disabled selected>Choose a request</option>
-            <!-- Populated from Need Help requests -->
-          </select>
-        </label>
-        <label>
-          <span>Donation Amount (₹)</span>
-          <input type="number" name="donationAmount" min="1" required />
-        </label>
-        <button class="primary" type="submit">Donate</button>
-      </form>
-      <h3>Donations Made</h3>
-      <ul id="donationList" class="list"></ul>
-    </section>
-
-    <!-- Government Schemes (view only for users) -->
-    <section id="view-schemes" class="view">
-      <h2>📜 Government Schemes</h2>
-      <ul id="schemeList" class="list"></ul>
-    </section>
-
-    <!-- Admin Panel -->
-    <section id="view-admin" class="view">
-      <h2>🛠️ Admin Panel</h2>
-      <!-- Suggestions Management -->
-      <details class="panel">
-        <summary>💡 View Suggestions</summary>
-        <ul id="adminSuggestionList" class="list"></ul>
-      </details>
-      <!-- Need Help Management (optional, for review) -->
-      <details class="panel">
-        <summary>🤝 View Help Requests</summary>
-        <ul id="adminHelpList" class="list"></ul>
-      </details>
-      <!-- Government Schemes Management -->
-      <details class="panel">
-        <summary>📜 Manage Government Schemes</summary>
-        <form id="schemeForm" class="form">
-          <label>
-            <span>Title</span>
-            <input type="text" name="title" required />
-          </label>
-          <label>
-            <span>Description</span>
-            <textarea name="description" rows="3"></textarea>
-          </label>
-          <label>
-            <span>Link / URL</span>
-            <input type="url" name="link" />
-          </label>
-          <button class="primary" type="submit">Add</button>
-        </form>
-        <ul id="adminSchemeList" class="list"></ul>
-      </details>
-      <!-- ...other admin features... -->
-    </section>
-  </main>
-
-  <!-- ...login modal, toast, scripts... -->
-  <script defer src="app.js"></script>
-</body>
-</html>

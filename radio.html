@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Community Radio & Stories | Gro-Hit</title>
+  <meta name="theme-color" content="#1b5e20" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="i18n.js"></script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <a href="index.html" class="brand">
+        <img src="logo.png" alt="GROHIT Logo" class="brand-logo" width="48" height="48" />
+        <div class="brand-text">
+          <h1>GROHIT</h1>
+          <div class="tagline" data-i18n="header.tagline">Village Support & Culture Portal (सामुदायिक रेडियो)</div>
+        </div>
+      </a>
+
+      <div class="header-actions">
+        <div class="user-id-box">
+          <span>ID:</span>
+          <span id="showId">...</span>
+        </div>
+        <div id="langSwitcherContainer"></div>
+        <button id="openLoginBtn" class="header-btn" data-i18n="header.switchrole">Switch Role</button>
+        <a href="sos.html" class="header-btn sos-quick-btn" data-i18n="header.sos">🚨 SOS Emergency</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation -->
+  <nav class="nav-bar" aria-label="Main Navigation">
+    <div class="nav-grid">
+      <a class="nav-btn" href="index.html"><span class="nav-icon">🏠</span><div>Home</div><span class="nav-hindi">मुख्य</span></a>
+      <a class="nav-btn" href="schemes.html"><span class="nav-icon">📜</span><div>Schemes</div><span class="nav-hindi">योजनाएं</span></a>
+      <a class="nav-btn" href="gramconnect.html"><span class="nav-icon">🏛️</span><div>GramConnect</div><span class="nav-hindi">ग्राम कनेक्ट</span></a>
+      <a class="nav-btn" href="pardesh-setu.html"><span class="nav-icon">🤝</span><div>Pardesh Setu</div><span class="nav-hindi">परदेस सेतु</span></a>
+      <a class="nav-btn" href="report.html"><span class="nav-icon">📍</span><div>Report</div><span class="nav-hindi">शिकायत</span></a>
+      <a class="nav-btn" href="announcements.html"><span class="nav-icon">📣</span><div>Updates</div><span class="nav-hindi">सूचनाएं</span></a>
+      <a class="nav-btn" href="crop.html"><span class="nav-icon">🌾</span><div>Crop</div><span class="nav-hindi">फसल</span></a>
+      <a class="nav-btn" href="mandi.html"><span class="nav-icon">🧾</span><div>Mandi</div><span class="nav-hindi">मंडी भाव</span></a>
+      <a class="nav-btn" href="jobs.html"><span class="nav-icon">💼</span><div>Jobs</div><span class="nav-hindi">रोजगार</span></a>
+      <a class="nav-btn active" href="radio.html"><span class="nav-icon">📻</span><div>Radio</div><span class="nav-hindi">रेडियो</span></a>
+      <a class="nav-btn" href="donation.html"><span class="nav-icon">🤝</span><div>Donate</div><span class="nav-hindi">मदद</span></a>
+      <a class="nav-btn" href="suggestion.html"><span class="nav-icon">💡</span><div>Suggestions</div><span class="nav-hindi">सुझाव</span></a>
+      <a class="nav-btn admin-only" href="admin.html"><span class="nav-icon">🛠️</span><div>Admin</div><span class="nav-hindi">प्रशासन</span></a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="container">
+    <div class="page-header">
+      <div class="page-title">
+        <div class="title-icon">📻</div>
+        <div>
+          <h2>Community Radio & Village Stories (सामुदायिक रेडियो)</h2>
+          <p>Listen to agricultural bulletins, local folklore, and preserve village voices</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Radio Stream Player -->
+    <section class="panel">
+      <div class="card-header">
+        <h3>📻 Live Agricultural Radio & Audio Bulletins</h3>
+      </div>
+
+      <div style="background:#f1f8e9; border:2px solid #81c784; border-radius:12px; padding:18px; margin-bottom:16px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+          <div>
+            <strong style="color:#1b5e20; font-size:1.15rem;" id="currentRadioStation">AIR Kisan Vani - Krishi Darshan</strong>
+            <p style="color:#4a5c4d; font-size:0.9rem; margin-top:2px;">Daily crop advisory, weather forecast & rural music</p>
+          </div>
+          <span class="status-badge" style="background:#dcfce7; color:#15803d; font-weight:bold;">🔴 ON AIR</span>
+        </div>
+
+        <audio id="radioPlayer" controls style="margin-top:14px;">
+          <source src="https://stream.zeno.fm/f3wvbbqmdg8uv" type="audio/mpeg" />
+          Your browser does not support audio stream.
+        </audio>
+      </div>
+
+      <div class="row" style="margin-top:0;">
+        <button type="button" class="btn secondary btn-sm channel-btn" data-url="https://stream.zeno.fm/f3wvbbqmdg8uv" data-name="AIR Kisan Vani (कृषि वाणी)">📻 Kisan Vani</button>
+        <button type="button" class="btn secondary btn-sm channel-btn" data-url="https://stream.zeno.fm/4v70h9g90v8uv" data-name="Gramin Lok Sangeet (लोक संगीत)">🎵 Rural Folk Music</button>
+        <button type="button" class="btn secondary btn-sm channel-btn" data-url="https://stream.zeno.fm/0r0xa792kwzuv" data-name="Panchayat Samachar (समाचार)">📰 Daily News</button>
+      </div>
+    </section>
+
+    <!-- Village Storytelling Archive & Recorder -->
+    <section id="stories" class="panel">
+      <div class="card-header">
+        <h3>🗣️ Record & Share a Village Story (अपनी कहानी सुनाएं)</h3>
+      </div>
+
+      <form id="storyForm" class="form">
+        <div class="row" style="margin-top:0;">
+          <div class="form-group" style="flex:1; min-width:200px;">
+            <label>Story Title / कहानी का शीर्षक *</label>
+            <input type="text" id="storyTitle" placeholder="e.g. Village History of 1970, Organic Farming Success" required />
+          </div>
+          <div class="form-group" style="flex:1; min-width:160px;">
+            <label>Storyteller Name / वक्ता का नाम</label>
+            <input type="text" id="storyName" placeholder="e.g. Baba Hariram / Sarla Devi" required />
+          </div>
+        </div>
+
+        <!-- Voice Recorder -->
+        <div style="background:#f8faf5; border:1.5px solid #d0ded0; border-radius:8px; padding:14px; margin-bottom:14px;">
+          <label style="margin-bottom:8px;">Voice Recording / आवाज़ रिकॉर्ड करें:</label>
+          <div class="row" style="margin-top:0;">
+            <button id="startRecBtn" class="btn primary" type="button">⏺️ Start Recording (रिकॉर्ड करें)</button>
+            <button id="stopRecBtn" class="btn btn-danger" type="button" disabled>⏹️ Stop Recording</button>
+            <span id="recStatus" style="font-size:0.9rem; color:#dc2626; font-weight:bold;"></span>
+          </div>
+          <audio id="storyPreview" controls style="display:none; margin-top:12px;"></audio>
+        </div>
+
+        <div class="form-group">
+          <label>Or Upload Video / फ़ोटो क्लिप <span class="hint">(Optional)</span></label>
+          <input type="file" id="videoUpload" accept="video/*" />
+          <video id="videoPreview" controls style="display:none; margin-top:10px; max-width:320px;"></video>
+        </div>
+
+        <div class="row">
+          <button id="saveStoryBtn" class="btn primary" type="submit">💾 Save Story to Village Archive</button>
+        </div>
+      </form>
+
+      <h4 style="margin: 24px 0 12px; color:#1b5e20;">📚 Community Story Archive (<span id="storyCount">0</span>)</h4>
+      <ul id="storyList" class="list"></ul>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <p>Gro-Hit Rural Support System &bull; Gram Panchayat & Health Network</p>
+    <p style="margin-top: 4px; font-size: 0.8rem; opacity: 0.85;">Preserving rural wisdom, local folklore, and farming traditions.</p>
+  </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const radioPlayer = document.getElementById("radioPlayer");
+      const currentRadioStation = document.getElementById("currentRadioStation");
+      const channelBtns = document.querySelectorAll(".channel-btn");
+
+      channelBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+          radioPlayer.src = btn.dataset.url;
+          currentRadioStation.textContent = btn.dataset.name;
+          radioPlayer.play();
+          GroHit.showToast("Tuned into " + btn.dataset.name);
+        });
+      });
+
+      // Story Recorder Logic
+      const startRecBtn = document.getElementById("startRecBtn");
+      const stopRecBtn = document.getElementById("stopRecBtn");
+      const recStatus = document.getElementById("recStatus");
+      const storyPreview = document.getElementById("storyPreview");
+      const videoUpload = document.getElementById("videoUpload");
+      const videoPreview = document.getElementById("videoPreview");
+      const storyForm = document.getElementById("storyForm");
+      const storyList = document.getElementById("storyList");
+      const storyCount = document.getElementById("storyCount");
+      const storyName = document.getElementById("storyName");
+
+      storyName.value = GroHit.state.userName || "Village Citizen";
+
+      let mediaRecorder;
+      let audioChunks = [];
+      let recordedAudioUrl = "";
+
+      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        startRecBtn.addEventListener("click", async () => {
+          try {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            mediaRecorder = new MediaRecorder(stream);
+            audioChunks = [];
+
+            mediaRecorder.ondataavailable = (e) => {
+              if (e.data.size > 0) audioChunks.push(e.data);
+            };
+
+            mediaRecorder.onstop = () => {
+              const audioBlob = new Blob(audioChunks, { type: "audio/webm" });
+              const reader = new FileReader();
+              reader.onloadend = () => {
+                recordedAudioUrl = reader.result;
+                storyPreview.src = recordedAudioUrl;
+                storyPreview.style.display = "block";
+              };
+              reader.readAsDataURL(audioBlob);
+              recStatus.textContent = "✅ Recording captured!";
+            };
+
+            mediaRecorder.start();
+            startRecBtn.disabled = true;
+            stopRecBtn.disabled = false;
+            recStatus.textContent = "🔴 Recording live... speak now";
+            GroHit.showToast("Recording started...");
+          } catch (err) {
+            alert("Microphone permission required for audio recording.");
+          }
+        });
+
+        stopRecBtn.addEventListener("click", () => {
+          if (mediaRecorder && mediaRecorder.state !== "inactive") {
+            mediaRecorder.stop();
+            startRecBtn.disabled = false;
+            stopRecBtn.disabled = true;
+          }
+        });
+      } else {
+        startRecBtn.disabled = true;
+        recStatus.textContent = "Voice recording not supported in this browser.";
+      }
+
+      // Video Preview
+      videoUpload.addEventListener("change", () => {
+        const file = videoUpload.files[0];
+        if (file) {
+          videoPreview.src = URL.createObjectURL(file);
+          videoPreview.style.display = "block";
+        }
+      });
+
+      // Default seed stories
+      const defaultStories = [
+        {
+          id: 1,
+          title: "How our village built the rainwater pond in 1995",
+          author: "Pandit Ramswaroop (Elder)",
+          date: "14 Aug 2026",
+          text: "When drought struck in the 90s, the entire Gram Sabha united and dug the community talab without machines. That pond still irrigates 150 bigha land today."
+        },
+        {
+          id: 2,
+          title: "Switching 5 acres to natural zero-budget farming",
+          author: "Rajender Yadav (Progressive Farmer)",
+          date: "10 Aug 2026",
+          text: "Using Jeevamrut and multi-cropping reduced my input cost by 60% while soil fertility increased noticeably."
+        }
+      ];
+
+      function getStories() {
+        try {
+          return JSON.parse(localStorage.getItem("grohit_stories") || JSON.stringify(defaultStories));
+        } catch {
+          return defaultStories;
+        }
+      }
+
+      function renderStories() {
+        const stories = getStories();
+        storyCount.textContent = stories.length;
+        storyList.innerHTML = "";
+        stories.forEach(s => {
+          const li = document.createElement("li");
+          li.className = "item-card";
+
+          let mediaHtml = "";
+          if (s.audio) {
+            mediaHtml += `<audio controls src="${s.audio}" style="margin-top:10px;"></audio>`;
+          }
+
+          li.innerHTML = `
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <h4 style="color:#1b5e20; font-size:1.15rem; margin:0;">${s.title}</h4>
+              <button class="btn-delete btn-sm btn-del-story">❌</button>
+            </div>
+            <div style="font-size:0.85rem; color:#6b7280; margin:4px 0 8px;">Narrated by: <strong>${s.author}</strong> &bull; ${s.date || 'Recently'}</div>
+            <p style="color:#2c3e2e; font-size:0.95rem; line-height:1.5;">${s.text || ''}</p>
+            ${mediaHtml}
+          `;
+
+          li.querySelector(".btn-del-story").addEventListener("click", () => {
+            let arr = getStories().filter(x => x.id !== s.id);
+            localStorage.setItem("grohit_stories", JSON.stringify(arr));
+            renderStories();
+          });
+
+          storyList.appendChild(li);
+        });
+      }
+
+      storyForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const stories = getStories();
+        const newS = {
+          id: Date.now(),
+          title: document.getElementById("storyTitle").value.trim(),
+          author: storyName.value.trim() || "Anonymous",
+          text: "Audio narrative archived by community member.",
+          audio: recordedAudioUrl,
+          date: new Date().toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })
+        };
+        stories.unshift(newS);
+        localStorage.setItem("grohit_stories", JSON.stringify(stories));
+        GroHit.showToast("Story preserved in village archive! 📚");
+        storyForm.reset();
+        storyPreview.style.display = "none";
+        recordedAudioUrl = "";
+        recStatus.textContent = "";
+        renderStories();
+      });
+
+      renderStories();
+    });
+  </script>
+  <script src="ai-assistant.js"></script>
+</body>
+</html>
+
+
