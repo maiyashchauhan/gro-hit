@@ -1,13 +1,15 @@
 // =============================================================
 // GRO-HIT — Floating AI Assistant Widget v3
-// Smart 3-tier: Backend → Gemini Direct → Rich Offline Fallback
+// Smart 3-tier: Backend AI → Optional Client Key → Rich Offline Fallback
 // =============================================================
 
 const GroHitAI = {
   API_BASE: (typeof window !== "undefined" && window.location.port === "5000") ? "/api" : "http://localhost:5000/api",
 
-  // ─── Direct Browser Gemini AI Key ────────────────────────
-  GEMINI_API_KEY: """",
+  // ─── AI Configuration ─────────────────────────────────────
+  // Sensitive API keys are managed exclusively on the backend (backend/.env)
+  // to avoid exposing credentials in client-side code.
+  GEMINI_API_KEY: "",
   GEMINI_URL: "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent",
 
   isOpen: false,
@@ -213,12 +215,16 @@ const GroHitAI = {
     }
   },
 
-  // ─── Tier 2: Gemini API directly from browser ─────────────
+  // ─── Tier 2: Direct browser call (only if runtime key provided) ─
   async tryGeminiDirect(message, lang) {
     try {
-      const key = this.GEMINI_API_KEY;
+      // Sensitive keys must never be hardcoded into frontend scripts.
+      // If a session key is explicitly injected via window.GROHIT_GEMINI_KEY or localStorage, use it.
+      const key = (typeof window !== "undefined" && window.GROHIT_GEMINI_KEY) || 
+                  (typeof localStorage !== "undefined" && localStorage.getItem("grohit_gemini_api_key")) || 
+                  this.GEMINI_API_KEY;
       if (!key || key.includes("Demo-replace") || key === "your_gemini_api_key_here") {
-        return null; // no key configured
+        return null; // no direct client key configured — proceed safely
       }
 
       const langNames = {

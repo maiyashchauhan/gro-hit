@@ -25,9 +25,9 @@ Open `index.html` in your browser (or serve via any local HTTP server / Live Ser
 
 ## 🔑 Add Gemini API Key (for full AI)
 
-1. Get free key from: https://aistudio.google.com/app/apikey
+1. Get a free key from: https://aistudio.google.com/app/apikey
 2. Edit `backend/.env`:
-   ```
+   ```env
    GEMINI_API_KEY=your_actual_key_here
    ```
 3. Restart the backend
