@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gro-Hit | Rural Support & Village Portal</title>
+  <meta name="theme-color" content="#1b5e20" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="i18n.js"></script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <a href="index.html" class="brand">
+        <img src="logo.png.png" alt="GROHIT Logo" class="brand-logo" width="48" height="48" />
+        <div class="brand-text">
+          <h1>GROHIT</h1>
+          <div class="tagline" data-i18n="header.tagline">Village Support & Panchayat Portal (ग्राम सेवा)</div>
+        </div>
+      </a>
+
+      <div class="header-actions">
+        <div class="user-id-box">
+          <span>ID:</span>
+          <span id="showId">...</span>
+        </div>
+        <div id="langSwitcherContainer"></div>
+        <button id="openLoginBtn" class="header-btn">Switch Role</button>
+        <a href="sos.html" class="header-btn sos-quick-btn" data-i18n="header.sos">🚨 SOS Emergency</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Global Navigation -->
+  <nav class="nav-bar" aria-label="Main Navigation">
+    <div class="nav-grid">
+      <a class="nav-btn active" href="index.html"><span class="nav-icon">🏠</span><div data-i18n="nav.home">Home</div></a>
+      <a class="nav-btn" href="schemes.html"><span class="nav-icon">📜</span><div data-i18n="nav.schemes">Schemes</div></a>
+      <a class="nav-btn" href="gramconnect.html"><span class="nav-icon">🏛️</span><div data-i18n="nav.gramconnect">GramConnect</div></a>
+      <a class="nav-btn" href="pardesh-setu.html"><span class="nav-icon">🤝</span><div data-i18n="nav.setu">Pardesh Setu</div></a>
+      <a class="nav-btn" href="report.html"><span class="nav-icon">📍</span><div data-i18n="nav.report">Report</div></a>
+      <a class="nav-btn" href="announcements.html"><span class="nav-icon">📣</span><div data-i18n="nav.updates">Updates</div></a>
+      <a class="nav-btn" href="crop.html"><span class="nav-icon">🌾</span><div data-i18n="nav.crop">Crop</div></a>
+      <a class="nav-btn" href="mandi.html"><span class="nav-icon">🧾</span><div data-i18n="nav.mandi">Mandi</div></a>
+      <a class="nav-btn" href="jobs.html"><span class="nav-icon">💼</span><div data-i18n="nav.jobs">Jobs</div></a>
+      <a class="nav-btn" href="radio.html"><span class="nav-icon">📻</span><div data-i18n="nav.radio">Radio</div></a>
+      <a class="nav-btn" href="donation.html"><span class="nav-icon">🤝</span><div data-i18n="nav.donate">Donate</div></a>
+      <a class="nav-btn" href="suggestion.html"><span class="nav-icon">💡</span><div data-i18n="nav.suggestion">Suggestions</div></a>
+      <a class="nav-btn" href="admin.html"><span class="nav-icon">🛠️</span><div data-i18n="nav.admin">Admin</div></a>
+
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Hero Box -->
+    <section class="hero-box">
+      <h2 data-i18n="home.welcome">Welcome to GroHit &bull; सशक्त गांव, समृद्ध भारत</h2>
+      <p data-i18n="home.subtitle">
+        Your all-in-one digital portal for village services — report issues directly to the Panchayat, view official health announcements, check real-time Mandi crop prices, scan crop diseases, and discover government welfare schemes.
+      </p>
+      <div class="row">
+        <a href="report.html" class="btn primary" data-i18n="home.report_btn">📍 Report Village Problem (शिकायत करें)</a>
+        <a href="announcements.html" class="btn secondary" data-i18n="home.updates_btn">📣 View Updates (सूचनाएं देखें)</a>
+        <button id="voiceAssistBtn" class="btn secondary" data-i18n="home.voice_btn">🎤 Voice Help (आवाज़ में सुनें)</button>
+      </div>
+    </section>
+
+
+    <!-- Latest Announcements Ticker / Preview -->
+    <section class="panel" style="background:#fffcf2; border-color:#fcd34d;">
+      <div class="card-header" style="border-color:#fef3c7;">
+        <h3 style="color:#92400e;">📣 Latest Official Village Updates</h3>
+        <a href="announcements.html" style="font-size:0.9rem; color:#b45309;">View All &rarr;</a>
+      </div>
+      <div id="homeAnnPreview" style="display:grid; gap:10px;">
+        <!-- Injected by JS -->
+      </div>
+    </section>
+
+    <!-- Popular Services Grid -->
+    <section>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <h3 style="color:#1b5e20; font-size:1.4rem;">🌟 Village Essential Services</h3>
+        <span style="font-size:0.88rem; color:#4a5c4d;">Tap any service below</span>
+      </div>
+
+      <div class="services-grid">
+        <a class="service-card" href="report.html">
+          <div class="service-icon">📍</div>
+          <div>
+            <h4>Report Problem</h4>
+            <p>Report water, electricity, or road issues to Panchayat with photo & live tracking.</p>
+          </div>
+        </a>
+
+        <a class="service-card" href="announcements.html">
+          <div class="service-icon">📣</div>
+          <div>
+            <h4>Village Notices</h4>
+            <p>Official announcements published by Panchayat Admin & Health Workers.</p>
+          </div>
+        </a>
+
+        <a class="service-card" href="gramconnect.html" style="border: 2px solid #0284c7; background: #f0f9ff;">
+          <div class="service-icon" style="background:#e0f2fe; color:#0369a1;">🏛️</div>
+          <div>
+            <div style="display:flex; align-items:center; gap:6px;">
+              <h4 style="color:#0369a1;">GramConnect (Public Funds)</h4>
+              <span class="status-badge" style="background:#16a34a; color:#fff; font-size:0.7rem; padding:1px 6px;">NEW</span>
+            </div>
+            <p>Real-time tracking of village project budgets, expenditure, before/after photos & citizen audits.</p>
+          </div>
+        </a>
+
+        <a class="service-card" href="pardesh-setu.html" style="border: 2px solid #ea580c; background: #fff7ed;">
+          <div class="service-icon" style="background:#ffedd5; color:#c2410c;">🤝</div>
+          <div>
+            <div style="display:flex; align-items:center; gap:6px;">
+              <h4 style="color:#c2410c;">Pardesh Setu (Family Bridge)</h4>
+              <span class="status-badge" style="background:#ea580c; color:#fff; font-size:0.7rem; padding:1px 6px;">FAMILY</span>
+            </div>
+            <p>Connect migrant children with village parents. Manage healthcare, pensions, utility bills & video calls.</p>
+          </div>
+        </a>
+
+        <a class="service-card" href="crop.html">
+          <div class="service-icon">🌾</div>
+          <div>
+            <h4>Crop Scanner</h4>
+            <p>Diagnose plant diseases from leaf photos and get organic treatment advice.</p>
+          </div>
+        </a>
+
+        <a class="service-card" href="mandi.html">
+          <div class="service-icon">🧾</div>
+          <div>
+            <h4>Digital Mandi</h4>
+            <p>Live daily market rates for wheat, mustard, vegetables, milk, and pulses.</p>
+          </div>
+        </a>
+
+        <a class="service-card" href="schemes.html">
+          <div class="service-icon">📜</div>
+          <div>
+            <h4>Government Schemes</h4>
+            <p>PM-Kisan, Ayushman Bharat, PMAY Housing, PMFBY crop insurance, and KCC loans.</p>
+          </div>
+        </a>
+
+        <a class="service-card" href="jobs.html">
+          <div class="service-icon">💼</div>
+          <div>
+            <h4>Jobs & Training</h4>
+            <p>Local tractor, solar, dairy, and seasonal agricultural job opportunities.</p>
+          </div>
+        </a>
+
+        <a class="service-card" href="radio.html">
+          <div class="service-icon">📻</div>
+          <div>
+            <h4>Community Radio</h4>
+            <p>Listen to Krishi Vani broadcasts and record rural community stories.</p>
+          </div>
+        </a>
+
+        <a class="service-card" href="donation.html">
+          <div class="service-icon">🤝</div>
+          <div>
+            <h4>Mutual Aid & Donate</h4>
+            <p>Support fellow villagers in medical emergencies and community welfare.</p>
+          </div>
+        </a>
+
+        <a class="service-card" href="sos.html" style="border-color:#fca5a5; background:#fffbfb;">
+          <div class="service-icon" style="background:#fee2e2; color:#dc2626;">🚨</div>
+          <div>
+            <h4 style="color:#b91c1c;">One-Tap SOS</h4>
+            <p>Instant emergency GPS dispatch to 112, 108 Ambulance, Police, and family.</p>
+          </div>
+        </a>
+
+        <a class="service-card" href="suggestion.html">
+          <div class="service-icon">💡</div>
+          <div>
+            <h4>Suggestion Box</h4>
+            <p>Share improvement ideas directly with village leaders and development committee.</p>
+          </div>
+        </a>
+
+        <a class="service-card" href="admin.html" style="border-color:#81c784; background:#fafffa;">
+          <div class="service-icon" style="background:#e8f5e9; color:#1b5e20;">🛠️</div>
+          <div>
+            <h4>Admin Console</h4>
+            <p>Resolve citizen complaints, assign contractors, and post official updates.</p>
+          </div>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <p>Gro-Hit Rural Support Platform &bull; Made for Indian Villages (आत्मनिर्भर ग्राम)</p>
+    <p style="margin-top: 4px; font-size: 0.8rem; opacity: 0.85;">
+      Offline-Ready PWA &bull; Voice-Assisted &bull; Accessible
+    </p>
+  </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+  <script src="ai-assistant.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Load top 2 announcements on homepage
+      const homeAnnPreview = document.getElementById("homeAnnPreview");
+      const announcements = GroHit.getAnnouncements();
+
+      if (announcements.length === 0) {
+        homeAnnPreview.innerHTML = `<p style="color:#78350f;">No active notices today.</p>`;
+      } else {
+        homeAnnPreview.innerHTML = "";
+        announcements.slice(0, 2).forEach(a => {
+          const item = document.createElement("div");
+          item.style.padding = "10px 14px";
+          item.style.background = "#fff";
+          item.style.borderRadius = "8px";
+          item.style.border = "1px solid #fde68a";
+          item.innerHTML = `
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <strong style="color:#1b5e20;">${a.title}</strong>
+              <span style="font-size:0.8rem; color:#92400e;">${a.date || "Today"}</span>
+            </div>
+            <p style="font-size:0.9rem; color:#4a5c4d; margin-top:2px;">${a.details.substring(0, 110)}...</p>
+          `;
+          homeAnnPreview.appendChild(item);
+        });
+      }
+    });
+  </script>
+</body>
+</html>
+

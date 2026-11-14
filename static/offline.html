@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Offline Mode | Gro-Hit</title>
+  <meta name="theme-color" content="#1b5e20" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="i18n.js"></script>
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand">
+        <img src="logo.png" alt="GROHIT Logo" class="brand-logo" width="48" height="48" />
+        <div class="brand-text">
+          <h1>GROHIT</h1>
+          <div class="tagline" data-i18n="header.tagline">Village Support (Offline Mode / ऑफ़लाइन)</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="notice notice-warning" style="margin-top: 20px;">
+      <span style="font-size: 2rem;">📡</span>
+      <div>
+        <h3 style="color:#92400e; margin-bottom:4px;">You Are Currently Offline (इंटरनेट बंद है)</h3>
+        <p>You can still browse your previously saved village announcements, reported issues, and government schemes.</p>
+      </div>
+    </div>
+
+    <div class="row" style="justify-content: center; margin: 20px 0;">
+      <button class="btn primary" onclick="location.reload()">🔄 Re-Check Connection (पुनः प्रयास करें)</button>
+    </div>
+
+    <section id="cachedAnnouncements" class="panel">
+      <div class="card-header">
+        <h3>📣 Offline Saved Announcements</h3>
+      </div>
+      <ul id="offAnnList" class="list"></ul>
+    </section>
+
+    <section id="cachedIssues" class="panel">
+      <div class="card-header">
+        <h3>📍 Your Saved Complaints</h3>
+      </div>
+      <ul id="offIssueList" class="list"></ul>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <p>Gro-Hit Rural Support System &bull; Gram Panchayat Offline PWA</p>
+  </footer>
+
+  <script src="app.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const offAnnList = document.getElementById("offAnnList");
+      const offIssueList = document.getElementById("offIssueList");
+
+      // Load cached announcements
+      const announcements = GroHit.getAnnouncements();
+      if (announcements.length === 0) {
+        offAnnList.innerHTML = `<li style="padding:16px; color:#666;">No announcements cached.</li>`;
+      } else {
+        announcements.forEach(a => {
+          const li = document.createElement("li");
+          li.className = "item-card";
+          li.innerHTML = `<strong>${a.title}</strong><p style="margin-top:4px; font-size:0.92rem; color:#4a5c4d;">${a.details}</p>`;
+          offAnnList.appendChild(li);
+        });
+      }
+
+      // Load cached issues
+      const issues = GroHit.getIssues();
+      if (issues.length === 0) {
+        offIssueList.innerHTML = `<li style="padding:16px; color:#666;">No issues cached.</li>`;
+      } else {
+        issues.forEach(i => {
+          const li = document.createElement("li");
+          li.className = "item-card";
+          li.innerHTML = `<strong>${i.id}: ${i.title}</strong> - Status: <span style="font-weight:bold; color:#1b5e20;">${i.status.toUpperCase()}</span><p style="font-size:0.9rem; color:#666; margin-top:2px;">${i.description}</p>`;
+          offIssueList.appendChild(li);
+        });
+      }
+
+      window.addEventListener("online", () => {
+        location.reload();
+      });
+    });
+  </script>
+</body>
+</html>

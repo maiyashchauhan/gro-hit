@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jobs & Training | Gro-Hit</title>
+  <meta name="theme-color" content="#1b5e20" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="i18n.js"></script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <a href="index.html" class="brand">
+        <img src="logo.png" alt="GROHIT Logo" class="brand-logo" width="48" height="48" />
+        <div class="brand-text">
+          <h1>GROHIT</h1>
+          <div class="tagline" data-i18n="header.tagline">Village Support & Employment Portal (रोजगार सेवा)</div>
+        </div>
+      </a>
+
+      <div class="header-actions">
+        <div class="user-id-box">
+          <span>ID:</span>
+          <span id="showId">...</span>
+        </div>
+        <div id="langSwitcherContainer"></div>
+        <button id="openLoginBtn" class="header-btn" data-i18n="header.switchrole">Switch Role</button>
+        <a href="sos.html" class="header-btn sos-quick-btn" data-i18n="header.sos">🚨 SOS Emergency</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation -->
+  <nav class="nav-bar" aria-label="Main Navigation">
+    <div class="nav-grid">
+      <a class="nav-btn" href="index.html"><span class="nav-icon">🏠</span><div>Home</div><span class="nav-hindi">मुख्य</span></a>
+      <a class="nav-btn" href="schemes.html"><span class="nav-icon">📜</span><div>Schemes</div><span class="nav-hindi">योजनाएं</span></a>
+      <a class="nav-btn" href="gramconnect.html"><span class="nav-icon">🏛️</span><div>GramConnect</div><span class="nav-hindi">ग्राम कनेक्ट</span></a>
+      <a class="nav-btn" href="pardesh-setu.html"><span class="nav-icon">🤝</span><div>Pardesh Setu</div><span class="nav-hindi">परदेस सेतु</span></a>
+      <a class="nav-btn" href="report.html"><span class="nav-icon">📍</span><div>Report</div><span class="nav-hindi">शिकायत</span></a>
+      <a class="nav-btn" href="announcements.html"><span class="nav-icon">📣</span><div>Updates</div><span class="nav-hindi">सूचनाएं</span></a>
+      <a class="nav-btn" href="crop.html"><span class="nav-icon">🌾</span><div>Crop</div><span class="nav-hindi">फसल</span></a>
+      <a class="nav-btn" href="mandi.html"><span class="nav-icon">🧾</span><div>Mandi</div><span class="nav-hindi">मंडी भाव</span></a>
+      <a class="nav-btn active" href="jobs.html"><span class="nav-icon">💼</span><div>Jobs</div><span class="nav-hindi">रोजगार</span></a>
+      <a class="nav-btn" href="radio.html"><span class="nav-icon">📻</span><div>Radio</div><span class="nav-hindi">रेडियो</span></a>
+      <a class="nav-btn" href="donation.html"><span class="nav-icon">🤝</span><div>Donate</div><span class="nav-hindi">मदद</span></a>
+      <a class="nav-btn" href="suggestion.html"><span class="nav-icon">💡</span><div>Suggestions</div><span class="nav-hindi">सुझाव</span></a>
+      <a class="nav-btn admin-only" href="admin.html"><span class="nav-icon">🛠️</span><div>Admin</div><span class="nav-hindi">प्रशासन</span></a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="container">
+    <div class="page-header">
+      <div class="page-title">
+        <div class="title-icon">💼</div>
+        <div>
+          <h2>Rural Jobs & Skill Opportunities (रोजगार व प्रशिक्षण)</h2>
+          <p>Find verified local work, agricultural jobs, and AI scheme matching</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Job Search & Filter -->
+    <section class="panel">
+      <div class="card-header">
+        <h3>🔍 Find Work Matching Your Skills</h3>
+      </div>
+
+      <form id="jobFilters" class="form">
+        <div class="row" style="margin-top:0;">
+          <div class="form-group" style="flex:1; min-width:140px;">
+            <label>Age (आयु)</label>
+            <input type="number" min="14" max="80" id="filterAge" placeholder="e.g. 24" />
+          </div>
+          <div class="form-group" style="flex:1; min-width:140px;">
+            <label>Gender (लिंग)</label>
+            <select id="filterGender">
+              <option value="any">Any (सभी)</option>
+              <option value="F">Female Only (महिला)</option>
+              <option value="M">Male Only (पुरुष)</option>
+            </select>
+          </div>
+          <div class="form-group" style="flex:2; min-width:200px;">
+            <label>Skill Keyword (कौशल / कार्य)</label>
+            <input type="text" id="filterSkill" placeholder="e.g. Tractor, Dairy, Solar, Tailoring, Construction..." />
+          </div>
+        </div>
+
+        <div class="row">
+          <button type="button" id="applyJobFilterBtn" class="btn primary">🔍 Search Matching Jobs</button>
+          <button type="button" id="resetJobFilterBtn" class="btn secondary">Show All Jobs</button>
+        </div>
+      </form>
+
+      <!-- Active Job Listings -->
+      <h4 style="margin: 20px 0 12px; color: #1b5e20;">Available Village Work (<span id="jobCount">0</span>)</h4>
+      <ul id="jobList" class="list">
+        <!-- Injected by JS -->
+      </ul>
+
+      <!-- Post New Job -->
+      <details class="panel" style="margin-top: 20px; background:#fafafa;">
+        <summary style="font-weight:bold; color:#1b5e20; cursor:pointer;">➕ Post a Local Job / Work Requirement (ठेकेदार / किसान)</summary>
+        <form id="postJobForm" class="form" style="margin-top: 14px;">
+          <div class="row" style="margin-top:0;">
+            <div class="form-group" style="flex:1; min-width:200px;">
+              <label>Work Title *</label>
+              <input type="text" name="title" placeholder="e.g. Tube-well Borewell Assistant, Harvester Operator" required />
+            </div>
+            <div class="form-group" style="flex:1; min-width:160px;">
+              <label>Employer / Contractor Name *</label>
+              <input type="text" name="contractor" placeholder="e.g. Kisan Seva Kendra" required />
+            </div>
+          </div>
+          <div class="row" style="margin-top:0;">
+            <div class="form-group" style="flex:1; min-width:160px;">
+              <label>Daily Wage / Salary *</label>
+              <input type="text" name="wage" placeholder="e.g. ₹550 / day + Meals" required />
+            </div>
+            <div class="form-group" style="flex:1; min-width:160px;">
+              <label>Location in Village</label>
+              <input type="text" name="location" placeholder="e.g. Ward 4 / North Farms" required />
+            </div>
+            <div class="form-group" style="flex:1; min-width:160px;">
+              <label>Contact Phone *</label>
+              <input type="tel" name="contact" placeholder="9876543210" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Required Skills</label>
+            <input type="text" name="skills" placeholder="e.g. Physical fitness, tractor experience, honest work" required />
+          </div>
+          <button type="submit" class="btn primary">Publish Job Listing</button>
+        </form>
+      </details>
+    </section>
+
+    <!-- AI Scheme Matcher (Suggestion Angel) -->
+    <section class="panel" style="background:#f0f9ff; border-color:#7dd3fc;">
+      <div class="card-header" style="border-color:#bae6fd;">
+        <h3 style="color:#0369a1;">🤖 AI Scheme Matcher (सुझाव देवदूत)</h3>
+      </div>
+      <p style="color:#0c4a6e; font-size:0.92rem; margin-bottom:14px;">
+        Answer 3 simple questions to instantly find government welfare subsidies and employment programs tailored for your family.
+      </p>
+
+      <form id="angelForm" class="form">
+        <div class="row" style="margin-top:0;">
+          <div class="form-group" style="flex:1; min-width:140px;">
+            <label>Age (आयु)</label>
+            <input type="number" id="angelAge" min="1" max="99" placeholder="32" required />
+          </div>
+          <div class="form-group" style="flex:1; min-width:140px;">
+            <label>Category / Caste</label>
+            <select id="angelCaste">
+              <option value="GEN">General</option>
+              <option value="OBC">OBC</option>
+              <option value="SC">SC</option>
+              <option value="ST">ST</option>
+            </select>
+          </div>
+          <div class="form-group" style="flex:1; min-width:160px;">
+            <label>Annual Family Income (₹)</label>
+            <input type="number" id="angelIncome" min="0" step="5000" placeholder="80000" required />
+          </div>
+          <div class="form-group" style="flex:1; min-width:160px;">
+            <label>Land Holding</label>
+            <select id="angelLand">
+              <option value="marginal">Marginal Farmer (&lt; 2 Acres)</option>
+              <option value="small">Small Farmer (2 - 5 Acres)</option>
+              <option value="landless">Landless / Rural Labor</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-health">🎯 Find Matching Welfare Schemes</button>
+      </form>
+
+      <div id="angelOutput" class="card" style="display:none; margin-top:20px; background:#ffffff; border-color:#38bdf8;"></div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <p>Gro-Hit Rural Support System &bull; Gram Panchayat & Health Network</p>
+    <p style="margin-top: 4px; font-size: 0.8rem; opacity: 0.85;">Empowering rural livelihoods with dignity and direct access.</p>
+  </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const jobList = document.getElementById("jobList");
+      const jobCount = document.getElementById("jobCount");
+      const filterAge = document.getElementById("filterAge");
+      const filterGender = document.getElementById("filterGender");
+      const filterSkill = document.getElementById("filterSkill");
+      const applyJobFilterBtn = document.getElementById("applyJobFilterBtn");
+      const resetJobFilterBtn = document.getElementById("resetJobFilterBtn");
+      const postJobForm = document.getElementById("postJobForm");
+      const angelForm = document.getElementById("angelForm");
+      const angelOutput = document.getElementById("angelOutput");
+
+      function getJobs() {
+        try {
+          return JSON.parse(localStorage.getItem("grohit_jobs") || "[]");
+        } catch {
+          return [];
+        }
+      }
+
+      function renderJobs(filteredList = null) {
+        const jobs = filteredList || getJobs();
+        jobCount.textContent = jobs.length;
+        jobList.innerHTML = "";
+
+        if (jobs.length === 0) {
+          jobList.innerHTML = `
+            <li style="text-align:center; padding:24px; color:#4a5c4d;">
+              <span style="font-size:2rem;">💼</span>
+              <p style="margin-top:6px; font-weight:600;">No jobs found matching your criteria.</p>
+            </li>
+          `;
+          return;
+        }
+
+        jobs.forEach(job => {
+          const li = document.createElement("li");
+          li.className = "item-card";
+          li.innerHTML = `
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:10px;">
+              <div>
+                <h4 style="color:#1b5e20; font-size:1.2rem; margin:0 0 4px;">${job.title}</h4>
+                <span class="status-badge" style="background:#e8f5e9; color:#1b5e20; font-weight:bold;">💰 ${job.wage}</span>
+                <span style="font-size:0.85rem; color:#4a5c4d; margin-left:6px;">📍 ${job.location}</span>
+              </div>
+              <a href="tel:${job.contact}" class="btn primary btn-sm">📞 Call: ${job.contact}</a>
+            </div>
+            <p style="margin-top:8px; font-size:0.92rem; color:#2c3e2e;">
+              <strong>Employer:</strong> ${job.contractor} &bull; <strong>Skills Required:</strong> ${job.skills}
+            </p>
+          `;
+          jobList.appendChild(li);
+        });
+      }
+
+      // Filter Jobs
+      function applyFilter() {
+        const gender = filterGender.value;
+        const skill = filterSkill.value.trim().toLowerCase();
+        const allJobs = getJobs();
+
+        const filtered = allJobs.filter(j => {
+          const matchGender = gender === "any" || j.gender === "any" || j.gender === gender;
+          const matchSkill = !skill || 
+            j.title.toLowerCase().includes(skill) || 
+            j.skills.toLowerCase().includes(skill);
+          return matchGender && matchSkill;
+        });
+
+        renderJobs(filtered);
+        GroHit.showToast(`Found ${filtered.length} matching jobs.`);
+      }
+
+      applyJobFilterBtn.addEventListener("click", applyFilter);
+      resetJobFilterBtn.addEventListener("click", () => {
+        filterGender.value = "any";
+        filterSkill.value = "";
+        filterAge.value = "";
+        renderJobs();
+      });
+
+      // Post Job Form
+      postJobForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const jobs = getJobs();
+        const newJob = {
+          id: Date.now(),
+          title: postJobForm.title.value.trim(),
+          contractor: postJobForm.contractor.value.trim(),
+          wage: postJobForm.wage.value.trim(),
+          location: postJobForm.location.value.trim(),
+          skills: postJobForm.skills.value.trim(),
+          contact: postJobForm.contact.value.trim(),
+          gender: "any"
+        };
+        jobs.unshift(newJob);
+        localStorage.setItem("grohit_jobs", JSON.stringify(jobs));
+        GroHit.showToast("Job posted successfully!");
+        postJobForm.reset();
+        renderJobs();
+      });
+
+      // AI Suggestion Angel
+      angelForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const age = parseInt(document.getElementById("angelAge").value);
+        const caste = document.getElementById("angelCaste").value;
+        const income = parseInt(document.getElementById("angelIncome").value);
+        const land = document.getElementById("angelLand").value;
+
+        const recommended = [];
+
+        if (land === "marginal" || land === "small") {
+          recommended.push({
+            name: "🌾 PM-Kisan Samman Nidhi",
+            benefit: "₹6,000 yearly income support directly in bank account.",
+            action: "Apply with Aadhaar and Khasra-Khatauni at Panchayat."
+          });
+          recommended.push({
+            name: "💳 Kisan Credit Card (KCC Loan)",
+            benefit: "Up to ₹3 Lakh agricultural working capital loan at 4% subsidized interest.",
+            action: "Contact Lead Bank branch or PACS village credit society."
+          });
+        }
+
+        if (income <= 250000) {
+          recommended.push({
+            name: "🩺 Ayushman Bharat (PM-JAY)",
+            benefit: "Free hospital health insurance up to ₹5 Lakh/family.",
+            action: "Get Ayushman Card generated at Village CSC center."
+          });
+        }
+
+        if (income <= 150000 && land === "landless") {
+          recommended.push({
+            name: "🏠 PM Awas Yojana (Gramin)",
+            benefit: "₹1.20 Lakh grant for constructing pucca house.",
+            action: "Submit registration form in Gram Sabha meeting."
+          });
+          recommended.push({
+            name: "⚒️ MGNREGA Job Card",
+            benefit: "Guaranteed 100 days of wage employment per financial year.",
+            action: "Request Job Card at Panchayat Rozgar Sahayak."
+          });
+        }
+
+        if (age >= 18 && age <= 40) {
+          recommended.push({
+            name: "⚡ PM Surya Ghar Muft Bijli & Solar Pump (PM-KUSUM)",
+            benefit: "Up to 60% government subsidy on solar water pumps.",
+            action: "Apply on national PM-KUSUM solar portal."
+          });
+        }
+
+        angelOutput.style.display = "block";
+        angelOutput.innerHTML = `
+          <h4 style="color:#0369a1; font-size:1.2rem; margin:0 0 10px;">🎯 Top Schemes Matched for Your Family:</h4>
+          <ul style="list-style:none; padding:0; display:grid; gap:10px;">
+            ${recommended.map(r => `
+              <li style="background:#f8fafc; border:1px solid #bae6fd; border-radius:8px; padding:12px;">
+                <strong style="color:#0c4a6e; font-size:1.05rem;">${r.name}</strong>
+                <p style="margin:4px 0; color:#334155; font-size:0.92rem;"><strong>Benefit:</strong> ${r.benefit}</p>
+                <p style="margin:0; color:#0284c7; font-size:0.85rem; font-weight:600;">➡️ Next Step: ${r.action}</p>
+              </li>
+            `).join("")}
+          </ul>
+        `;
+
+        GroHit.showToast(`AI matched ${recommended.length} schemes for you!`);
+      });
+
+      renderJobs();
+    });
+  </script>
+  <script src="ai-assistant.js"></script>
+</body>
+</html>
+

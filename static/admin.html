@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panchayat Admin Console | Gro-Hit</title>
+  <meta name="theme-color" content="#1b5e20" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .admin-nav-tabs {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+      border-bottom: 2px solid var(--border);
+      padding-bottom: 12px;
+    }
+    .admin-tab-btn {
+      padding: 10px 18px;
+      border-radius: var(--radius-md);
+      background: #ffffff;
+      border: 2px solid var(--border);
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition);
+    }
+    .admin-tab-btn:hover {
+      background: var(--primary-light);
+      border-color: var(--border-strong);
+      color: var(--primary);
+    }
+    .admin-tab-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #ffffff;
+    }
+    .issue-action-box {
+      background: #f8faf5;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin-top: 14px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .lock-card {
+      background: #ffffff;
+      border: 3px solid #b71c1c;
+      border-radius: var(--radius-lg);
+      padding: 36px 28px;
+      max-width: 500px;
+      margin: 40px auto;
+      text-align: center;
+      box-shadow: var(--shadow-lg);
+    }
+  </style>
+  <script src="i18n.js"></script>
+</head>
+<body>
+  <!-- Global App Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <a href="index.html" class="brand">
+        <img src="logo.png" alt="GROHIT Logo" class="brand-logo" width="48" height="48" />
+        <div class="brand-text">
+          <h1>GROHIT ADMIN</h1>
+          <div class="tagline" data-i18n="header.tagline">Panchayat Administration & Grievance Portal (प्रशासनिक डैशबोर्ड)</div>
+        </div>
+      </a>
+
+      <div class="header-actions">
+        <div class="user-id-box">
+          <span>Admin ID:</span>
+          <span id="showId">...</span>
+        </div>
+        <div id="langSwitcherContainer"></div>
+        <button id="openLoginBtn" class="header-btn" data-i18n="header.switchrole">Switch Role</button>
+        <a href="index.html" class="header-btn">🏠 Home</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Global Navigation Bar -->
+  <nav class="nav-bar" aria-label="Main Navigation">
+    <div class="nav-grid">
+      <a class="nav-btn" href="index.html"><span class="nav-icon">🏠</span><div>Home</div><span class="nav-hindi">मुख्य</span></a>
+      <a class="nav-btn" href="schemes.html"><span class="nav-icon">📜</span><div>Schemes</div><span class="nav-hindi">योजनाएं</span></a>
+      <a class="nav-btn" href="gramconnect.html"><span class="nav-icon">🏛️</span><div>GramConnect</div><span class="nav-hindi">ग्राम कनेक्ट</span></a>
+      <a class="nav-btn" href="pardesh-setu.html"><span class="nav-icon">🤝</span><div>Pardesh Setu</div><span class="nav-hindi">परदेस सेतु</span></a>
+      <a class="nav-btn" href="report.html"><span class="nav-icon">📍</span><div>Report</div><span class="nav-hindi">शिकायत</span></a>
+      <a class="nav-btn" href="announcements.html"><span class="nav-icon">📣</span><div>Updates</div><span class="nav-hindi">सूचनाएं</span></a>
+      <a class="nav-btn" href="crop.html"><span class="nav-icon">🌾</span><div>Crop</div><span class="nav-hindi">फसल</span></a>
+      <a class="nav-btn" href="mandi.html"><span class="nav-icon">🧾</span><div>Mandi</div><span class="nav-hindi">मंडी भाव</span></a>
+      <a class="nav-btn" href="jobs.html"><span class="nav-icon">💼</span><div>Jobs</div><span class="nav-hindi">रोजगार</span></a>
+      <a class="nav-btn" href="radio.html"><span class="nav-icon">📻</span><div>Radio</div><span class="nav-hindi">रेडियो</span></a>
+      <a class="nav-btn" href="donation.html"><span class="nav-icon">🤝</span><div>Donate</div><span class="nav-hindi">मदद</span></a>
+      <a class="nav-btn" href="suggestion.html"><span class="nav-icon">💡</span><div>Suggestions</div><span class="nav-hindi">सुझाव</span></a>
+      <a class="nav-btn active admin-only" href="admin.html"><span class="nav-icon">🛠️</span><div>Admin</div><span class="nav-hindi">प्रशासन</span></a>
+    </div>
+  </nav>
+
+  <!-- RESTRICTED ACCESS SCREEN (Shown to Villagers & Non-Admins) -->
+  <section id="adminLockScreen" class="container" style="display:none;">
+    <div class="lock-card">
+      <span style="font-size: 3.5rem;">🔒</span>
+      <h2 style="color:#b71c1c; font-size:1.6rem; margin:10px 0 6px;">Panchayat Admin Only</h2>
+      <p style="color:#4a5c4d; font-size:0.95rem; line-height:1.5; margin-bottom:20px;">
+        This administrative section is strictly restricted to authorized Gram Panchayat Officers, Sachiv, and Sarpanch. Villagers and health workers cannot access grievance resolution and database controls.
+      </p>
+
+      <form id="adminLoginForm" class="form" style="text-align:left; background:#fff5f5; border-color:#fca5a5;">
+        <div class="form-group">
+          <label>Panchayat Admin ID / फोन नंबर</label>
+          <input type="text" id="adminAuthId" value="VID-ADM01" required />
+        </div>
+        <div class="form-group">
+          <label>Admin Passcode / पिन</label>
+          <input type="password" id="adminAuthPin" placeholder="••••••" value="admin123" required />
+        </div>
+        <button type="submit" class="btn primary" style="width:100%;">🔓 Log In as Panchayat Admin (प्रशासनिक प्रवेश)</button>
+      </form>
+
+      <div style="margin-top:20px;">
+        <a href="index.html" class="btn secondary" style="width:100%;">🏠 Return to Citizen Home (नागरिक पोर्टल)</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN ADMIN DASHBOARD (Unlocked ONLY for Panchayat Admin) -->
+  <main id="adminMainDashboard" class="main-content" style="display:none;">
+    <div class="page-header">
+      <div class="page-title">
+        <div class="title-icon">🛠️</div>
+        <div>
+          <h2>Panchayat Administrator Dashboard</h2>
+          <p>Manage village grievances, resolve reported issues, post alerts, and oversee schemes</p>
+        </div>
+      </div>
+      <div>
+        <span class="role-badge role-admin">🔴 Logged in as Panchayat Admin</span>
+      </div>
+    </div>
+
+    <!-- Stats Counter Bar -->
+    <div class="stats-grid">
+      <div class="stat-box total">
+        <div class="stat-number" id="statTotal">0</div>
+        <div class="stat-label">Total Complaints (कुल समस्याएं)</div>
+      </div>
+      <div class="stat-box pending">
+        <div class="stat-number" id="statPending">0</div>
+        <div class="stat-label">Pending Action (लंबित)</div>
+      </div>
+      <div class="stat-box progress">
+        <div class="stat-number" id="statProgress">0</div>
+        <div class="stat-label">In Progress (कार्य प्रगति पर)</div>
+      </div>
+      <div class="stat-box resolved">
+        <div class="stat-number" id="statResolved">0</div>
+        <div class="stat-label">Resolved (समाधान हुआ)</div>
+      </div>
+    </div>
+
+    <!-- Admin Section Tabs -->
+    <div class="admin-nav-tabs">
+      <button class="admin-tab-btn active" data-tab="tab-grievances">📍 Village Issues & Resolution</button>
+      <button class="admin-tab-btn" data-tab="tab-announcements">📣 Post Announcements</button>
+      <button class="admin-tab-btn" data-tab="tab-schemes">📜 Government Schemes</button>
+      <button class="admin-tab-btn" data-tab="tab-mandi">🧾 Mandi Crop Rates</button>
+      <button class="admin-tab-btn" data-tab="tab-users">👥 Registered Villagers</button>
+    </div>
+
+    <!-- TAB 1: Village Issues & Grievance Redressal -->
+    <section id="tab-grievances" class="panel admin-tab-content">
+      <div class="card-header">
+        <h3>📍 Village Complaints & Problem Resolution</h3>
+        <div class="filter-tabs" style="margin:0;">
+          <button class="filter-tab active" data-status="all">All</button>
+          <button class="filter-tab" data-status="pending">Pending</button>
+          <button class="filter-tab" data-status="in_progress">In Progress</button>
+          <button class="filter-tab" data-status="resolved">Resolved</button>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 16px;">
+        <input type="text" id="searchAdminIssues" placeholder="🔍 Search by problem title, location, ticket ID or citizen name..." style="max-width:450px;" />
+      </div>
+
+      <ul id="adminIssuesList" class="list">
+        <!-- Injected by JS -->
+      </ul>
+    </section>
+
+    <!-- TAB 2: Announcements Manager -->
+    <section id="tab-announcements" class="panel admin-tab-content" style="display:none;">
+      <div class="card-header">
+        <h3>📣 Publish Panchayat Announcement</h3>
+      </div>
+
+      <form id="adminAnnForm" class="form">
+        <div class="form-group">
+          <label>Announcement Title *</label>
+          <input type="text" id="admAnnTitle" placeholder="e.g. Village General Meeting, Electricity Maintenance Alert" required />
+        </div>
+        <div class="form-group">
+          <label>Details & Instructions *</label>
+          <textarea id="admAnnDetails" rows="3" placeholder="Write full details..." required></textarea>
+        </div>
+        <div class="row" style="margin-top:0;">
+          <div class="form-group" style="flex:1; min-width:200px;">
+            <label>Date</label>
+            <input type="date" id="admAnnDate" />
+          </div>
+          <div class="form-group" style="flex:1; min-width:200px;">
+            <label>Priority</label>
+            <select id="admAnnPriority">
+              <option value="normal">🟢 Normal Announcement</option>
+              <option value="high">🟠 High Priority Notice</option>
+              <option value="urgent">🔴 Urgent Emergency Warning</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <button type="submit" class="btn primary">📢 Publish to Village</button>
+        </div>
+      </form>
+
+      <h4 style="margin: 24px 0 12px; color: #1b5e20;">Active Announcements List</h4>
+      <ul id="adminAnnList" class="list"></ul>
+    </section>
+
+    <!-- TAB 3: Government Schemes Manager -->
+    <section id="tab-schemes" class="panel admin-tab-content" style="display:none;">
+      <div class="card-header">
+        <h3>📜 Add New Government Welfare Scheme</h3>
+      </div>
+
+      <form id="adminSchemeForm" class="form">
+        <div class="form-group">
+          <label>Scheme Title *</label>
+          <input type="text" id="schTitle" placeholder="e.g. PM Surya Ghar Muft Bijli Yojana" required />
+        </div>
+        <div class="form-group">
+          <label>Hindi Title</label>
+          <input type="text" id="schHindiTitle" placeholder="e.g. पीएम सूर्य घर मुफ्त बिजली योजना" />
+        </div>
+        <div class="row" style="margin-top:0;">
+          <div class="form-group" style="flex:1; min-width:200px;">
+            <label>Category</label>
+            <select id="schCategory">
+              <option value="Farming">🌾 Farming & Agriculture</option>
+              <option value="Health">🩺 Healthcare</option>
+              <option value="Housing">🏠 Housing & Shelter</option>
+              <option value="Energy">⚡ Solar & Energy</option>
+              <option value="Credit">💳 Financial Aid & Loan</option>
+            </select>
+          </div>
+          <div class="form-group" style="flex:1; min-width:200px;">
+            <label>Key Benefit (लाभ)</label>
+            <input type="text" id="schBenefit" placeholder="e.g. Up to 300 units free solar electricity" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea id="schDescription" rows="2" placeholder="Brief summary of eligibility..." required></textarea>
+        </div>
+        <div class="form-group">
+          <label>Official Portal Link *</label>
+          <input type="url" id="schLink" placeholder="https://..." required />
+        </div>
+        <div class="row">
+          <button type="submit" class="btn primary">➕ Add Government Scheme</button>
+        </div>
+      </form>
+
+      <h4 style="margin: 24px 0 12px; color: #1b5e20;">Manage Existing Schemes</h4>
+      <ul id="adminSchemesList" class="list"></ul>
+    </section>
+
+    <!-- TAB 4: Mandi Rates Manager -->
+    <section id="tab-mandi" class="panel admin-tab-content" style="display:none;">
+      <div class="card-header">
+        <h3>🧾 Update Digital Mandi Rates</h3>
+      </div>
+
+      <form id="adminMandiForm" class="form">
+        <div class="row" style="margin-top:0;">
+          <div class="form-group" style="flex:1; min-width:180px;">
+            <label>Commodity (फसल / उपज)</label>
+            <input type="text" id="mandiName" placeholder="e.g. Soybean (सोयाबीन)" required />
+          </div>
+          <div class="form-group" style="flex:1; min-width:140px;">
+            <label>Category</label>
+            <select id="mandiCat">
+              <option value="Grains">🌾 Grains (अनाज)</option>
+              <option value="Vegetables">🥕 Vegetables (सब्जी)</option>
+              <option value="Oilseeds">🌻 Oilseeds (तिलहन)</option>
+              <option value="Fruits">🍎 Fruits (फल)</option>
+              <option value="Dairy">🥛 Dairy (दुग्ध)</option>
+            </select>
+          </div>
+          <div class="form-group" style="flex:1; min-width:140px;">
+            <label>Current Price (₹)</label>
+            <input type="number" id="mandiPrice" min="1" placeholder="4800" required />
+          </div>
+          <div class="form-group" style="flex:1; min-width:120px;">
+            <label>Unit</label>
+            <select id="mandiUnit">
+              <option value="Quintal">Quintal (क्विंटल)</option>
+              <option value="Kg">Kg (किलो)</option>
+              <option value="Liter">Liter (लीटर)</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <button type="submit" class="btn primary">💹 Update Mandi Rate</button>
+        </div>
+      </form>
+
+      <h4 style="margin: 24px 0 12px; color: #1b5e20;">Current Mandi Price Board</h4>
+      <ul id="adminMandiList" class="list"></ul>
+    </section>
+
+    <!-- TAB 5: Registered Villagers Directory -->
+    <section id="tab-users" class="panel admin-tab-content" style="display:none;">
+      <div class="card-header">
+        <h3>👥 Registered Village Citizens & Staff</h3>
+        <button id="exportUsersBtn" class="btn secondary btn-sm">📥 Export CSV</button>
+      </div>
+
+      <div style="overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse; background: #fff; margin-top: 10px;">
+          <thead>
+            <tr style="background: #1b5e20; color: #fff;">
+              <th style="padding: 10px; text-align: left;">Name</th>
+              <th style="padding: 10px; text-align: left;">Village ID</th>
+              <th style="padding: 10px; text-align: left;">Phone</th>
+              <th style="padding: 10px; text-align: left;">Role</th>
+              <th style="padding: 10px; text-align: left;">Registered Date</th>
+            </tr>
+          </thead>
+          <tbody id="adminUsersTable">
+            <!-- Injected by JS -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal for Resolving Issue -->
+  <dialog id="resolveModal">
+    <form method="dialog" id="resolveForm" class="form" style="display:grid; gap:12px;">
+      <h3 style="color:#1b5e20;">Mark Problem Resolved 🟢</h3>
+      <p id="resolveTicketInfo" style="color:#4a5c4d; font-size:0.9rem;"></p>
+      
+      <div class="form-group">
+        <label>Action Taken / समाधान का विवरण *</label>
+        <textarea id="resolveNotes" rows="3" placeholder="e.g. Pump motor replaced by Jal Nigam team. Water flow tested normal on 18 Aug." required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Contractor / Department Completed</label>
+        <input type="text" id="resolveContractor" placeholder="e.g. Gram Nirman Samiti / Bijli Vibhag" />
+      </div>
+
+      <div class="form-group">
+        <label>Final Expenditure (₹)</label>
+        <input type="text" id="resolveBudget" placeholder="e.g. ₹8,500" />
+      </div>
+
+      <div class="row" style="justify-content: flex-end;">
+        <button type="button" id="cancelResolveBtn" class="btn secondary">Cancel</button>
+        <button type="submit" class="btn primary">Confirm Resolution 🟢</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Modal for Assigning / In-Progress -->
+  <dialog id="progressModal">
+    <form method="dialog" id="progressForm" class="form" style="display:grid; gap:12px;">
+      <h3 style="color:#0284c7;">Assign Team & Mark In-Progress 🔵</h3>
+      <p id="progressTicketInfo" style="color:#4a5c4d; font-size:0.9rem;"></p>
+      
+      <div class="form-group">
+        <label>Assign Department / Contractor *</label>
+        <input type="text" id="progContractor" placeholder="e.g. Electricity Substation Maintenance Unit" required />
+      </div>
+
+      <div class="form-group">
+        <label>Estimated Budget (₹)</label>
+        <input type="text" id="progBudget" placeholder="e.g. ₹15,000" />
+      </div>
+
+      <div class="form-group">
+        <label>Work Instructions / Notes for Villagers *</label>
+        <textarea id="progNotes" rows="3" placeholder="e.g. Replacement transformer parts ordered. Repair crew will arrive tomorrow morning." required></textarea>
+      </div>
+
+      <div class="row" style="justify-content: flex-end;">
+        <button type="button" id="cancelProgressBtn" class="btn secondary">Cancel</button>
+        <button type="submit" class="btn btn-health">Update to In Progress 🔵</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <p>Gro-Hit Rural Support System &bull; Gram Panchayat & Health Network</p>
+    <p style="margin-top: 4px; font-size: 0.8rem; opacity: 0.85;">Panchayat Sachiv & Sarpanch Administrative Console</p>
+  </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const adminLockScreen = document.getElementById("adminLockScreen");
+      const adminMainDashboard = document.getElementById("adminMainDashboard");
+      const adminLoginForm = document.getElementById("adminLoginForm");
+
+      // Check role access
+      function checkAdminAuth() {
+        const role = GroHit.state.role;
+        if (role === "admin") {
+          adminLockScreen.style.display = "none";
+          adminMainDashboard.style.display = "block";
+          renderAllAdminData();
+        } else {
+          adminLockScreen.style.display = "block";
+          adminMainDashboard.style.display = "none";
+        }
+      }
+
+      // Admin Login form on lock screen
+      adminLoginForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        GroHit.switchRole("admin");
+        GroHit.showToast("Welcome Panchayat Admin! Dashboard unlocked.");
+        checkAdminAuth();
+      });
+
+      // Tab switcher
+      const tabBtns = document.querySelectorAll(".admin-tab-btn");
+      const tabContents = document.querySelectorAll(".admin-tab-content");
+
+      tabBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+          tabBtns.forEach(b => b.classList.remove("active"));
+          tabContents.forEach(c => c.style.display = "none");
+          btn.classList.add("active");
+          const target = document.getElementById(btn.dataset.tab);
+          if (target) target.style.display = "block";
+        });
+      });
+
+      // --- Grievance / Issues Redressal Logic ---
+      const adminIssuesList = document.getElementById("adminIssuesList");
+      const statTotal = document.getElementById("statTotal");
+      const statPending = document.getElementById("statPending");
+      const statProgress = document.getElementById("statProgress");
+      const statResolved = document.getElementById("statResolved");
+      const searchAdminIssues = document.getElementById("searchAdminIssues");
+
+      let currentStatusFilter = "all";
+
+      function renderAdminIssues() {
+        const issues = GroHit.getIssues();
+        const filter = searchAdminIssues.value.toLowerCase();
+
+        // Calculate stats
+        const total = issues.length;
+        const pending = issues.filter(i => i.status === "pending" || !i.status).length;
+        const progress = issues.filter(i => i.status === "in_progress").length;
+        const resolved = issues.filter(i => i.status === "resolved").length;
+
+        statTotal.textContent = total;
+        statPending.textContent = pending;
+        statProgress.textContent = progress;
+        statResolved.textContent = resolved;
+
+        // Filter issues
+        const filtered = issues.filter(i => {
+          const matchesStatus = currentStatusFilter === "all" || (i.status || "pending") === currentStatusFilter;
+          const matchesSearch = 
+            i.title.toLowerCase().includes(filter) ||
+            i.description.toLowerCase().includes(filter) ||
+            (i.location && i.location.toLowerCase().includes(filter)) ||
+            (i.id && i.id.toLowerCase().includes(filter)) ||
+            (i.userName && i.userName.toLowerCase().includes(filter));
+          return matchesStatus && matchesSearch;
+        });
+
+        adminIssuesList.innerHTML = "";
+
+        if (filtered.length === 0) {
+          adminIssuesList.innerHTML = `
+            <li style="text-align: center; padding: 30px; color: #4a5c4d;">
+              <span style="font-size: 2rem;">📋</span>
+              <p style="margin-top: 8px; font-weight: 600;">No complaints match the current filter.</p>
+            </li>
+          `;
+          return;
+        }
+
+        filtered.forEach(issue => {
+          const li = document.createElement("li");
+          li.className = "item-card";
+
+          let statusBadge = "";
+          if (issue.status === "resolved") {
+            statusBadge = `<span class="status-badge status-resolved">🟢 Resolved / समाधान हो गया</span>`;
+          } else if (issue.status === "in_progress") {
+            statusBadge = `<span class="status-badge status-progress">🔵 In Progress / कार्य जारी</span>`;
+          } else {
+            statusBadge = `<span class="status-badge status-pending">🟡 Pending / नया मामला</span>`;
+          }
+
+          const dateStr = new Date(issue.createdAt || Date.now()).toLocaleDateString("en-IN", {
+            day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit"
+          });
+
+          let photoHtml = "";
+          if (issue.photo) {
+            photoHtml = `<div style="margin: 10px 0;"><img src="${issue.photo}" style="max-width:180px; max-height:120px; border-radius:8px; border:1px solid #81c784;" /></div>`;
+          }
+
+          let resolutionInfo = "";
+          if (issue.adminNotes) {
+            resolutionInfo = `
+              <div style="background:#f1f8e9; border:1px solid #81c784; border-radius:8px; padding:10px 14px; margin-top:10px; font-size:0.92rem;">
+                <strong>Admin Action / Feedback:</strong> ${issue.adminNotes}
+                ${issue.contractor ? `<br><small style="color:#2e4d32;">Assigned: <strong>${issue.contractor}</strong> | Cost: <strong>${issue.budget || 'Approved'}</strong></small>` : ''}
+              </div>
+            `;
+          }
+
+          li.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; flex-wrap: wrap;">
+              <div>
+                <strong style="font-family:monospace; background:#e8f5e9; padding:2px 8px; border-radius:4px; color:#1b5e20;">${issue.id}</strong>
+                ${statusBadge}
+                <span style="font-size:0.85rem; color:#4a5c4d; margin-left:6px;">📍 ${issue.categoryName || issue.category}</span>
+              </div>
+              <span style="font-size:0.82rem; color:#6b7280;">📅 ${dateStr}</span>
+            </div>
+
+            <h4 style="margin: 10px 0 4px; font-size: 1.15rem; color: #1b5e20;">${issue.title}</h4>
+            <p style="color: #2c3e2e; line-height: 1.5; font-size: 0.95rem;">${issue.description}</p>
+            
+            <div style="font-size: 0.88rem; color: #4a5c4d; margin-top: 6px;">
+              <strong>Reported by:</strong> ${issue.userName || "Villager"} (${issue.userPhone || "N/A"}) &bull; <strong>Location:</strong> ${issue.location}
+            </div>
+
+            ${photoHtml}
+            ${resolutionInfo}
+
+            <!-- Admin Action Buttons -->
+            <div class="issue-action-box">
+              <strong style="font-size:0.88rem; color:#1b5e20;">Admin Actions:</strong>
+              <button class="btn btn-health btn-sm btn-mark-progress">🔵 Mark In-Progress / Assign</button>
+              <button class="btn primary btn-sm btn-mark-resolved">🟢 Mark Resolved (समाधान करें)</button>
+              <button class="btn secondary btn-sm btn-reopen">🟡 Mark Pending</button>
+              <button class="btn-delete btn-sm btn-del-issue">❌ Delete</button>
+            </div>
+          `;
+
+          // Button Events
+          li.querySelector(".btn-mark-resolved").addEventListener("click", () => openResolveModal(issue));
+          li.querySelector(".btn-mark-progress").addEventListener("click", () => openProgressModal(issue));
+          li.querySelector(".btn-reopen").addEventListener("click", () => {
+            GroHit.updateIssue(issue.id, { status: "pending", adminNotes: "Re-opened for additional inspection by Panchayat." });
+            GroHit.showToast("Ticket " + issue.id + " set to Pending.");
+            renderAdminIssues();
+          });
+          li.querySelector(".btn-del-issue").addEventListener("click", () => {
+            if (confirm("Delete ticket " + issue.id + "?")) {
+              GroHit.deleteIssue(issue.id);
+              GroHit.showToast("Ticket deleted.");
+              renderAdminIssues();
+            }
+          });
+
+          adminIssuesList.appendChild(li);
+        });
+      }
+
+      // --- Resolve Modal Handler ---
+      const resolveModal = document.getElementById("resolveModal");
+      const resolveForm = document.getElementById("resolveForm");
+      const resolveTicketInfo = document.getElementById("resolveTicketInfo");
+      const resolveNotes = document.getElementById("resolveNotes");
+      const resolveContractor = document.getElementById("resolveContractor");
+      const resolveBudget = document.getElementById("resolveBudget");
+      const cancelResolveBtn = document.getElementById("cancelResolveBtn");
+
+      let currentResolvingIssueId = null;
+
+      function openResolveModal(issue) {
+        currentResolvingIssueId = issue.id;
+        resolveTicketInfo.textContent = `Ticket: ${issue.id} - ${issue.title} (Reported by: ${issue.userName || 'Citizen'})`;
+        resolveNotes.value = issue.adminNotes || "Problem inspected and resolved by Panchayat Nirman Samiti.";
+        resolveContractor.value = issue.contractor || "Gram Panchayat Team";
+        resolveBudget.value = issue.budget || "";
+        resolveModal.showModal();
+      }
+
+      cancelResolveBtn.addEventListener("click", () => resolveModal.close());
+
+      resolveForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        if (!currentResolvingIssueId) return;
+
+        GroHit.updateIssue(currentResolvingIssueId, {
+          status: "resolved",
+          adminNotes: resolveNotes.value.trim(),
+          contractor: resolveContractor.value.trim(),
+          budget: resolveBudget.value.trim()
+        });
+
+        GroHit.showToast("✅ Problem marked RESOLVED! Villagers notified.");
+        resolveModal.close();
+        renderAdminIssues();
+      });
+
+      // --- In-Progress Modal Handler ---
+      const progressModal = document.getElementById("progressModal");
+      const progressForm = document.getElementById("progressForm");
+      const progressTicketInfo = document.getElementById("progressTicketInfo");
+      const progContractor = document.getElementById("progContractor");
+      const progBudget = document.getElementById("progBudget");
+      const progNotes = document.getElementById("progNotes");
+      const cancelProgressBtn = document.getElementById("cancelProgressBtn");
+
+      let currentProgressIssueId = null;
+
+      function openProgressModal(issue) {
+        currentProgressIssueId = issue.id;
+        progressTicketInfo.textContent = `Ticket: ${issue.id} - ${issue.title}`;
+        progContractor.value = issue.contractor || "";
+        progBudget.value = issue.budget || "";
+        progNotes.value = issue.adminNotes || "Assigned work team. Field repair in progress.";
+        progressModal.showModal();
+      }
+
+      cancelProgressBtn.addEventListener("click", () => progressModal.close());
+
+      progressForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        if (!currentProgressIssueId) return;
+
+        GroHit.updateIssue(currentProgressIssueId, {
+          status: "in_progress",
+          contractor: progContractor.value.trim(),
+          budget: progBudget.value.trim(),
+          adminNotes: progNotes.value.trim()
+        });
+
+        GroHit.showToast("🔵 Status updated to IN PROGRESS!");
+        progressModal.close();
+        renderAdminIssues();
+      });
+
+      // Status Filter Buttons
+      document.querySelectorAll(".filter-tab").forEach(tab => {
+        tab.addEventListener("click", () => {
+          document.querySelectorAll(".filter-tab").forEach(t => t.classList.remove("active"));
+          tab.classList.add("active");
+          currentStatusFilter = tab.dataset.status;
+          renderAdminIssues();
+        });
+      });
+
+      searchAdminIssues.addEventListener("input", renderAdminIssues);
+
+      // --- TAB 2: Announcements Logic ---
+      const adminAnnForm = document.getElementById("adminAnnForm");
+      const adminAnnList = document.getElementById("adminAnnList");
+      const admAnnTitle = document.getElementById("admAnnTitle");
+      const admAnnDetails = document.getElementById("admAnnDetails");
+      const admAnnDate = document.getElementById("admAnnDate");
+      const admAnnPriority = document.getElementById("admAnnPriority");
+
+      admAnnDate.value = new Date().toISOString().split("T")[0];
+
+      function renderAdminAnnouncements() {
+        const arr = GroHit.getAnnouncements();
+        adminAnnList.innerHTML = "";
+        arr.forEach(a => {
+          const li = document.createElement("li");
+          li.className = "item-card";
+          li.innerHTML = `
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <strong>${a.title}</strong>
+              <button class="btn-delete btn-sm btn-del-ann">❌ Delete</button>
+            </div>
+            <p style="font-size:0.92rem; color:#4a5c4d; margin-top:4px;">${a.details}</p>
+            <div style="font-size:0.8rem; color:#6b7280; margin-top:4px;">Author: <strong>${a.authorName}</strong> &bull; Date: ${a.date}</div>
+          `;
+          li.querySelector(".btn-del-ann").addEventListener("click", () => {
+            if (confirm("Delete announcement?")) {
+              GroHit.deleteAnnouncement(a.id);
+              GroHit.showToast("Announcement deleted.");
+              renderAdminAnnouncements();
+            }
+          });
+          adminAnnList.appendChild(li);
+        });
+      }
+
+      adminAnnForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const newAnn = {
+          id: "ANN-" + Date.now(),
+          title: admAnnTitle.value.trim(),
+          details: admAnnDetails.value.trim(),
+          authorRole: "admin",
+          authorName: "Panchayat Sachiv & Pradhan",
+          date: admAnnDate.value || new Date().toISOString().split("T")[0],
+          priority: admAnnPriority.value,
+          createdAt: Date.now()
+        };
+        GroHit.saveAnnouncement(newAnn);
+        GroHit.showToast("📢 Announcement published!");
+        adminAnnForm.reset();
+        admAnnDate.value = new Date().toISOString().split("T")[0];
+        renderAdminAnnouncements();
+      });
+
+      // --- TAB 3: Schemes Manager Logic ---
+      const adminSchemeForm = document.getElementById("adminSchemeForm");
+      const adminSchemesList = document.getElementById("adminSchemesList");
+
+      function renderAdminSchemes() {
+        const schemes = JSON.parse(localStorage.getItem("grohit_schemes") || "[]");
+        adminSchemesList.innerHTML = "";
+        schemes.forEach(s => {
+          const li = document.createElement("li");
+          li.className = "item-card";
+          li.innerHTML = `
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <strong>${s.title}</strong> ${s.hindiTitle ? `(${s.hindiTitle})` : ''}
+                <span class="status-badge" style="background:#e8f5e9; color:#1b5e20; margin-left:6px;">${s.category}</span>
+              </div>
+              <button class="btn-delete btn-sm btn-del-sch">❌ Delete</button>
+            </div>
+            <p style="font-size:0.9rem; color:#4a5c4d; margin-top:4px;">${s.description} &bull; <em>Benefit: ${s.benefit}</em></p>
+            <a href="${s.link}" target="_blank" style="font-size:0.85rem;">Visit Portal &rarr;</a>
+          `;
+          li.querySelector(".btn-del-sch").addEventListener("click", () => {
+            const updated = schemes.filter(x => x.id !== s.id);
+            localStorage.setItem("grohit_schemes", JSON.stringify(updated));
+            GroHit.showToast("Scheme removed.");
+            renderAdminSchemes();
+          });
+          adminSchemesList.appendChild(li);
+        });
+      }
+
+      adminSchemeForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const schemes = JSON.parse(localStorage.getItem("grohit_schemes") || "[]");
+        const newScheme = {
+          id: Date.now(),
+          title: document.getElementById("schTitle").value.trim(),
+          hindiTitle: document.getElementById("schHindiTitle").value.trim(),
+          category: document.getElementById("schCategory").value,
+          benefit: document.getElementById("schBenefit").value.trim(),
+          description: document.getElementById("schDescription").value.trim(),
+          link: document.getElementById("schLink").value.trim()
+        };
+        schemes.unshift(newScheme);
+        localStorage.setItem("grohit_schemes", JSON.stringify(schemes));
+        GroHit.showToast("Government scheme added!");
+        adminSchemeForm.reset();
+        renderAdminSchemes();
+      });
+
+      // --- TAB 4: Mandi Rates Logic ---
+      const adminMandiForm = document.getElementById("adminMandiForm");
+      const adminMandiList = document.getElementById("adminMandiList");
+
+      function renderAdminMandi() {
+        const mandi = JSON.parse(localStorage.getItem("grohit_mandi") || "[]");
+        adminMandiList.innerHTML = "";
+        mandi.forEach(m => {
+          const li = document.createElement("li");
+          li.className = "item-card";
+          li.innerHTML = `
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <strong>${m.commodity}</strong>
+              <div style="display:flex; align-items:center; gap:10px;">
+                <span style="font-weight:bold; font-size:1.1rem; color:#1b5e20;">₹${m.price} / ${m.unit}</span>
+                <button class="btn-delete btn-sm btn-del-mandi">❌</button>
+              </div>
+            </div>
+          `;
+          li.querySelector(".btn-del-mandi").addEventListener("click", () => {
+            const updated = mandi.filter(x => x.id !== m.id);
+            localStorage.setItem("grohit_mandi", JSON.stringify(updated));
+            renderAdminMandi();
+          });
+          adminMandiList.appendChild(li);
+        });
+      }
+
+      adminMandiForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const mandi = JSON.parse(localStorage.getItem("grohit_mandi") || "[]");
+        const name = document.getElementById("mandiName").value.trim();
+        const cat = document.getElementById("mandiCat").value;
+        const price = parseInt(document.getElementById("mandiPrice").value);
+        const unit = document.getElementById("mandiUnit").value;
+
+        // Check if commodity already exists to update
+        const existIdx = mandi.findIndex(x => x.commodity.toLowerCase().includes(name.toLowerCase()));
+        if (existIdx !== -1) {
+          mandi[existIdx].price = price;
+          mandi[existIdx].unit = unit;
+          mandi[existIdx].category = cat;
+          mandi[existIdx].trend = "up";
+          mandi[existIdx].change = "Updated";
+        } else {
+          mandi.unshift({
+            id: Date.now(),
+            commodity: name,
+            category: cat,
+            price: price,
+            unit: unit,
+            trend: "stable",
+            change: "New"
+          });
+        }
+        localStorage.setItem("grohit_mandi", JSON.stringify(mandi));
+        GroHit.showToast("Mandi price updated!");
+        adminMandiForm.reset();
+        renderAdminMandi();
+      });
+
+      // --- TAB 5: Registered Villagers Logic ---
+      const adminUsersTable = document.getElementById("adminUsersTable");
+      const exportUsersBtn = document.getElementById("exportUsersBtn");
+
+      function renderAdminUsers() {
+        const users = JSON.parse(localStorage.getItem("users") || "[]");
+        adminUsersTable.innerHTML = "";
+        if (users.length === 0) {
+          adminUsersTable.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:16px;">No registered villagers found.</td></tr>`;
+          return;
+        }
+        users.forEach(u => {
+          const tr = document.createElement("tr");
+          tr.style.borderBottom = "1px solid #e0e0e0";
+          tr.innerHTML = `
+            <td style="padding:10px; font-weight:bold;">${u.name || "N/A"}</td>
+            <td style="padding:10px; font-family:monospace; color:#1b5e20;">${u.id || "N/A"}</td>
+            <td style="padding:10px;">${u.phone || "N/A"}</td>
+            <td style="padding:10px;"><span class="role-badge role-${u.role || 'villager'}">${u.role || 'villager'}</span></td>
+            <td style="padding:10px; font-size:0.85rem; color:#666;">${u.time || "Recently"}</td>
+          `;
+          adminUsersTable.appendChild(tr);
+        });
+      }
+
+      exportUsersBtn.addEventListener("click", () => {
+        const users = JSON.parse(localStorage.getItem("users") || "[]");
+        let csv = "Name,VillageID,Phone,Role,RegisteredDate\n";
+        users.forEach(u => {
+          csv += `"${u.name || ''}","${u.id || ''}","${u.phone || ''}","${u.role || ''}","${u.time || ''}"\n`;
+        });
+        const blob = new Blob([csv], { type: "text/csv" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "GroHit_Village_Users.csv";
+        a.click();
+        GroHit.showToast("Exported user list to CSV!");
+      });
+
+      // Master Render
+      function renderAllAdminData() {
+        renderAdminIssues();
+        renderAdminAnnouncements();
+        renderAdminSchemes();
+        renderAdminMandi();
+        renderAdminUsers();
+      }
+
+      window.addEventListener("grohit-role-changed", () => {
+        checkAdminAuth();
+      });
+
+      checkAdminAuth();
+    });
+  </script>
+  <script src="ai-assistant.js"></script>
+</body>
+</html>
+
+

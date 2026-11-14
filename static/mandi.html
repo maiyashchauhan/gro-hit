@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Digital Mandi Bulletin | Gro-Hit</title>
+  <meta name="theme-color" content="#1b5e20" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="i18n.js"></script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <a href="index.html" class="brand">
+        <img src="logo.png" alt="GROHIT Logo" class="brand-logo" width="48" height="48" />
+        <div class="brand-text">
+          <h1>GROHIT</h1>
+          <div class="tagline" data-i18n="header.tagline">Village Support & Mandi Portal (डिजिटल मंडी)</div>
+        </div>
+      </a>
+
+      <div class="header-actions">
+        <div class="user-id-box">
+          <span>ID:</span>
+          <span id="showId">...</span>
+        </div>
+        <div id="langSwitcherContainer"></div>
+        <button id="openLoginBtn" class="header-btn" data-i18n="header.switchrole">Switch Role</button>
+        <a href="sos.html" class="header-btn sos-quick-btn" data-i18n="header.sos">🚨 SOS Emergency</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation -->
+  <nav class="nav-bar" aria-label="Main Navigation">
+    <div class="nav-grid">
+      <a class="nav-btn" href="index.html"><span class="nav-icon">🏠</span><div>Home</div><span class="nav-hindi">मुख्य</span></a>
+      <a class="nav-btn" href="schemes.html"><span class="nav-icon">📜</span><div>Schemes</div><span class="nav-hindi">योजनाएं</span></a>
+      <a class="nav-btn" href="gramconnect.html"><span class="nav-icon">🏛️</span><div>GramConnect</div><span class="nav-hindi">ग्राम कनेक्ट</span></a>
+      <a class="nav-btn" href="pardesh-setu.html"><span class="nav-icon">🤝</span><div>Pardesh Setu</div><span class="nav-hindi">परदेस सेतु</span></a>
+      <a class="nav-btn" href="report.html"><span class="nav-icon">📍</span><div>Report</div><span class="nav-hindi">शिकायत</span></a>
+      <a class="nav-btn" href="announcements.html"><span class="nav-icon">📣</span><div>Updates</div><span class="nav-hindi">सूचनाएं</span></a>
+      <a class="nav-btn" href="crop.html"><span class="nav-icon">🌾</span><div>Crop</div><span class="nav-hindi">फसल</span></a>
+      <a class="nav-btn active" href="mandi.html"><span class="nav-icon">🧾</span><div>Mandi</div><span class="nav-hindi">मंडी भाव</span></a>
+      <a class="nav-btn" href="jobs.html"><span class="nav-icon">💼</span><div>Jobs</div><span class="nav-hindi">रोजगार</span></a>
+      <a class="nav-btn" href="radio.html"><span class="nav-icon">📻</span><div>Radio</div><span class="nav-hindi">रेडियो</span></a>
+      <a class="nav-btn" href="donation.html"><span class="nav-icon">🤝</span><div>Donate</div><span class="nav-hindi">मदद</span></a>
+      <a class="nav-btn" href="suggestion.html"><span class="nav-icon">💡</span><div>Suggestions</div><span class="nav-hindi">सुझाव</span></a>
+      <a class="nav-btn admin-only" href="admin.html"><span class="nav-icon">🛠️</span><div>Admin</div><span class="nav-hindi">प्रशासन</span></a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="container">
+    <div class="page-header">
+      <div class="page-title">
+        <div class="title-icon">🧾</div>
+        <div>
+          <h2>Daily Digital Mandi Bulletin (दैनिक मंडी भाव)</h2>
+          <p>Verified daily market rates for crops, vegetables, fruits, and dairy</p>
+        </div>
+      </div>
+      <button id="listenMandiBtn" class="btn secondary btn-sm">🔊 Listen Rates</button>
+    </div>
+
+    <!-- Mandi Category Filter & Search -->
+    <section class="panel">
+      <div class="card-header">
+        <h3>🌾 Current Market Prices</h3>
+        <input type="text" id="searchMandi" placeholder="🔍 Search crop / vegetable..." style="max-width: 250px;" />
+      </div>
+
+      <div class="filter-tabs" style="margin-bottom: 18px;">
+        <button class="filter-tab active" data-cat="all">All (सभी)</button>
+        <button class="filter-tab" data-cat="Grains">🌾 Grains (अनाज)</button>
+        <button class="filter-tab" data-cat="Vegetables">🥕 Vegetables (सब्जियां)</button>
+        <button class="filter-tab" data-cat="Oilseeds">🌻 Oilseeds (तिलहन)</button>
+        <button class="filter-tab" data-cat="Dairy">🥛 Dairy (दुग्ध)</button>
+      </div>
+
+      <ul id="mandiList" class="list">
+        <!-- Injected by JS -->
+      </ul>
+
+      <!-- Add / Update Mandi Price -->
+      <details class="panel" style="margin-top: 24px; background: #fafafa;">
+        <summary style="font-weight: bold; color: #1b5e20; cursor: pointer;">➕ Add or Update Market Rate (मंडी समिति)</summary>
+        <form id="mandiForm" class="form" style="margin-top: 14px;">
+          <div class="row" style="margin-top: 0;">
+            <div class="form-group" style="flex: 1; min-width: 180px;">
+              <label>Commodity Name *</label>
+              <input type="text" id="commName" placeholder="e.g. Gram / Chana (चना)" required />
+            </div>
+            <div class="form-group" style="flex: 1; min-width: 140px;">
+              <label>Category</label>
+              <select id="commCat">
+                <option value="Grains">Grains (अनाज / दलहन)</option>
+                <option value="Vegetables">Vegetables (सब्जी)</option>
+                <option value="Oilseeds">Oilseeds (तिलहन)</option>
+                <option value="Dairy">Dairy (दुग्ध)</option>
+              </select>
+            </div>
+            <div class="form-group" style="flex: 1; min-width: 130px;">
+              <label>Price (₹) *</label>
+              <input type="number" id="commPrice" min="1" placeholder="5600" required />
+            </div>
+            <div class="form-group" style="flex: 1; min-width: 120px;">
+              <label>Unit</label>
+              <select id="commUnit">
+                <option value="Quintal">Quintal</option>
+                <option value="Kg">Kg</option>
+                <option value="Liter">Liter</option>
+              </select>
+            </div>
+          </div>
+          <button type="submit" class="btn primary">Update Mandi Board</button>
+        </form>
+      </details>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <p>Gro-Hit Rural Support System &bull; Gram Panchayat & Health Network</p>
+    <p style="margin-top: 4px; font-size: 0.8rem; opacity: 0.85;">Rates updated daily from APMC & e-NAM Agricultural Portal</p>
+  </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const mandiList = document.getElementById("mandiList");
+      const searchMandi = document.getElementById("searchMandi");
+      const mandiForm = document.getElementById("mandiForm");
+      const listenMandiBtn = document.getElementById("listenMandiBtn");
+
+      let currentCategory = "all";
+
+      function getMandiRates() {
+        try {
+          return JSON.parse(localStorage.getItem("grohit_mandi") || "[]");
+        } catch {
+          return [];
+        }
+      }
+
+      function renderMandi() {
+        const rates = getMandiRates();
+        const search = searchMandi.value.toLowerCase();
+
+        const filtered = rates.filter(r => {
+          const matchCat = currentCategory === "all" || r.category === currentCategory;
+          const matchSearch = r.commodity.toLowerCase().includes(search);
+          return matchCat && matchSearch;
+        });
+
+        mandiList.innerHTML = "";
+
+        if (filtered.length === 0) {
+          mandiList.innerHTML = `<li style="text-align:center; padding:24px; color:#4a5c4d;">No rates found for this filter.</li>`;
+          return;
+        }
+
+        filtered.forEach(item => {
+          const li = document.createElement("li");
+          li.className = "item-card";
+
+          const trendBadge = item.trend === "up" 
+            ? `<span class="status-badge" style="background:#dcfce7; color:#15803d;">📈 ${item.change || '+₹'}</span>`
+            : item.trend === "down"
+            ? `<span class="status-badge" style="background:#fee2e2; color:#b91c1c;">📉 ${item.change || '-₹'}</span>`
+            : `<span class="status-badge" style="background:#f3f4f6; color:#4b5563;">➖ Stable</span>`;
+
+          li.innerHTML = `
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+              <div>
+                <h4 style="color:#1b5e20; font-size:1.2rem; margin:0 0 2px;">${item.commodity}</h4>
+                <span style="font-size:0.85rem; color:#4a5c4d;">Category: ${item.category}</span>
+                ${trendBadge}
+              </div>
+              <div style="text-align:right;">
+                <div style="font-size:1.4rem; font-weight:800; color:#1b5e20;">₹${item.price} <span style="font-size:0.9rem; color:#4a5c4d; font-weight:500;">/ ${item.unit}</span></div>
+              </div>
+            </div>
+          `;
+          mandiList.appendChild(li);
+        });
+      }
+
+      // Filter tabs
+      document.querySelectorAll(".filter-tab").forEach(tab => {
+        tab.addEventListener("click", () => {
+          document.querySelectorAll(".filter-tab").forEach(t => t.classList.remove("active"));
+          tab.classList.add("active");
+          currentCategory = tab.dataset.cat;
+          renderMandi();
+        });
+      });
+
+      searchMandi.addEventListener("input", renderMandi);
+
+      // Add/Update
+      mandiForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const rates = getMandiRates();
+        const name = document.getElementById("commName").value.trim();
+        const cat = document.getElementById("commCat").value;
+        const price = parseInt(document.getElementById("commPrice").value);
+        const unit = document.getElementById("commUnit").value;
+
+        const existIdx = rates.findIndex(r => r.commodity.toLowerCase().includes(name.toLowerCase()));
+        if (existIdx !== -1) {
+          rates[existIdx].price = price;
+          rates[existIdx].unit = unit;
+          rates[existIdx].category = cat;
+          rates[existIdx].trend = "up";
+          rates[existIdx].change = "+Updated";
+        } else {
+          rates.unshift({
+            id: Date.now(),
+            commodity: name,
+            category: cat,
+            price: price,
+            unit: unit,
+            trend: "stable",
+            change: "New"
+          });
+        }
+
+        localStorage.setItem("grohit_mandi", JSON.stringify(rates));
+        GroHit.showToast("Mandi rate updated!");
+        mandiForm.reset();
+        renderMandi();
+      });
+
+      // Listen speech
+      listenMandiBtn.addEventListener("click", () => {
+        const rates = getMandiRates().slice(0, 4);
+        const speech = "Today's Mandi crop rates are: " + rates.map(r => `${r.commodity} is ${r.price} rupees per ${r.unit}`).join(". ");
+        GroHit.speakText(speech);
+      });
+
+      renderMandi();
+    });
+  </script>
+  <script src="ai-assistant.js"></script>
+</body>
+</html>
+
+

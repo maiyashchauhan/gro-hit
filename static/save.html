@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Saved Users Directory | Gro-Hit</title>
+  <meta name="theme-color" content="#1b5e20" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="i18n.js"></script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <a href="index.html" class="brand">
+        <img src="logo.png" alt="GROHIT Logo" class="brand-logo" width="48" height="48" />
+        <div class="brand-text">
+          <h1>GROHIT</h1>
+          <div class="tagline" data-i18n="header.tagline">Village Support & Registered Directory (नागरिक पंजी)</div>
+        </div>
+      </a>
+
+      <div class="header-actions">
+        <div id="langSwitcherContainer"></div>
+        <a href="admin.html" class="header-btn">🛠️ Admin Panel</a>
+        <a href="index.html" class="header-btn">🏠 Home</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container">
+    <div class="page-header">
+      <div class="page-title">
+        <div class="title-icon">👥</div>
+        <div>
+          <h2>Registered Village Citizens Directory (ग्राम नागरिक पंजी)</h2>
+          <p>Complete record of registered villagers, health workers, and panchayat administrators</p>
+        </div>
+      </div>
+      <button id="exportCsvBtn" class="btn secondary btn-sm">📥 Export CSV</button>
+    </div>
+
+    <section class="panel">
+      <div class="card-header">
+        <h3>📋 Citizen Registry (<span id="userCount">0</span>)</h3>
+        <input type="text" id="searchUsers" placeholder="🔍 Search by name, phone or ID..." style="max-width:300px;" />
+      </div>
+
+      <div style="overflow-x:auto;">
+        <table style="width:100%; border-collapse:collapse; background:#fff; margin-top:10px;">
+          <thead>
+            <tr style="background:#1b5e20; color:#fff;">
+              <th style="padding:12px; text-align:left;">Name</th>
+              <th style="padding:12px; text-align:left;">Village ID</th>
+              <th style="padding:12px; text-align:left;">Phone</th>
+              <th style="padding:12px; text-align:left;">Role</th>
+              <th style="padding:12px; text-align:left;">Registered On</th>
+            </tr>
+          </thead>
+          <tbody id="userTable">
+            <!-- Injected by JS -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <p>Gro-Hit Rural Support System &bull; Gram Panchayat & Health Network</p>
+    <p style="margin-top: 4px; font-size: 0.8rem; opacity: 0.85;">Official Gram Panchayat Citizen Records</p>
+  </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const userTable = document.getElementById("userTable");
+      const userCount = document.getElementById("userCount");
+      const searchUsers = document.getElementById("searchUsers");
+      const exportCsvBtn = document.getElementById("exportCsvBtn");
+
+      function getUsers() {
+        try {
+          return JSON.parse(localStorage.getItem("users") || "[]");
+        } catch {
+          return [];
+        }
+      }
+
+      function render() {
+        const users = getUsers();
+        const search = searchUsers.value.toLowerCase();
+
+        const filtered = users.filter(u => 
+          (u.name && u.name.toLowerCase().includes(search)) ||
+          (u.id && u.id.toLowerCase().includes(search)) ||
+          (u.phone && u.phone.includes(search)) ||
+          (u.role && u.role.toLowerCase().includes(search))
+        );
+
+        userCount.textContent = filtered.length;
+        userTable.innerHTML = "";
+
+        if (filtered.length === 0) {
+          userTable.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:24px; color:#4a5c4d;">No citizens found.</td></tr>`;
+          return;
+        }
+
+        filtered.forEach(u => {
+          const tr = document.createElement("tr");
+          tr.style.borderBottom = "1px solid #e0e0e0";
+          tr.innerHTML = `
+            <td style="padding:12px; font-weight:bold; color:#1c281e;">${u.name || "N/A"}</td>
+            <td style="padding:12px; font-family:monospace; color:#1b5e20; font-weight:bold;">${u.id || "N/A"}</td>
+            <td style="padding:12px;">${u.phone || "N/A"}</td>
+            <td style="padding:12px;"><span class="role-badge role-${u.role || 'villager'}">${u.role || 'villager'}</span></td>
+            <td style="padding:12px; font-size:0.85rem; color:#6b7280;">${u.time || "Recently"}</td>
+          `;
+          userTable.appendChild(tr);
+        });
+      }
+
+      searchUsers.addEventListener("input", render);
+
+      exportCsvBtn.addEventListener("click", () => {
+        const users = getUsers();
+        let csv = "Name,VillageID,Phone,Role,RegisteredDate\n";
+        users.forEach(u => {
+          csv += `"${u.name || ''}","${u.id || ''}","${u.phone || ''}","${u.role || ''}","${u.time || ''}"\n`;
+        });
+        const blob = new Blob([csv], { type: "text/csv" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "GroHit_Registered_Villagers.csv";
+        a.click();
+        GroHit.showToast("Citizen records exported to CSV!");
+      });
+
+      render();
+    });
+  </script>
+  <script src="ai-assistant.js"></script>
+</body>
+</html>

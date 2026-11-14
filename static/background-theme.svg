@@ -1,0 +1,64 @@
+<svg width="1600" height="1200" viewBox="0 0 1600 1200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f4f9f1"/>
+      <stop offset="22%" stop-color="#edf6eb"/>
+      <stop offset="48%" stop-color="#dfeedd"/>
+      <stop offset="70%" stop-color="#d2ead0"/>
+      <stop offset="100%" stop-color="#bbdcb4"/>
+    </linearGradient>
+    <linearGradient id="leafA" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6bb86b"/>
+      <stop offset="100%" stop-color="#2c7a40"/>
+    </linearGradient>
+    <linearGradient id="leafB" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#a8d48b"/>
+      <stop offset="100%" stop-color="#5ea55d"/>
+    </linearGradient>
+    <linearGradient id="sun" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffe7a8" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#ffc857" stop-opacity="0.65"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1600" height="1200" fill="url(#bg)"/>
+
+  <circle cx="1220" cy="220" r="130" fill="url(#sun)" opacity="0.7"/>
+
+  <g opacity="0.32">
+    <path d="M140 960 C 280 820, 420 810, 560 920 S 820 1020, 980 900 S 1280 760, 1500 930 L 1500 1200 L 140 1200 Z" fill="#a8c7a0"/>
+    <path d="M0 820 C 200 760, 330 680, 490 760 S 820 860, 1030 760 S 1380 650, 1600 720 L 1600 1200 L 0 1200 Z" fill="#c1d9b9"/>
+  </g>
+
+  <g opacity="0.33" stroke-linecap="round">
+    <path d="M200 990 C 250 920, 310 860, 360 970" stroke="#4a9c52" stroke-width="18" fill="none"/>
+    <path d="M360 970 C 410 900, 470 840, 520 960" stroke="#5cab63" stroke-width="18" fill="none"/>
+    <path d="M520 960 C 570 880, 640 830, 690 950" stroke="#6dbb70" stroke-width="18" fill="none"/>
+    <path d="M690 950 C 740 860, 810 820, 860 950" stroke="#4a9c52" stroke-width="18" fill="none"/>
+    <path d="M860 950 C 910 860, 980 825, 1030 960" stroke="#5cab63" stroke-width="18" fill="none"/>
+    <path d="M1030 960 C 1080 890, 1160 840, 1210 980" stroke="#6dbb70" stroke-width="18" fill="none"/>
+  </g>
+
+  <g opacity="0.45">
+    <path d="M145 840 C 245 710, 330 690, 340 600 C 270 610, 185 665, 145 840 Z" fill="url(#leafA)"/>
+    <path d="M325 870 C 440 760, 540 760, 560 650 C 470 650, 365 710, 325 870 Z" fill="url(#leafB)"/>
+    <path d="M560 900 C 680 770, 790 760, 805 660 C 708 660, 610 720, 560 900 Z" fill="url(#leafA)"/>
+    <path d="M830 900 C 960 780, 1085 770, 1100 660 C 990 660, 885 720, 830 900 Z" fill="url(#leafB)"/>
+    <path d="M1090 890 C 1225 770, 1350 770, 1368 660 C 1250 660, 1170 720, 1090 890 Z" fill="url(#leafA)"/>
+  </g>
+
+  <g opacity="0.25" fill="#ffffff">
+    <circle cx="260" cy="220" r="10"/>
+    <circle cx="410" cy="170" r="14"/>
+    <circle cx="590" cy="250" r="9"/>
+    <circle cx="860" cy="180" r="12"/>
+    <circle cx="1040" cy="250" r="10"/>
+    <circle cx="1280" cy="200" r="16"/>
+  </g>
+
+  <g opacity="0.17" fill="#2f6d3e">
+    <circle cx="240" cy="430" r="120"/>
+    <circle cx="680" cy="350" r="90"/>
+    <circle cx="1200" cy="410" r="140"/>
+  </g>
+</svg>

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crop Disease Scanner | Gro-Hit</title>
+  <meta name="theme-color" content="#1b5e20" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="i18n.js"></script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <a href="index.html" class="brand">
+        <img src="logo.png" alt="GROHIT Logo" class="brand-logo" width="48" height="48" />
+        <div class="brand-text">
+          <h1>GROHIT</h1>
+          <div class="tagline" data-i18n="header.tagline">Village Support & Agriculture Portal (कृषि सेवा)</div>
+        </div>
+      </a>
+
+      <div class="header-actions">
+        <div class="user-id-box">
+          <span>ID:</span>
+          <span id="showId">...</span>
+        </div>
+        <div id="langSwitcherContainer"></div>
+        <button id="openLoginBtn" class="header-btn" data-i18n="header.switchrole">Switch Role</button>
+        <a href="sos.html" class="header-btn sos-quick-btn" data-i18n="header.sos">🚨 SOS Emergency</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation -->
+  <nav class="nav-bar" aria-label="Main Navigation">
+    <div class="nav-grid">
+      <a class="nav-btn" href="index.html"><span class="nav-icon">🏠</span><div>Home</div><span class="nav-hindi">मुख्य</span></a>
+      <a class="nav-btn" href="schemes.html"><span class="nav-icon">📜</span><div>Schemes</div><span class="nav-hindi">योजनाएं</span></a>
+      <a class="nav-btn" href="gramconnect.html"><span class="nav-icon">🏛️</span><div>GramConnect</div><span class="nav-hindi">ग्राम कनेक्ट</span></a>
+      <a class="nav-btn" href="pardesh-setu.html"><span class="nav-icon">🤝</span><div>Pardesh Setu</div><span class="nav-hindi">परदेस सेतु</span></a>
+      <a class="nav-btn" href="report.html"><span class="nav-icon">📍</span><div>Report</div><span class="nav-hindi">शिकायत</span></a>
+      <a class="nav-btn" href="announcements.html"><span class="nav-icon">📣</span><div>Updates</div><span class="nav-hindi">सूचनाएं</span></a>
+      <a class="nav-btn active" href="crop.html"><span class="nav-icon">🌾</span><div>Crop</div><span class="nav-hindi">फसल</span></a>
+      <a class="nav-btn" href="mandi.html"><span class="nav-icon">🧾</span><div>Mandi</div><span class="nav-hindi">मंडी भाव</span></a>
+      <a class="nav-btn" href="jobs.html"><span class="nav-icon">💼</span><div>Jobs</div><span class="nav-hindi">रोजगार</span></a>
+      <a class="nav-btn" href="radio.html"><span class="nav-icon">📻</span><div>Radio</div><span class="nav-hindi">रेडियो</span></a>
+      <a class="nav-btn" href="donation.html"><span class="nav-icon">🤝</span><div>Donate</div><span class="nav-hindi">मदद</span></a>
+      <a class="nav-btn" href="suggestion.html"><span class="nav-icon">💡</span><div>Suggestions</div><span class="nav-hindi">सुझाव</span></a>
+      <a class="nav-btn admin-only" href="admin.html"><span class="nav-icon">🛠️</span><div>Admin</div><span class="nav-hindi">प्रशासन</span></a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="container">
+    <div class="page-header">
+      <div class="page-title">
+        <div class="title-icon">🌾</div>
+        <div>
+          <h2>Crop Disease Scanner (फसल डॉक्टर)</h2>
+          <p>Take or upload a photo of infected leaves to instantly diagnose diseases and get organic remedies</p>
+        </div>
+      </div>
+      <a href="mandi.html" class="btn secondary btn-sm">🧾 Check Mandi Rates</a>
+    </div>
+
+    <!-- Scanner Form -->
+    <section class="panel">
+      <div class="card-header">
+        <h3>📷 Scan Crop / Leaf Photo</h3>
+      </div>
+
+      <form id="cropForm" class="form">
+        <div class="row" style="margin-top:0;">
+          <div class="form-group" style="flex:1; min-width:180px;">
+            <label>Select Crop Type (फसल का प्रकार)</label>
+            <select id="cropType">
+              <option value="wheat">🌾 Wheat (गेहूं)</option>
+              <option value="paddy">🌾 Paddy / Rice (धान)</option>
+              <option value="mustard">🌻 Mustard (सरसों)</option>
+              <option value="cotton">🌱 Cotton (कपास)</option>
+              <option value="tomato">🍅 Tomato / Vegetables (टमाटर / सब्जी)</option>
+              <option value="sugarcane">🎋 Sugarcane (गन्ना)</option>
+            </select>
+          </div>
+
+          <div class="form-group" style="flex:1; min-width:180px;">
+            <label>Observed Problem</label>
+            <select id="cropSymptom">
+              <option value="yellow_spots">Yellow / Brown spots on leaves (पत्तियों पर पीले/भूरे धब्बे)</option>
+              <option value="curling">Curled or crinkled leaves (पत्तियां मुड़ रही हैं)</option>
+              <option value="stem_rot">Stem turning black / rotting (तना काला पड़ रहा है)</option>
+              <option value="insects">Insects / Aphids eating leaves (कीट व सुंडी)</option>
+              <option value="wilting">Whole plant wilting dry (पौधा सूख रहा है)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Upload or Capture Plant Leaf Photo *</label>
+          <input type="file" id="cropPhoto" name="photo" accept="image/*;capture=camera" />
+          <div id="cropPreviewBox" style="display:none; margin-top:12px;">
+            <img id="cropImgPreview" src="" alt="Crop Preview" style="max-width:260px; max-height:180px; border-radius:8px; border:2px solid #81c784;" />
+          </div>
+        </div>
+
+        <div class="row">
+          <button type="button" id="analyzeCropBtn" class="btn primary">🔬 Diagnose Crop Health (निदान करें)</button>
+          <button type="button" id="queueCropBtn" class="btn secondary">💾 Save for Offline Doctor</button>
+        </div>
+      </form>
+
+      <!-- Diagnosis Result Card -->
+      <div id="cropResult" class="card" style="display:none; margin-top:20px; background:#f0fdf4; border-color:#86efac;"></div>
+    </section>
+
+    <!-- Queued Offline Scans -->
+    <section class="panel">
+      <div class="card-header">
+        <h3>📋 Saved & Queued Crop Diagnostics</h3>
+      </div>
+      <ul id="cropQueue" class="list"></ul>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <p>Gro-Hit Rural Support System &bull; Gram Panchayat & Health Network</p>
+    <p style="margin-top: 4px; font-size: 0.8rem; opacity: 0.85;">Kisan Call Center Toll-Free: <strong>1800-180-1551</strong></p>
+  </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="i18n.js"></script>
+  <script src="app.js"></script>
+  <script src="ai-assistant.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Language switcher
+      const cropPhoto = document.getElementById("cropPhoto");
+      const cropPreviewBox = document.getElementById("cropPreviewBox");
+      const cropImgPreview = document.getElementById("cropImgPreview");
+      const analyzeCropBtn = document.getElementById("analyzeCropBtn");
+      const queueCropBtn = document.getElementById("queueCropBtn");
+      const cropResult = document.getElementById("cropResult");
+      const cropQueue = document.getElementById("cropQueue");
+      const cropType = document.getElementById("cropType");
+      const cropSymptom = document.getElementById("cropSymptom");
+
+      let photoData = "";
+
+      // Preview Image
+      cropPhoto.addEventListener("change", () => {
+        const file = cropPhoto.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            photoData = e.target.result;
+            cropImgPreview.src = photoData;
+            cropPreviewBox.style.display = "block";
+          };
+          reader.readAsDataURL(file);
+        } else {
+          photoData = "";
+          cropPreviewBox.style.display = "none";
+        }
+      });
+
+      // AI Crop Diagnosis Engine — Gemini Powered
+      analyzeCropBtn.addEventListener("click", async () => {
+        const crop = cropType.options[cropType.selectedIndex].text;
+        const symptomKey = cropSymptom.value;
+        const symptomText = cropSymptom.options[cropSymptom.selectedIndex].text;
+        const lang = (typeof GroHitI18n !== 'undefined') ? GroHitI18n.current : 'hi';
+
+        analyzeCropBtn.disabled = true;
+        analyzeCropBtn.textContent = "⏳ AI is analyzing... (AI विश्लेषण हो रहा है)";
+        cropResult.style.display = "block";
+        cropResult.innerHTML = `<div style="text-align:center; padding:24px;">
+          <div style="font-size:2.5rem; margin-bottom:12px;">🔬</div>
+          <p style="color:#166534; font-weight:600;">Gemini AI is diagnosing your crop...</p>
+          <p style="color:#4a5c4d; font-size:0.9rem; margin-top:4px;">Please wait while AI analyzes your photo and symptoms</p>
+        </div>`;
+
+        try {
+          let aiResponse;
+
+          if (photoData) {
+            // Use Gemini Vision if photo is available
+            const base64 = photoData.split(',')[1];
+            const mimeType = photoData.split(';')[0].split(':')[1];
+            const res = await fetch('http://localhost:5000/api/ai/crop-vision', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ imageBase64: base64, mimeType, language: lang })
+            });
+            const data = await res.json();
+            aiResponse = data.diagnosis;
+          } else {
+            // Text-based diagnosis
+            const res = await fetch('http://localhost:5000/api/ai/crop', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ symptoms: symptomText, cropType: crop, language: lang })
+            });
+            const data = await res.json();
+            aiResponse = data.diagnosis;
+          }
+
+          cropResult.innerHTML = `
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; margin-bottom:12px;">
+              <h4 style="color:#1b5e20; font-size:1.2rem; margin:0;">🤖 AI Crop Diagnosis — ${crop}</h4>
+              <span class="status-badge" style="background:#dcfce7; color:#166534;">Gemini AI ✓</span>
+            </div>
+            <div style="background:#fff; border:1px solid #86efac; border-radius:10px; padding:16px; white-space:pre-wrap; font-size:0.92rem; line-height:1.6; color:#1f2937;">
+              ${aiResponse.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>')}
+            </div>
+            <div style="margin-top:12px; display:flex; gap:10px;">
+              <button onclick="GroHitAI.speak(this)" data-text="${aiResponse.replace(/"/g,'&quot;')}" style="background:#e8f5e9; border:none; border-radius:20px; padding:8px 16px; cursor:pointer; color:#1b5e20; font-weight:600;">🔊 Listen in ${lang.toUpperCase()}</button>
+              <a href="tel:18001801551" style="background:#fef3c7; border:none; border-radius:20px; padding:8px 16px; text-decoration:none; color:#92400e; font-weight:600;">📞 Kisan Helpline: 1800-180-1551</a>
+            </div>`;
+
+        } catch (e) {
+          // Fallback to local logic
+          const fileName = cropPhoto.files[0] ? cropPhoto.files[0].name : "Visual Symptoms Analyzed";
+          let diseaseName = "Cercospora Leaf Spot (पत्ती धब्बा रोग)";
+          let severity = "Moderate Severity (मध्यम)";
+          let organicSolution = "Spray Neem oil (5ml per liter of water) mixed with mild soap solution every 7 days.";
+          let chemicalSolution = "Spray Mancozeb 75% WP (2.5g/liter) or Copper Oxychloride if infestation is widespread.";
+          let prevention = "Avoid overhead flood irrigation late in evening. Ensure field drainage.";
+
+          if (symptomKey === "curling") {
+            diseaseName = "Leaf Curl Virus transmitted by Whiteflies (पत्ती मरोड़ रोग)";
+            severity = "High Severity (गंभीर)";
+            organicSolution = "Install yellow sticky traps in field (10 traps per acre). Spray neem seed kernel extract.";
+            chemicalSolution = "Spray Imidacloprid 17.8% SL (0.5ml per liter) to eliminate vector whiteflies.";
+            prevention = "Remove and burn severely stunted plants immediately to prevent spread.";
+          } else if (symptomKey === "stem_rot") {
+            diseaseName = "Stem Rot / Collar Rot (तना गलन रोग)";
+            severity = "Urgent Action Required";
+            organicSolution = "Apply Trichoderma viride bio-fungicide (1kg mixed with 50kg farmyard manure per acre).";
+            chemicalSolution = "Drench root zone with Carbendazim 50% WP (1g per liter water).";
+            prevention = "Avoid deep water stagnation around crop base.";
+          } else if (symptomKey === "insects") {
+            diseaseName = "Stem Borer & Aphid Pest Attack (तना छेदक व माहू कीट)";
+            severity = "Moderate";
+            organicSolution = "Release Trichogramma biocontrol cards or spray 5% neem extract.";
+            chemicalSolution = "Apply Chlorantraniliprole 18.5% SC (0.3ml per liter) or Emamectin Benzoate 5% SG.";
+            prevention = "Regular crop scouting and light traps during night.";
+          } else if (symptomKey === "wilting") {
+            diseaseName = "Fusarium Vascular Wilt (उकठा / विल्ट रोग)";
+            severity = "High";
+            organicSolution = "Crop rotation with non-host crops (e.g. Mustard or Sorghum). Seed treatment with Trichoderma.";
+            chemicalSolution = "Seed treatment with Thiram or Carbendazim @ 2g per kg seed before sowing.";
+            prevention = "Use certified wilt-resistant seed varieties from Krishi Vigyan Kendra.";
+          }
+
+          cropResult.style.display = "block";
+          cropResult.innerHTML = `
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;">
+              <h4 style="color:#1b5e20; font-size:1.25rem; margin:0;">🔬 ${diseaseName}</h4>
+              <span class="status-badge" style="background:#fee2e2; color:#b91c1c; font-weight:bold;">${severity}</span>
+            </div>
+            <p style="font-size:0.9rem; color:#4a5c4d; margin-top:4px;">Crop: <strong>${crop}</strong> &bull; <em>${fileName}</em></p>
+            <div style="margin-top:14px; display:grid; gap:10px;">
+              <div style="background:#fff; border:1px solid #86efac; border-radius:8px; padding:12px;">
+                <strong style="color:#166534;">🌿 Organic / Desi Remedy (जैविक समाधान):</strong>
+                <p style="margin-top:4px; font-size:0.92rem; color:#1f2937;">${organicSolution}</p>
+              </div>
+              <div style="background:#fff; border:1px solid #93c5fd; border-radius:8px; padding:12px;">
+                <strong style="color:#1e40af;">🧪 Chemical Spray (दवा का छिड़काव):</strong>
+                <p style="margin-top:4px; font-size:0.92rem; color:#1f2937;">${chemicalSolution}</p>
+              </div>
+              <div style="background:#fff; border:1px solid #fde047; border-radius:8px; padding:12px;">
+                <strong style="color:#854d0e;">🛡️ Preventive Farm Care (सावधानी):</strong>
+                <p style="margin-top:4px; font-size:0.92rem; color:#1f2937;">${prevention}</p>
+              </div>
+            </div>
+            <p style="margin-top:10px; font-size:0.82rem; color:#6b7280;">⚠️ Backend offline — showing local data. Start backend for Gemini AI.</p>
+          `;
+        }
+
+        analyzeCropBtn.disabled = false;
+        analyzeCropBtn.textContent = "🔬 Diagnose Crop Health (निदान करें)";
+        GroHit.showToast("Crop diagnosis complete!");
+      });
+
+      // Save Offline Queue
+      function getCropQueue() {
+        try {
+          return JSON.parse(localStorage.getItem("grohit_cropQueue") || "[]");
+        } catch {
+          return [];
+        }
+      }
+
+      function renderQueue() {
+        const queue = getCropQueue();
+        cropQueue.innerHTML = "";
+        if (queue.length === 0) {
+          cropQueue.innerHTML = `<li style="text-align:center; padding:16px; color:#4a5c4d;">No saved crop scans.</li>`;
+          return;
+        }
+        queue.forEach(item => {
+          const li = document.createElement("li");
+          li.className = "item-card";
+          li.innerHTML = `
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <strong>${item.crop}</strong> - <em>${item.symptom}</em>
+                <div style="font-size:0.8rem; color:#6b7280; margin-top:2px;">Saved on: ${new Date(item.createdAt).toLocaleDateString()}</div>
+              </div>
+              <button class="btn-delete btn-sm btn-del-queue">❌</button>
+            </div>
+          `;
+          li.querySelector(".btn-del-queue").addEventListener("click", () => {
+            let q = getCropQueue().filter(x => x.id !== item.id);
+            localStorage.setItem("grohit_cropQueue", JSON.stringify(q));
+            renderQueue();
+          });
+          cropQueue.appendChild(li);
+        });
+      }
+
+      queueCropBtn.addEventListener("click", () => {
+        const queue = getCropQueue();
+        const crop = cropType.options[cropType.selectedIndex].text;
+        const symptom = cropSymptom.options[cropSymptom.selectedIndex].text;
+
+        queue.unshift({
+          id: Date.now(),
+          crop: crop,
+          symptom: symptom,
+          createdAt: Date.now()
+        });
+
+        localStorage.setItem("grohit_cropQueue", JSON.stringify(queue));
+        GroHit.showToast("Saved to offline crop queue!");
+        renderQueue();
+      });
+
+      renderQueue();
+    });
+  </script>
+</body>
+</html>
+

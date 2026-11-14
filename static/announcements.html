@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Announcements | Gro-Hit</title>
+  <meta name="theme-color" content="#1b5e20" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="i18n.js"></script>
+</head>
+<body>
+  <!-- Global App Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <a href="index.html" class="brand">
+        <img src="logo.png" alt="GROHIT Logo" class="brand-logo" width="48" height="48" />
+        <div class="brand-text">
+          <h1>GROHIT</h1>
+          <div class="tagline" data-i18n="header.tagline">Village Support & Panchayat Portal (ग्राम सूचनाएं)</div>
+        </div>
+      </a>
+
+      <div class="header-actions">
+        <div class="user-id-box">
+          <span>ID:</span>
+          <span id="showId">...</span>
+        </div>
+        <div id="langSwitcherContainer"></div>
+        <button id="openLoginBtn" class="header-btn" data-i18n="header.switchrole">Switch Role</button>
+        <a href="sos.html" class="header-btn sos-quick-btn" data-i18n="header.sos">🚨 SOS Emergency</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Global Navigation Bar -->
+  <nav class="nav-bar" aria-label="Main Navigation">
+    <div class="nav-grid">
+      <a class="nav-btn" href="index.html"><span class="nav-icon">🏠</span><div>Home</div><span class="nav-hindi">मुख्य</span></a>
+      <a class="nav-btn" href="schemes.html"><span class="nav-icon">📜</span><div>Schemes</div><span class="nav-hindi">योजनाएं</span></a>
+      <a class="nav-btn" href="gramconnect.html"><span class="nav-icon">🏛️</span><div>GramConnect</div><span class="nav-hindi">ग्राम कनेक्ट</span></a>
+      <a class="nav-btn" href="pardesh-setu.html"><span class="nav-icon">🤝</span><div>Pardesh Setu</div><span class="nav-hindi">परदेस सेतु</span></a>
+      <a class="nav-btn" href="report.html"><span class="nav-icon">📍</span><div>Report</div><span class="nav-hindi">शिकायत</span></a>
+      <a class="nav-btn active" href="announcements.html"><span class="nav-icon">📣</span><div>Updates</div><span class="nav-hindi">सूचनाएं</span></a>
+      <a class="nav-btn" href="crop.html"><span class="nav-icon">🌾</span><div>Crop</div><span class="nav-hindi">फसल</span></a>
+      <a class="nav-btn" href="mandi.html"><span class="nav-icon">🧾</span><div>Mandi</div><span class="nav-hindi">मंडी भाव</span></a>
+      <a class="nav-btn" href="jobs.html"><span class="nav-icon">💼</span><div>Jobs</div><span class="nav-hindi">रोजगार</span></a>
+      <a class="nav-btn" href="radio.html"><span class="nav-icon">📻</span><div>Radio</div><span class="nav-hindi">रेडियो</span></a>
+      <a class="nav-btn" href="donation.html"><span class="nav-icon">🤝</span><div>Donate</div><span class="nav-hindi">मदद</span></a>
+      <a class="nav-btn" href="suggestion.html"><span class="nav-icon">💡</span><div>Suggestions</div><span class="nav-hindi">सुझाव</span></a>
+      <a class="nav-btn admin-only" href="admin.html"><span class="nav-icon">🛠️</span><div>Admin</div><span class="nav-hindi">प्रशासन</span></a>
+    </div>
+  </nav>
+
+  <!-- Main Container -->
+  <main class="container">
+    <div class="page-header">
+      <div class="page-title">
+        <div class="title-icon">📣</div>
+        <div>
+          <h2>Village Announcements & Updates</h2>
+          <p>Official notices from Panchayat Administration and Health Workers</p>
+        </div>
+      </div>
+      <button id="listenAllBtn" class="btn secondary btn-sm">🔊 Listen Summary</button>
+    </div>
+
+    <!-- Authorized Posting Section (Visible ONLY to Admin & Health Worker) -->
+    <section id="postingSection" class="panel" style="display: none;">
+      <div class="card-header">
+        <h3>📣 Post New Village Announcement</h3>
+        <span id="postAuthorBadge" class="role-badge">Authorized Author</span>
+      </div>
+
+      <form id="annForm" class="form">
+        <div class="form-group">
+          <label>Announcement Title / शीर्षक *
+            <span class="hint">(e.g. Free Health Camp, Water Supply Schedule)</span>
+          </label>
+          <input type="text" id="annTitle" name="title" placeholder="Enter clear, short title..." required />
+        </div>
+
+        <div class="form-group">
+          <label>Category / श्रेणी</label>
+          <select id="annCategory" name="category">
+            <option value="general">📢 General Panchayat Alert</option>
+            <option value="health">🩺 Health & Vaccination Notice</option>
+            <option value="agriculture">🌾 Farming & Water Supply</option>
+            <option value="schemes">📜 Government Scheme Camp</option>
+            <option value="urgent">🚨 Urgent Emergency Warning</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Details / संपूर्ण विवरण *</label>
+          <textarea id="annDetails" name="details" rows="3" placeholder="Write full details with timings, venue, and instructions..." required></textarea>
+        </div>
+
+        <div class="row" style="margin-top:0;">
+          <div class="form-group" style="flex:1; min-width:200px;">
+            <label>Date / Event Date</label>
+            <input type="date" id="annDate" name="date" />
+          </div>
+          <div class="form-group" style="flex:1; min-width:200px;">
+            <label>Priority</label>
+            <select id="annPriority" name="priority">
+              <option value="normal">🟢 Normal</option>
+              <option value="high">🟠 High Priority</option>
+              <option value="urgent">🔴 Urgent Alert</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Attach Voice Audio Clip / ऑडियो संदेश <span class="hint">(Optional - max 10MB)</span></label>
+          <input type="file" id="annAudio" name="audio" accept="audio/*" />
+        </div>
+
+        <div class="row">
+          <button type="submit" class="btn primary">📢 Publish Announcement</button>
+          <button type="reset" class="btn secondary">Clear</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Restricted Notice for Villagers & Guests -->
+    <div id="restrictedNotice" class="notice notice-info" style="display: none;">
+      <span style="font-size: 1.5rem;">🔒</span>
+      <div>
+        <strong>Official Broadcast Channel</strong>
+        <p>Only <strong>Panchayat Admins</strong> and <strong>Health Workers</strong> are authorized to post announcements to prevent misinformation. Villagers can view all verified announcements below and listen to audio broadcasts.</p>
+        <div style="margin-top: 8px;">
+          <button id="switchAuthorRoleBtn" class="btn secondary btn-sm">Switch Role to Post</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Active Announcements List -->
+    <section class="panel">
+      <div class="card-header">
+        <h3>📢 Latest Official Bulletins (<span id="annCount">0</span>)</h3>
+        <input type="text" id="searchAnn" placeholder="🔍 Search notices..." style="max-width: 250px; min-height: 40px; padding: 6px 12px;" />
+      </div>
+
+      <ul id="annList" class="list">
+        <!-- Dynamic list injected by JS -->
+      </ul>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <p>Gro-Hit Rural Support System &bull; Gram Panchayat & Health Network</p>
+    <p style="margin-top: 4px; font-size: 0.8rem; opacity: 0.85;">Need urgent help? Call toll-free <strong>112</strong> or <strong>108</strong></p>
+  </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const postingSection = document.getElementById("postingSection");
+      const restrictedNotice = document.getElementById("restrictedNotice");
+      const postAuthorBadge = document.getElementById("postAuthorBadge");
+      const annForm = document.getElementById("annForm");
+      const annList = document.getElementById("annList");
+      const annCount = document.getElementById("annCount");
+      const searchAnn = document.getElementById("searchAnn");
+      const switchAuthorRoleBtn = document.getElementById("switchAuthorRoleBtn");
+      const listenAllBtn = document.getElementById("listenAllBtn");
+
+      // Set default date to today
+      const today = new Date().toISOString().split("T")[0];
+      const annDateInput = document.getElementById("annDate");
+      if (annDateInput) annDateInput.value = today;
+
+      // Update UI visibility based on user role
+      function updateRoleAccess() {
+        const role = GroHit.state.role;
+        const canPost = role === "admin" || role === "health";
+
+        if (canPost) {
+          postingSection.style.display = "block";
+          restrictedNotice.style.display = "none";
+          if (role === "admin") {
+            postAuthorBadge.textContent = "🔴 Publishing as Panchayat Admin";
+            postAuthorBadge.className = "role-badge role-admin";
+          } else {
+            postAuthorBadge.textContent = "🔵 Publishing as Health Worker";
+            postAuthorBadge.className = "role-badge role-health";
+          }
+        } else {
+          postingSection.style.display = "none";
+          restrictedNotice.style.display = "flex";
+        }
+
+        renderAnnouncements();
+      }
+
+      // Render Announcements List
+      function renderAnnouncements(searchTerm = "") {
+        const announcements = GroHit.getAnnouncements();
+        const role = GroHit.state.role;
+        const filter = searchTerm.toLowerCase();
+
+        const filtered = announcements.filter(a => 
+          a.title.toLowerCase().includes(filter) ||
+          a.details.toLowerCase().includes(filter) ||
+          (a.authorName && a.authorName.toLowerCase().includes(filter))
+        );
+
+        annCount.textContent = filtered.length;
+        annList.innerHTML = "";
+
+        if (filtered.length === 0) {
+          annList.innerHTML = `
+            <li style="text-align: center; padding: 30px; color: #4a5c4d;">
+              <span style="font-size: 2rem;">📭</span>
+              <p style="margin-top: 8px; font-weight: 600;">No announcements found.</p>
+            </li>
+          `;
+          return;
+        }
+
+        filtered.forEach(a => {
+          const li = document.createElement("li");
+          li.className = "item-card";
+
+          const isHealth = a.authorRole === "health";
+          const authorBadge = isHealth 
+            ? `<span class="role-badge role-health">🔵 Health Worker</span>` 
+            : `<span class="role-badge role-admin">🔴 Panchayat Admin</span>`;
+
+          const priorityBadge = a.priority === "urgent"
+            ? `<span class="status-badge" style="background:#fee2e2; color:#b91c1c; border:1px solid #f87171;">🚨 URGENT</span>`
+            : a.priority === "high"
+            ? `<span class="status-badge" style="background:#fef3c7; color:#b45309; border:1px solid #fbbf24;">⚡ High Priority</span>`
+            : `<span class="status-badge" style="background:#e8f5e9; color:#15803d; border:1px solid #86efac;">📢 Notice</span>`;
+
+          const canDelete = role === "admin" || (role === "health" && a.authorRole === "health");
+
+          let mediaHtml = "";
+          if (a.audio) {
+            mediaHtml += `<div style="margin-top: 10px;"><audio controls src="${a.audio}"></audio></div>`;
+          }
+
+          li.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; flex-wrap: wrap;">
+              <div>
+                ${authorBadge}
+                ${priorityBadge}
+                <span style="font-size: 0.85rem; color: #4a5c4d; margin-left: 6px;">📅 ${a.date || "Active"}</span>
+              </div>
+              <div>
+                <button class="btn secondary btn-sm listen-btn" title="Listen to announcement">🔊 Listen</button>
+                ${canDelete ? `<button class="btn-delete btn-sm delete-btn" title="Delete notice">❌ Delete</button>` : ''}
+              </div>
+            </div>
+
+            <h4 style="margin: 12px 0 6px; font-size: 1.15rem; color: #1b5e20;">${a.title}</h4>
+            <p style="color: #2c3e2e; line-height: 1.6; font-size: 0.96rem;">${a.details}</p>
+            ${mediaHtml}
+            <div style="margin-top: 10px; font-size: 0.82rem; color: #6b7280;">
+              Published by: <strong>${a.authorName || (a.authorRole === 'health' ? 'Health Worker' : 'Panchayat Admin')}</strong>
+            </div>
+          `;
+
+          // Voice speak button
+          li.querySelector(".listen-btn").addEventListener("click", () => {
+            GroHit.speakText(`${a.title}. ${a.details}`);
+          });
+
+          // Delete button
+          if (canDelete) {
+            li.querySelector(".delete-btn").addEventListener("click", () => {
+              if (confirm("Are you sure you want to remove this announcement?")) {
+                GroHit.deleteAnnouncement(a.id);
+                GroHit.showToast("Announcement deleted.");
+                renderAnnouncements(searchAnn.value);
+              }
+            });
+          }
+
+          annList.appendChild(li);
+        });
+      }
+
+      // Handle Announcement Form Submit
+      annForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const role = GroHit.state.role;
+        if (role !== "admin" && role !== "health") {
+          GroHit.showToast("Only Admin or Health Worker can post announcements.");
+          return;
+        }
+
+        const title = document.getElementById("annTitle").value.trim();
+        const details = document.getElementById("annDetails").value.trim();
+        const date = document.getElementById("annDate").value;
+        const priority = document.getElementById("annPriority").value;
+        const audioFile = document.getElementById("annAudio").files[0];
+
+        function createAndSave(audioUrl = "") {
+          const newAnn = {
+            id: "ANN-" + Date.now(),
+            title: title,
+            details: details,
+            authorRole: role,
+            authorName: GroHit.state.userName || (role === "health" ? "Health Worker" : "Panchayat Admin"),
+            date: date || new Date().toISOString().split("T")[0],
+            priority: priority,
+            audio: audioUrl,
+            createdAt: Date.now()
+          };
+
+          GroHit.saveAnnouncement(newAnn);
+          GroHit.showToast("Announcement published successfully! 📢");
+          annForm.reset();
+          if (annDateInput) annDateInput.value = today;
+          renderAnnouncements();
+        }
+
+        if (audioFile) {
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            createAndSave(event.target.result);
+          };
+          reader.readAsDataURL(audioFile);
+        } else {
+          createAndSave();
+        }
+      });
+
+      // Search filter
+      searchAnn.addEventListener("input", (e) => {
+        renderAnnouncements(e.target.value);
+      });
+
+      // Listen all summary
+      listenAllBtn.addEventListener("click", () => {
+        const announcements = GroHit.getAnnouncements();
+        if (announcements.length === 0) {
+          GroHit.speakText("There are no active village announcements right now.");
+        } else {
+          const summary = announcements.slice(0, 3).map(a => a.title).join(". Next announcement: ");
+          GroHit.speakText("Here are the latest village updates: " + summary);
+        }
+      });
+
+      // Switch role shortcut
+      switchAuthorRoleBtn.addEventListener("click", () => {
+        document.getElementById("openLoginBtn").click();
+      });
+
+      // Listen for global role changes
+      window.addEventListener("grohit-role-changed", () => {
+        updateRoleAccess();
+      });
+
+      // Initial setup
+      updateRoleAccess();
+    });
+  </script>
+  <script src="ai-assistant.js"></script>
+</body>
+</html>
+
+
