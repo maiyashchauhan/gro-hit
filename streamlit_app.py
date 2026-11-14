@@ -89,10 +89,27 @@ def get_base64_data_uri(filename):
             return f"data:{mime};base64,{b64}"
     return ""
 
+def get_configured_gemini_key():
+    try:
+        if "GEMINI_API_KEY" in st.secrets:
+            return st.secrets["GEMINI_API_KEY"]
+    except Exception:
+        pass
+    return os.environ.get("GEMINI_API_KEY", "")
+
 def prepare_inlined_html(filename):
     html = load_text_file(filename)
     if not html:
         return f"<h3>Page '{filename}' not found</h3>"
+
+    # Inject runtime API key from Streamlit Secrets if configured
+    runtime_key = get_configured_gemini_key()
+    if runtime_key:
+        inject_script = f'<script>window.GROHIT_GEMINI_KEY = "{runtime_key}";</script>'
+        if "</head>" in html:
+            html = html.replace("</head>", f"{inject_script}\n</head>")
+        else:
+            html = f"{inject_script}\n{html}"
 
     # Inline CSS
     css = load_text_file("styles.css")
@@ -161,3 +178,4 @@ if display_mode == "🌐 Static PWA Route":
 else:
     inlined_content = prepare_inlined_html(selected_file)
     components.html(inlined_content, height=950, scrolling=True)
+
