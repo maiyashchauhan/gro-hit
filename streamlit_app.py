@@ -46,7 +46,8 @@ st.markdown("""
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 PAGES = {
-    "🏠 Home Portal": "index.html",
+    "🔑 Login & Role Selection (Start Here)": "login.html",
+    "🏠 Home Dashboard": "index.html",
     "📜 Govt Schemes & DBT Checker": "schemes.html",
     "🌾 Crop Disease AI Diagnosis": "crop.html",
     "🧾 Mandi Live Market Rates": "mandi.html",

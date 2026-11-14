@@ -8,6 +8,12 @@
   <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="styles.css" />
   <script src="i18n.js"></script>
+  <script>
+    // If not logged in, route to login page first
+    if (!localStorage.getItem("userName") && !sessionStorage.getItem("guestSession")) {
+      window.location.replace("login.html");
+    }
+  </script>
 </head>
 <body>
   <!-- Header -->
