@@ -172,10 +172,23 @@ with st.sidebar:
     st.caption("🛡️ Cyber Crime: `1930`")
 
 # ─── Main Portal Display ────────────────────────────────────
+def render_portal(content_or_url, is_url=False, height=950):
+    # Use st.iframe if available (Streamlit 1.60+) to prevent deprecation warnings
+    if hasattr(st, "iframe"):
+        try:
+            st.iframe(content_or_url, height=height, scrolling=True)
+            return
+        except Exception:
+            pass
+    if is_url:
+        components.iframe(content_or_url, height=height, scrolling=True)
+    else:
+        components.html(content_or_url, height=height, scrolling=True)
+
 if display_mode == "🌐 Static PWA Route":
     static_url = f"app/static/{selected_file}"
-    components.iframe(static_url, height=950, scrolling=True)
+    render_portal(static_url, is_url=True, height=950)
 else:
     inlined_content = prepare_inlined_html(selected_file)
-    components.html(inlined_content, height=950, scrolling=True)
+    render_portal(inlined_content, is_url=False, height=950)
 
