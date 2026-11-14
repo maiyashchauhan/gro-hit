@@ -157,9 +157,9 @@ with st.sidebar:
 
     display_mode = st.radio(
         "Display Mode:",
-        options=["⚡ Inlined Interactive View", "🌐 Static PWA Route"],
+        options=["🌐 Static PWA Route", "⚡ Inlined Interactive View"],
         index=0,
-        help="Inlined bundles styles & scripts directly. Static PWA serves directly via Streamlit static routes."
+        help="Static PWA serves directly via Streamlit static routes. Inlined bundles styles & scripts directly."
     )
 
     st.markdown("---")
